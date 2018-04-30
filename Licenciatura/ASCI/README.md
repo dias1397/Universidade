@@ -4,7 +4,8 @@
 |----|------|
 |ENUNCIADO DO TRABALHO|✓|
 |FASE 1|✓|
-|FASE 2|X|
+|FASE 2|✓|
+|RELATORIO|✓|
 |INSTRUÇÕES MIPS|✓|
 ---
 # NOTAS:
