@@ -1,8 +1,13 @@
-FICHEIROS:
-- ENUNCIADO DO TRABALHO - ✓
-- FASE 1                - ✓
-- FASE 2                - X
+# FICHEIROS:
 
-NOTAS:
-- TEORICA               - 16,8
-- PRÁTICA               - 13,5
+|NOME|ESTADO|
+|----|------|
+|ENUNCIADO DO TRABALHO|✓|
+|FASE 1|✓|
+|FASE 2|X|
+---
+# NOTAS:
+| | |
+|-|-|
+|TEORICA|16,8|
+|PRÁTICA|13,5|
