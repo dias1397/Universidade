@@ -5,6 +5,7 @@
 |ENUNCIADO DO TRABALHO|✓|
 |FASE 1|✓|
 |FASE 2|X|
+|INSTRUÇÕES MIPS|✓|
 ---
 # NOTAS:
 | | |
