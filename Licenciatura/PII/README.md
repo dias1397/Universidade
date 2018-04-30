@@ -1,0 +1,13 @@
+# FICHEIROS:
+
+|NOME|ESTADO|
+|----|------|
+|ENUNCIADO DO TRABALHO|✓|
+|SMOOTHY|✓|
+|RELATORIO|✓|
+---
+# NOTAS:
+| | |
+|-|-|
+|TEORICA|17,0|
+|PRÁTICA|17,0|
