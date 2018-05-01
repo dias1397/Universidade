@@ -1,7 +1,10 @@
-----|------|
+|----|------|
 |ENUNCIADO DO TRABALHO 1|✓|
 |TRABALHO 1|✓|
 |RELATORIO 1|✓|
+|ENUNCIADO DO TRABALHO 2|✓|
+|TRABALHO 2|X|
+|RELATORIO 2|X|
 ---
 # NOTAS:
 | | |
