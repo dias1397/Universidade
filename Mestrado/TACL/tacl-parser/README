@@ -1,0 +1,15 @@
+Skeleton for building a parser for TACL, already including some
+grammar rules.
+
+NOTE: Some of the tokens used in the grammar are not yet recognised by
+      the tokeniser.
+
+Contents of the directories
+
+  c - C version, uses flex and bison
+
+  java - Java version, uses jflex and cup
+
+  examples - examples of TACL programs (errors.tacl contains syntax errors)
+
+Reading the Parte 2 of the CCC and the tools' documentation is recommended

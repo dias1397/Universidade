@@ -1,0 +1,104 @@
+
+import java_cup.runtime.*;
+
+parser code {:
+  public static void main(String args[]) throws Exception {
+    Tacl tacl = new Tacl(new Yylex(System.in));
+    Symbol result = null;
+
+    try {
+      result = tacl.parse();
+    }
+    catch(Exception e) {
+      System.err.print("** Caught: ");
+      e.printStackTrace();
+    }
+
+    if (result != null && result.sym == sym.EOF)
+      System.exit(0);
+    else
+      System.exit(1);
+  }
+
+  public void report_error(String message, Object error_info) {
+    Symbol info = (Symbol) error_info;
+
+    System.err.print(message + ": line " + (info.right + 1) + ": " );
+    System.err.println("unexpected token `" + info.value + "'");
+  }
+
+  public void report_fatal_error(String message, Object _) {
+    System.err.println(message);
+  }
+:} ;
+
+terminal FUN ;
+terminal INT, BOOL ;
+terminal EQSIGN, COMMA, SEMICOLON, OPPAR, CLPAR ;
+terminal OR, AND, EQ, NE, LT, LE, GT, GE ;
+terminal PLUS, MINUS, TIMES, DIV, MOD, NOT;
+terminal ID ;
+terminal INT_LITERAL ;
+
+// ignore the `Terminal "ERROR" was declared but never used' warning
+terminal	ERROR ;		// for signalling lexical errors
+
+non terminal program, global_declarations, global_declaration ;
+non terminal fundef, type, formal_arg, formal_args, more_formal_args, body ;
+non terminal expression, atomic_expression, compare_op, literal ;
+
+precedence left OR ;
+precedence left AND ;
+precedence left EQ, NE, LT, LE, GT, GE ;
+precedence left PLUS, MINUS ;
+precedence left TIMES, DIV, MOD ;
+precedence nonassoc NOT ;
+
+program ::= global_declarations ;
+
+global_declarations ::= global_declaration global_declarations
+	     	    |   global_declaration
+		    ;
+
+global_declaration ::= fundef
+		   ;
+
+fundef ::= FUN type ID OPPAR formal_args CLPAR body
+       ;
+
+type ::= INT | REAL | BOOL ;
+
+formal_arg ::= type ID ;
+
+formal_args ::= formal_arg more_formal_args
+	    |   /* empty */
+	    ;
+
+more_formal_args ::= COMMA formal_arg more_formal_args
+		 |   /* empty */
+		 ;
+
+body ::= EQSIGN expression SEMICOLON
+     ;
+
+expression ::= expression OR expression
+	   |   expression AND expression
+	   |   expression compare_op expression %prec EQ
+	   |   expression PLUS expression
+	   |   expression MINUS expression
+	   |   expression TIMES expression
+	   |   expression DIV expression
+	   |   expression MOD expression
+	   |   NOT expression
+	   |   MINUS expression %prec NOT
+	   |   atomic_expression
+	   ;
+
+atomic_expression ::= ID
+		  |   literal
+		  ;
+
+compare_op ::= EQ | NE | LT | LE | GT | GE ;
+
+literal ::= INT_LITERAL
+        ;
