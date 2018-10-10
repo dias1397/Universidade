@@ -16,11 +16,16 @@ void yyerror(const char *);	// see below
 }
 
 %token FUN
+%token VAR
+%token PROC
+%token PRINT
+%token IF ELSE WHILE
 %token INT REAL BOOL
-%token EQSIGN COMMA SEMICOLON OPPAR CLPAR
+%token EQSIGN COMMA SEMICOLON OPPAR CLPAR LRPAR RRPAR
 %token ID
 %token INT_LITERAL
 
+%left POT
 %left OR
 %left AND
 %left EQ NE LT LE GT GE
