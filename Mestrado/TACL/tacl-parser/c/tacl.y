@@ -32,54 +32,118 @@ void yyerror(const char *);	// see below
 
 %%
 
-program : global_declarations ;
+program : global_declarations 
+		;
+
 
 global_declarations : global_declaration global_declarations
-	     	    | global_declaration
-		    ;
+	    | global_declaration
+		;
 
-global_declaration : fundef
-		   ;
+global_declaration : variable_declaration
+		| function_declaration 
+		| procedure_declaration
+		;
 
-fundef : FUN type ID OPPAR formal_args CLPAR body
-       ;
 
-type : INT | REAL | BOOL ;
+variable_declaration : VAR type ID variable_init SEMICOLON	
+		;
 
-formal_arg : type ID ;
+function_declaration : FUN type ID OPPAR formal_args CLPAR function_init
+		;
+
+procedure_declaration : PROC ID OPPAR formal_args CLPAR procedure_body 
+		; 
+
+
+type : INT | REAL | BOOL 
+		;
+
+formal_arg : type ID 
+		;
 
 formal_args : formal_arg more_formal_args
 	    | /* empty */
 	    ;
 
 more_formal_args : COMMA formal_arg more_formal_args
-		 | /* empty */
-		 ;
+		| /* empty */
+		;
 
-body : EQSIGN expression SEMICOLON
-     ;
+
+variable_init : EQSIGN expression 
+		| /*empty */
+		; 
+
+function_init : EQSIGN expression SEMICOLON 
+		| LRPAR function_body RRPAR 
+		;
+
+
+function_body : local_variable instructions return_statment 
+		;
+
+procedure_body : LRPAR local_variable instructions RRPAR
+		;
+
+
+local_variable : variable_declaration local_variable 
+		| /*empty */
+		;
+
+
+instructions : /*empty */
+		| instruction instructions 
+		;
+
+instruction : ID EQSIGN expression SEMICOLON 
+		| ID OPPAR expression_args CLPAR SEMICOLON
+		| PRINT expression SEMICOLON
+		| IF OPPAR expression CLPAR instruction 
+		| IF OPPAR expression CLPAR instruction ELSE instruction
+		| WHILE OPPAR expression CLPAR instruction
+		| LRPAR instructions RRPAR
+		;
+
+
+return_statment :  POT expression 
+		;
+
 
 expression : expression OR expression
-	   | expression AND expression
-	   | expression compare_op expression %prec EQ
-	   | expression PLUS expression
-	   | expression MINUS expression
-	   | expression TIMES expression
-	   | expression DIV expression
-	   | expression MOD expression
-	   | NOT expression
-	   | MINUS expression %prec NOT
-	   | atomic_expression
-	   ;
+		| expression AND expression
+		| expression compare_op expression %prec EQ
+		| expression PLUS expression
+		| expression MINUS expression
+		| expression TIMES expression
+		| expression DIV expression
+		| expression MOD expression
+		| NOT expression
+		| MINUS expression %prec NOT
+		| atomic_expression
+		;
+
+
+expression_arg : expression 
+		;
+
+expression_args : expression_arg more_expression_args 
+		| /*empty */
+		;
+
+more_expression_args : COMMA expression_arg more_expression_args 
+		| /*empty */
+		;
+
 
 atomic_expression : ID
-		  | literal
-		  ;
-
-compare_op : EQ | NE | LT | LE | GT | GE ;
+		| literal
+		;
 
 literal : INT_LITERAL
         ;
+
+compare_op : EQ | NE | LT | LE | GT | GE ;
 
 %%
 
@@ -93,3 +157,4 @@ int main()
 {
   return yyparse();
 }
+
