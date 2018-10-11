@@ -27,6 +27,7 @@ id			return ID;
 int_literal return INT_LITERAL;
 real_literal return REAL_LITERAL;
 
+
 "="		return EQSIGN;
 ","		return COMMA;
 ";"		return SEMICOLON;
@@ -34,8 +35,22 @@ real_literal return REAL_LITERAL;
 ")"		return CLPAR;
 "["		return LRPAR;
 "]"		return RRPAR;
-"*"		return POT;
+
+"^"		return POT;
 "||"	return OR;
+"&&"	return AND;
+"=="	return EQ;
+"!="	return NE;
+"<"		return LT;
+">="	return LE;
+">"		return GT;
+">="	return GE;
+"+"		return PLUS;
+"-"		return MINUS;
+"*"		return TIMES;
+"/"		return DIV;
+"%"		return MOD;
+"!"		return NOT;
 
 [_a-zA-Z][_a-zA-Z0-9]*	
 {

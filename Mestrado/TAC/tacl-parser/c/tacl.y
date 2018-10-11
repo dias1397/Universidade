@@ -24,6 +24,7 @@ void yyerror(const char *);	// see below
 %token EQSIGN COMMA SEMICOLON OPPAR CLPAR LRPAR RRPAR
 %token ID
 %token INT_LITERAL
+%token REAL_LITERAL
 
 %left POT
 %left OR
@@ -146,6 +147,7 @@ atomic_expression : ID
 		;
 
 literal : INT_LITERAL
+		| REAL_LITERAL
         ;
 
 compare_op : EQ | NE | LT | LE | GT | GE ;
