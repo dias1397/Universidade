@@ -8,69 +8,66 @@
 
 %%
 
-","		return COMMA;
-";"		return SEMICOLON;
+","		printf(", ");return COMMA;
+";"		printf(";\n");return SEMICOLON;
 
-"("		return OPPAR;
-")"		return CLPAR;
-"["		return LRPAR;
-"]"		return RRPAR;
+"("		printf("( ");return OPPAR;
+")"		printf(") ");return CLPAR;
+"["		printf("[ ");return LRPAR;
+"]"		printf("] ");return RRPAR;
 
-fun			return FUN;
-var			return VAR;
-proc		return PROC;
+fun			printf("fun ");return FUN;
+var			printf("var ");return VAR;
+proc		printf("proc ");return PROC;
 
-print		return PRINT;
+print		printf("print ");return PRINT;
 
-if 			return IF;
-else		return ELSE;
-while		return WHILE;
+if 			printf("if ");return IF;
+else		printf("else ");return ELSE;
+while		printf("while ");return WHILE;
 
-int			return INT;
-real		return REAL;
-bool		return BOOL;
+int			printf("int ");return INT;
+real		printf("real ");return REAL;
+bool		printf("bool ");return BOOL;
 
-id			return ID;
+id			printf("idmal ");return ID;
 
-int_literal return INT_LITERAL;
-real_literal return REAL_LITERAL;
+int_literal printf("int_lit ");return INT_LITERAL;
+real_literal printf("real_lit ");return REAL_LITERAL;
 
-eqsign		return EQSIGN;
-pot			return POT;
-or			return OR;
-and			return AND;
-eq			return EQ;
-ne			return NE;
-lt			return LT;
-le			return LE;
-gt			return GT;
-ge			return GE;
+"="		printf("= ");return EQSIGN;
+"^"			printf("^ ");return POT;
+"||"			printf("|| ");return OR;
+"&&"			printf("&& ");return AND;
+"=="			printf("== ");return EQ;
+"!="			printf("!= ");return NE;
+"<"			printf("< ");return LT;
+"<="			printf("<= ");return LE;
+">"			printf("> ");return GT;
+">="			printf(">= ");return GE;
 
-plus		return PLUS;
-minus		return MINUS;
-times		return TIMES;
-div			return DIV;
-mod			return MOD;
-not			return NOT;
+"+"		printf("+ ");return PLUS;
+"-"		printf("- ");return MINUS;
+"*"		printf("* ");return TIMES;
+"/"			printf("/ ");return DIV;
+"%"			printf("mod ");return MOD;
+"!"			printf("! ");return NOT;
 
-[_a-zA-Z][_a-zA-Z0-9]*	
-{
+[_a-zA-Z][_a-zA-Z0-9]*	{
 	yylval.string = strdup(yytext);
-
+	printf("ID");
 	return ID;
 }
 
-[0-9]+		
-{
+[0-9]+		{
 	yylval.integer = atoi(yytext);
-
+	printf("INT_LIT");
 	return INT_LITERAL;
 }
 
-[0-9]+\.[0-9]+ 
-{
+[0-9]+\.[0-9]+ {
 	yylval.real = atof(yytext);
-
+	printf("REAL_LIT");
 	return REAL_LITERAL;  
 }
 
@@ -78,9 +75,8 @@ not			return NOT;
 
 [ \t\n]+	; /* and whitespace */
 
-.		
-{
+.		{
 	fprintf(stderr, "unrecognised character: `%c'\n", *yytext);
-
+printf(" ");
 	return ERROR;
 }

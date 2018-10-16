@@ -1,8 +1,8 @@
 %{
-#include <stdio.h>
+	#include <stdio.h>
 
-int yylex(void);
-void yyerror(const char *);	// see below
+	int yylex(void);
+	void yyerror(const char *);	// see below
 %}
 
 
@@ -25,6 +25,7 @@ void yyerror(const char *);	// see below
 %token ID
 %token INT_LITERAL
 %token REAL_LITERAL
+%token BOOL_LITERAL
 
 %left POT
 %left OR
@@ -36,6 +37,7 @@ void yyerror(const char *);	// see below
 
 %token ERROR		// for signalling lexical errors
 
+%expect 1
 %%
 
 program : global_declarations 
@@ -103,7 +105,7 @@ instructions : /*empty */
 		;
 
 instruction : ID EQSIGN expression SEMICOLON 
-		| ID OPPAR expression_args CLPAR SEMICOLON
+		| function_call SEMICOLON
 		| PRINT expression SEMICOLON
 		| IF OPPAR expression CLPAR instruction 
 		| IF OPPAR expression CLPAR instruction ELSE instruction
@@ -111,6 +113,8 @@ instruction : ID EQSIGN expression SEMICOLON
 		| LRPAR instructions RRPAR
 		;
 
+function_call : ID OPPAR expression_args CLPAR
+		;
 
 return_statment :  POT expression 
 		;
@@ -127,6 +131,7 @@ expression : expression OR expression
 		| NOT expression
 		| MINUS expression %prec NOT
 		| atomic_expression
+		| function_call
 		;
 
 
@@ -148,6 +153,7 @@ atomic_expression : ID
 
 literal : INT_LITERAL
 		| REAL_LITERAL
+		| BOOL_LITERAL
         ;
 
 compare_op : EQ | NE | LT | LE | GT | GE ;
