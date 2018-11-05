@@ -55,19 +55,19 @@ real_literal printf("real_lit ");return REAL_LITERAL;
 
 [_a-zA-Z][_a-zA-Z0-9]*	{
 	yylval.string = strdup(yytext);
-	printf("ID");
+	printf("%s", yylval.string);
 	return ID;
 }
 
 [0-9]+		{
 	yylval.integer = atoi(yytext);
-	printf("INT_LIT");
+	printf("%d", yylval.integer);
 	return INT_LITERAL;
 }
 
 [0-9]+\.[0-9]+ {
 	yylval.real = atof(yytext);
-	printf("REAL_LIT");
+	printf("%f", yylval.real);
 	return REAL_LITERAL;  
 }
 
