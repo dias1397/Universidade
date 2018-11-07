@@ -30,3 +30,24 @@ As tags de Penn Treebank para as partes-de-discurso ajudam a simplificar a anali
 As 45 tags de Peen proveem de 87 tags de Brown, por isso algumas distinções podem ter sido perdidas. Por exemplo a tag IN é usada tanto para conjuções subordinadas como para preposições. 
 Antes de se proceder a tagging as palavras sao sempre transformadas em tokens.
 
+8.3
+O processo de fazer tagging às partes-de-discurso consiste em atribuir marcas a cada uma das palavras tendo em conta o seu tipo. O input será um conjunto de tokens representativos das partes-de-discurso.
+Esta tarefa é ambigua pois as palavras são ambiguas, podendo ter mais do que uma parte-de-discurso.
+Algumas palvras são facilmente desambiguadas usando um algoritmo simples que escolhe a parte-de-discurso mais frequente. Este algoritmo tem 92% de precisão.
+
+8.4
+O modelo oculto de Markov é um modelo de sequência. Um modelo de sequencia é um modelo que tem como função atribuir um rótulo ou uma classe a cada unidade de uma sequência. O HMM é um modelo sequencial probabilistico que dado uma sequencia de unidades, formula uma distribuição de probabilidades para possiveis rotulos, escolhendo o melhor.
+
+8.4.1
+Uma cadeia de Markov assume que apenas interessa o estado actual para prever o estado futuro.
+A cada transição de estado corresponde uma probabilidade.
+8.4.2
+O modelo oculto de Markov permite tratar eventos observaveis (como palavras do input) e eventos ocultos (tags de parte-de-discurso).
+8.4.3
+O HMM contem dois componentes, as probabilidades A e B. A matriz A contem as probabilidades de uma tag ocorrer, tendo uma tag ocorrido antes. Por exemplo um verbo modal will tem grandes probabilidades de a seguir ser seguido por uma tag verbo. Estas probabilidades são calculadas por tagging de um corpus de treino.
+B corresponde às probabilidadess de uma tag ser associada a uma palavra.
+8.4.4
+Para cada modelo que contenha variaveis ocultas, o processo de determinar a sequencia de variaveis ocultas correspondentes a sequencia de observações é chamado de descodificar.
+
+
+
