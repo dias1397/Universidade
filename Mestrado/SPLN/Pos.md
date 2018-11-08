@@ -47,7 +47,11 @@ O modelo oculto de Markov permite tratar eventos observaveis (como palavras do i
 O HMM contem dois componentes, as probabilidades A e B. A matriz A contem as probabilidades de uma tag ocorrer, tendo uma tag ocorrido antes. Por exemplo um verbo modal will tem grandes probabilidades de a seguir ser seguido por uma tag verbo. Estas probabilidades são calculadas por tagging de um corpus de treino.
 B corresponde às probabilidadess de uma tag ser associada a uma palavra.
 8.4.4
-Para cada modelo que contenha variaveis ocultas, o processo de determinar a sequencia de variaveis ocultas correspondentes a sequencia de observações é chamado de descodificar.
+Para cada modelo que contenha variaveis ocultas, o processo de determinar a sequencia de variaveis ocultas correspondentes a sequencia de observações é chamado de descodificar. O uso de HMM tem como objectivo descobrir a sequencia de tags mais provaveis consoante uma sequencia de observações.
+8.4.5
+O algoritmo de descodificação para o HMM é o algoritmo Viterbi. Este algoritmo começa por criar uma matriz em que cada coluna corresponde a uma observação e uma linha para cada estado (tags). O valor para cada célula da matriz é depois calculado recursivamente tomando o caminho mais provavel até essa mesma célula.
+
+
 
 
 
