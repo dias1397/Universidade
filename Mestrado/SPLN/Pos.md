@@ -50,6 +50,13 @@ B corresponde às probabilidadess de uma tag ser associada a uma palavra.
 Para cada modelo que contenha variaveis ocultas, o processo de determinar a sequencia de variaveis ocultas correspondentes a sequencia de observações é chamado de descodificar. O uso de HMM tem como objectivo descobrir a sequencia de tags mais provaveis consoante uma sequencia de observações.
 8.4.5
 O algoritmo de descodificação para o HMM é o algoritmo Viterbi. Este algoritmo começa por criar uma matriz em que cada coluna corresponde a uma observação e uma linha para cada estado (tags). O valor para cada célula da matriz é depois calculado recursivamente tomando o caminho mais provavel até essa mesma célula.
+8.4.7
+No tagger falado previamente, todas as tags apenas dependem da tag anterior, mas em prática, uma tag depende das tuas tags prévias.Extender o algoritmo para agir de acordo com esta condição (bigrama para trigrama) irá aumentar a performance..
+Para alem de acrescentar a janela de contexto, tambem é necessário fazer o tagger saber onde acaba a frase. 
+Um dos principais problemas de taggers trigramas é o facto de uma sequencia de tres tags pode nao aparecer no set de treino tendo por isso probabilidade nula. Para resolver este problema devemos usar as probabilidades bigramas ou unigramas.
+8.4.8
+Quando o numero de estados é muito extenso o algoritmo Viterbi pode se tornar muito lento.
+Uma solução para este aspecto passa por usar a procura direccionada para descodificar. Nesta pesquisa, em vez de guardarmos uma coluna com estados em cada tempo t, guarda-se apenas algumas hipoteses nesse instante.
 
 
 
