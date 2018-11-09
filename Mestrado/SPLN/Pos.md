@@ -56,7 +56,29 @@ Para alem de acrescentar a janela de contexto, tambem é necessário fazer o tag
 Um dos principais problemas de taggers trigramas é o facto de uma sequencia de tres tags pode nao aparecer no set de treino tendo por isso probabilidade nula. Para resolver este problema devemos usar as probabilidades bigramas ou unigramas.
 8.4.8
 Quando o numero de estados é muito extenso o algoritmo Viterbi pode se tornar muito lento.
-Uma solução para este aspecto passa por usar a procura direccionada para descodificar. Nesta pesquisa, em vez de guardarmos uma coluna com estados em cada tempo t, guarda-se apenas algumas hipoteses nesse instante.
+Uma solução para este aspecto passa por usar a procura direccionada para descodificar. Nesta procura, em vez de guardarmos uma coluna com estados por cada tempo t, guarda-se apenas algumas hipoteses de estados para esse instante.
+8.4.9
+A melhor pista para adivinhar a parte-de-discurso a que corresponde uma palavra desconhecida é a morfologia. O uso de letras maiusculas ou sufixos é um dos aspetos a ter em conta quando se lida com este tipo de palavras.
+
+8.5
+O modelo de Markov de máxima entropia é o nome que se dá ao aplicar regressao logistica a uma sequencia de palavras. Apesar da regressão logistica nao ser um modelo logistico, podemos a aplicar sucessivamente em diferentes palavras, usando a classe assignada a palavra antes como parametro na classificação da próxima. Utilizando este modelo, podem ser acrescentadas caracteristicas para melhor a sua precisão.
+8.5.1
+No modelo de Markov de maxima entropia podem ser acresentadas condições de observações de palavras vizinhas, palavras mais antigas ou ate mesmo outras condições. 
+Outra caracteristica que pode ser acrescentada trata-se da forma das palavras. Com esta caracteristica podem se representar padroes abstratos de letras em palavras.
+8.5.2
+A maneira mais simples de tornar a regressao logistica num modelo sequencial é classificar cada palavra da esquerda para a direita, fazendo um classificação "hard" na primeira palavra e uma decisao "hard" nas proximas sucessivamente. Este algoritmo é conhecido por "greedy (ganancioso). O problema deste algoritmo prende-se no facto de as decisoes serem tomadas sem considerar decisoes futuras.
+A melhor solução é efetuada atraves da utilização do algoritmo de Viterbi como no modelo oculto de Markov. 
+
+8.6
+O unico problema com os dois modelos apresentados previamente é o facto de ambos correrem exclusivamente da esquerda para a direita. seria útil poder tomar uma decisao numa palavra tendo em conta uma tag de uma ou duas palavras a frente. Esta caracteristica denominada de bidirecionalidade pode ser implementada alterando para um modelo chamado de campo aleatório condicional. Este modelo calcula as probabilidades para todas as sequencias de tags tornando-o um modelo bastante lento. O metodo de Stanford tagger tambem pode ser usado fazendo multiplas passagens pelas sequencias.
+
+Exercises
+8.1
+1. Atlanta NNP
+2. dinner NN
+3. have VBP
+4. can MD
+
 
 
 
