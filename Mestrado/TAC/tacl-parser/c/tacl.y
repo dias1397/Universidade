@@ -1,6 +1,5 @@
 %{
 	#include <stdio.h>
-	#include "ast.h"
 
 	int yylex(void);
 	void yyerror(const char *);	// see below
@@ -10,14 +9,7 @@
 %error-verbose
 %expect 0
 
-%union {
-  char   *string;
-  int    integer;
-  double real;
 
-  struct ast_decls *declarations;
-  struct ast_decl *declaration;
-}
 
 %token FUN
 %token VAR
@@ -41,8 +33,6 @@
 
 %token ERROR		// for signalling lexical errors
 
-%type <declarations> 	declarations
-%type <declaration> 	declaration
 
 %expect 1
 %%
@@ -51,11 +41,11 @@ program : global_declarations
 		;
 
 
-global_declarations : global_declaration global_declarations {$$ = new_ast_decls($1, $2);}
-	    | global_declaration {$$ = new_ast_decls($1, null);}
+global_declarations : global_declaration global_declarations
+	    | global_declaration 
 		;
 
-global_declaration : variable_declaration {$$ = new_ast_decl_var($1);}
+global_declaration : variable_declaration 
 		| function_declaration 
 		| procedure_declaration
 		;

@@ -1,0 +1,7 @@
+Examples for assignment 1
+
+Contents:
+  .tacl files: TACL code
+  .ast  files: Linearised ASTs
+  .pl   files: ASTs as Prolog terms
+  .ir   files: IR
