@@ -5,8 +5,6 @@ int yylex(void);
 void yyerror(const char *);	// see below
 %}
 
-
-
 %union {
   char   *string;
   int    integer;
@@ -97,11 +95,20 @@ more_formal_args :
 	;
 
 body :
-		OPPAR BODY OPRPAR local_declaration CLRPAR statements expression CLPAR
+		OPPAR BODY OPRPAR local_declarations CLRPAR statement expression CLPAR
 	;
 
 local_declaration :
 		OPPAR LOCAL IDENTIFIER type expression CLPAR
+	;
+
+local_declarations :
+		local_declaration more_local_declarations
+	|	/*empty*/
+	;
+
+more_local_declarations :
+		local_declaration more_local_declarations
 	| 	/*empty*/
 	;
 
@@ -113,7 +120,7 @@ statements :
 statement :
 		NIL
 	|	OPPAR ASSIGN identifier expression CLPAR
-	| 	OPPAR call_statement OPRPAR expressions CLRPAR CLPAR
+	| 	OPPAR call_statement CLPAR
 	| 	OPPAR PRINT expression CLPAR
 	|	OPPAR if_statement CLPAR
 	| 	OPPAR WHILE expression statement CLPAR
@@ -125,8 +132,8 @@ if_statement :
 	;
 
 call_statement :
-		CALL identifier
-	|	CALL IDENTIFIER
+		CALL identifier OPRPAR expressions CLRPAR
+	|	CALL IDENTIFIER OPRPAR expressions CLRPAR
 	;
 
 expressions :
@@ -135,16 +142,21 @@ expressions :
 	;
 
 expression :
-		NIL
-	|	OPPAR operator expression expression CLPAR COLON type
-	| 	OPPAR operator expression CLPAR COLON type
-	| 	identifier COLON type
+		OPPAR operator_two expression expression CLPAR COLON type
+	|	OPPAR operator_one expression CLPAR COLON type
 	|	OPPAR literal CLPAR COLON type
-	| 	literal COLON type
-	| 	OPPAR CALL identifier OPRPAR expressions CLRPAR CLPAR COLON type
+	|	identifier COLON type
+	|	fun_call COLON type
+	|	NIL
+	|	literal COLON type
 	;
 
-operator :
+
+fun_call :
+		OPPAR CALL IDENTIFIER OPRPAR expressions CLRPAR CLPAR
+	;
+
+operator_two :
 		OR
 	|	AND
 	|	EQ
@@ -158,7 +170,10 @@ operator :
 	|	TIMES
 	|	DIV
 	|	MOD
-	|	NOT
+	;
+
+operator_one :
+		NOT
 	|	INV
 	|	TOREAL
 	;

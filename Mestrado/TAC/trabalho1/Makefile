@@ -17,20 +17,32 @@ run : tacl
 	@./tacl
 
 run-1 : tacl
-	@echo '[example.ast]'
-	@./tacl < ../examples/example.ast
+	@echo '[twice.ast]'
+	@./tacl < ../examples/twice.ast
 
 run-2 : tacl
+	@echo '[triangular.ast]'
+	@./tacl < ../examples/triangular.ast
+
+run-3 : tacl
+	@echo '[g.ast]'
+	@./tacl < ../examples/g.ast
+
+run-4 : tacl
 	@echo '[factorial.ast]'
 	@./tacl < ../examples/factorial.ast
 
-run-3 : tacl
-	@echo '[fibonacci-v2.ast]'
-	@./tacl < ../examples/fibonacci-v2.ast
-
-run-4 : tacl
+run-5 : tacl
 	@echo '[fig-9.ast]'
-	@./tacl < ../examples/fig-9.ast
+	@./tacl < ../examples/fig-9.ast	
+
+run-6 : tacl
+	@echo '[fibonacci-v2.ast]'
+	@./tacl < ../examples/fibonacci-v2.ast	
+
+run-7 : tacl
+	@echo '[procedure.ast]'
+	@./tacl < ../examples/procedure.ast
 
 clean :
 	@$(RM) tacl
