@@ -1,0 +1,11 @@
+Analise Sintatica
+A analise sintactica é um processo que consiste em identificar a função de cada elemento que compõem uma frase. É através da analise sintáctica que podemos concluir se a frase faz ou não sentido.
+Depois de estudarmos o uso de algoritmos que atribuem uma tag a cada token da frase, ficamos a conhecer algoritmos que consoante uma gramática fazem a arvore de sintaxe para a frase durante a analise sintactica.
+Esta arvore de sintaxe será posteriormente usada numa fase seguinte do processamento de uma linguagem. Uma frase que não se consiga ser transformada numa arvore poderá ter um erro sintático. A arvore será um passo intermédio antes de se entrar na análise semantica.
+
+Um dos principais problemas na análise sintactica é a ambiguidade, pois pode haver mais de uma forma de fazer parse a uma frase construindo assim mais de uma arvore para a mesma frase.
+
+Cocke-Kasami-Younger (CKY)
+Antes de começar a falar do algoritmo CKY, convem relembrar que as gramaticas devem estar na Forma Normal de Chomsky.
+Estando a gramtica já na forma normal de Chomsky, pode se correr o algoritmo CKY. O algoritmo começa com uma matriz n*n tendo em conta apenas a metade triangular superior.
+
