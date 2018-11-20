@@ -13,7 +13,9 @@ typedef struct function_declaration *function_declaration;
 typedef struct identifier *identifier;
 typedef struct expression *expression;
 
+typedef struct formal_arg * formal_arg;
 typedef struct formal_args *formal_args;
+typedef struct more_formal_args *more_formal_args;
 typedef struct body *body;
 
 typedef struct kind *kind;
@@ -37,14 +39,13 @@ struct global_declarations
 	enum{one, multi} kind;
 
 	union {
-		struct {
-			global_declaration arg0;
-		}single_decl;
-		struct {
-			global_declaration arg0;
-			global_declarations arg1;
-		}multi_decl;
-	}u;
+		global_declaration arg0;
+	}single_decl;
+
+	union {
+		global_declaration arg0;
+		global_declarations arg1;
+	}multi_decl;
 };
 
 struct global_declaration
@@ -52,13 +53,12 @@ struct global_declaration
 	enum{var, fun} kind;
 
 	union {
-		struct {
-			variable_declaration arg0;
-		}var_decl;
-		struct {
-			function_declaration arg0;
-		}fun_decl;
-	}u;
+		variable_declaration arg0;
+	}var_decl;
+
+	union {
+		function_declaration arg0;
+	}fun_decl;
 };
 
 struct variable_declaration
@@ -83,9 +83,51 @@ struct identifier
 
 struct expression
 {
-	enum{binop, unop, lit, iden, call} kind;
+	enum{binop, unop, literal, atomic} kind;
+
 	union{
 		operator arg0;
-		expression arg
-	}u;
+		expression arg1;
+		expression arg2;
+	}binop;
+
+	union{
+		operator arg0;
+		expression arg1;
+	}unop;
+
+	union{
+		literal arg0;
+		type arg1;
+	}literal;
+
+	union{
+		atomic_expression arg0;
+		type arg1;
+	}atomic;
+};
+
+struct formal_arg
+{
+	char *arg0;
+	type arg1;
+};
+
+struct formal_args
+{
+	formal_arg arg0;
+	more_formal_args arg1;
+};
+
+struct more_formal_args
+{
+	formal_arg arg0;
+	more_formal_args arg1;
+};
+
+struct body
+{
+	local_declarations arg0;
+	statement arg1;
+	expression arg2;
 };

@@ -145,10 +145,8 @@ expression :
 		OPPAR operator_two expression expression CLPAR COLON type
 	|	OPPAR operator_one expression CLPAR COLON type
 	|	OPPAR literal CLPAR COLON type
-	|	identifier COLON type
-	|	fun_call COLON type
+	|	atomic_expression COLON type
 	|	NIL
-	|	literal COLON type
 	;
 
 
@@ -178,10 +176,15 @@ operator_one :
 	|	TOREAL
 	;
 
+atomic_expression :
+		identifier
+	|	fun_call
+	|	BOOL_LITERAL
+	;
+
 literal :
 		INT_LITERAL INT_LITERAL_VALUE
 	| 	REAL_LITERAL REAL_LITERAL_VALUE
-	|	BOOL_LITERAL
 	;
 
 %%
