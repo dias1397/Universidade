@@ -14,11 +14,13 @@ typedef struct identifier *identifier;
 
 typedef struct expression *expression;
 typedef struct expressions *expressions;
+typedef struct operator *operator;
 
 typedef struct formal_arg * formal_arg;
 typedef struct formal_args *formal_args;
 typedef struct more_formal_args *more_formal_args;
 typedef struct body *body;
+typedef struct local_declarations *local_declarations;
 
 typedef struct kind *kind;
 typedef struct type *type;
@@ -48,26 +50,33 @@ struct global_declarations
 	enum{one, multi} kind;
 
 	union {
-		global_declaration arg0;
-	}single_decl;
-
-	union {
-		global_declaration arg0;
-		global_declarations arg1;
-	}multi_decl;
+		struct
+		{
+			global_declaration arg0;			
+		}single_decl;
+		struct
+		{
+			global_declaration arg0;
+			global_declarations arg1;		
+		}multi_decl;
+	}u;
 };
 
 struct global_declaration
 {
 	enum{var, fun} kind;
 
-	union {
-		variable_declaration arg0;
-	}var_decl;
-
-	union {
-		function_declaration arg0;
-	}fun_decl;
+	union 
+	{
+		struct
+		{
+			variable_declaration arg0;
+		}var_decl;
+		struct
+		{
+			function_declaration arg0;	
+		}fun_decl;
+	}u;
 };
 
 struct variable_declaration
@@ -94,26 +103,30 @@ struct expression
 {
 	enum{binop, unop, literal, atomic} kind;
 
-	union{
-		operator arg0;
-		expression arg1;
-		expression arg2;
-	}binop;
-
-	union{
-		operator arg0;
-		expression arg1;
-	}unop;
-
-	union{
-		literal arg0;
-		type arg1;
-	}literal;
-
-	union{
-		atomic_expression arg0;
-		type arg1;
-	}atomic;
+	union
+	{
+		struct
+		{
+			operator arg0;
+			expression arg1;
+			expression arg2;
+		}binop;
+		struct
+		{
+			operator arg0;
+			expression arg1;	
+		}unop;
+		struct
+		{
+			literal arg0;
+			type arg1;
+		}literal;
+		struct
+		{
+			atomic_expression arg0;
+			type arg1;
+		}atomic;
+	}u;
 };
 
 struct formal_arg
@@ -141,35 +154,44 @@ struct body
 	expression arg2;
 };
 
-struct kind{
-};
-
-struct type{
+struct local_declarations
+{
+	char *arg0;
+	type arg1;
+	expression arg2;
 };
 
 struct statement{
 	enum{assign_, call_, print_, if_, while_, stmts_} kind;
 	
 	union{
-		identifier arg0;
-		expression arg1;
-	}assign_;
-	union{
-		call_statement arg0;
-	}call_;
-	union{
-		expression arg0;
-	}print_;
-	union{
-		if_statement arg0;
-	}if_;
-	union{
-		expression arg0;
-		statement arg1;
-	}while_;
-	union{
-		statements arg0;
-	}stmts_;
+		struct
+		{
+			identifier arg0;
+			expression arg1;
+		}assign_;
+		struct
+		{
+			call_statement arg0;
+		}call_;
+		struct
+		{
+			expression arg0;
+		}print_;
+		struct
+		{
+			if_statement arg0;
+		}if_;
+		struct
+		{
+			expression arg0;
+			statement arg1;
+		}while_;
+		struct
+		{
+			statements arg0;
+		}compound_;
+	}u;
 };
 
 struct statements{
@@ -180,12 +202,10 @@ struct statements{
 struct call_statement{
 	union{
 		char *arg0;
-	}u1;
-	union{
-		identifier arg0;
-	}u2;
+		identifier arg1;
+	}u;
 	
-	expressions arg1;
+	expressions arg2;
 };
 
 struct if_statement{
@@ -208,6 +228,18 @@ struct atomic_expression{
 struct fun_call{
 	char *arg0;
 	expressions arg1;
+};
+
+struct type{
+	enum type_ type;
+};
+
+struct kind{
+	enum kind_ kind;
+};
+
+struct operator{
+	enum op_ op;
 };
 
 
