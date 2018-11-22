@@ -1,14 +1,38 @@
 %{
 #include <stdio.h>
+#include "ast.h"
 
 int yylex(void);
 void yyerror(const char *);	// see below
 %}
 
 %union {
-  char   *string;
-  int    integer;
-  double real;
+	char   *string;
+	int    integer;
+	double real;
+
+	struct tree *tree;
+	struct global_declarations *global_declarations;
+	struct global_declaration *global_declaration;
+	struct variable_declaration *variable_declaration;
+	struct function_declaration *function_declaration;
+	struct identifier *identifier;
+	struct expressions *expressions;
+	struct expression *expression;
+	struct statements *statements;
+	struct statement *statement;
+	struct kind *kind;
+	struct type *type;
+	struct operator *operator;
+	struct formal_args *formal_args;
+	struct formal_arg *formal_arg;
+	struct body *body;
+	struct local_declarations *local_declarations;
+	struct local_declaration *local_declaration;
+	struct if_statement *if_statement;
+	struct call_statement *call_statement;
+	struct fun_call *fun_call;
+	struct atomic_expression *atomic_expression;
 }
 
 %token VAR FUN
@@ -26,10 +50,10 @@ void yyerror(const char *);	// see below
 %token TOREAL
 %token NIL
 
-%token INT_LITERAL_VALUE
-%token REAL_LITERAL_VALUE
-%token BOOL_LITERAL
-%token IDENTIFIER
+%token <integer> INT_LITERAL_VALUE
+%token <real> REAL_LITERAL_VALUE
+%token <integer> BOOL_LITERAL
+%token <string> IDENTIFIER
 
 %left OR AND
 %left EQ NE LT LE GT GE
@@ -40,6 +64,29 @@ void yyerror(const char *);	// see below
 
 %token ERROR
 
+%type <tree> tree
+%type <global_declarations> global_declarations
+%type <global_declaration> global_declaration
+%type <variable_declaration> variable_declaration
+%type <function_declaration> function_declaration
+%type <identifier> identifier
+%type <expressions> expressions
+%type <expression> expression
+%type <statements> statements
+%type <statement> statement
+%type <kind> kind
+%type <type> type
+%type <operator> operator
+%type <formal_args> formal_args
+%type <formal_arg> formal_arg
+%type <body> body
+%type <local_declarations> local_declarations
+%type <local_declaration> local_declaration
+%type <if_statement> if_statement
+%type <call_statement> call_statement
+%type <fun_call> fun_call
+%type <atomic_expression> atomic_expression
+
 %%
 
 program : 
@@ -47,13 +94,13 @@ program :
 	;
 
 global_declarations : 
-		global_declaration global_declarations
-	|	global_declaration
+		global_declaration global_declarations		{$$ = new_global_declarations($1, $2);}
+	|	global_declarations 						{$$ = new_global_declarations($1, null);}
 	;
 
 global_declaration :
-		variable_declaration
-	|	function_declaration
+		variable_declaration						{$$ = new_global_declaration($1);}
+	|	function_declaration						{$$ = new_global_declaration($1);}
 	;
 
 variable_declaration :
@@ -85,12 +132,7 @@ formal_arg :
 	;
 
 formal_args :
-		formal_arg more_formal_args
-	| 	/*empty*/
-	;
-
-more_formal_args :
-		formal_arg more_formal_args
+		formal_arg formal_args
 	| 	/*empty*/
 	;
 
@@ -103,13 +145,8 @@ local_declaration :
 	;
 
 local_declarations :
-		local_declaration more_local_declarations
+		local_declaration local_declarations
 	|	/*empty*/
-	;
-
-more_local_declarations :
-		local_declaration more_local_declarations
-	| 	/*empty*/
 	;
 
 statements :
