@@ -95,44 +95,44 @@ program :
 
 global_declarations : 
 		global_declaration global_declarations		{$$ = new_global_declarations($1, $2);}
-	|	global_declarations 						{$$ = new_global_declarations($1, null);}
+	|	global_declarations 						{$$ = new_global_declarations($1, NULL);}
 	;
 
 global_declaration :
-		variable_declaration						{$$ = new_global_declaration($1);}
-	|	function_declaration						{$$ = new_global_declaration($1);}
+		variable_declaration						{$$ = new_global_declaration($1, NULL);}
+	|	function_declaration						{$$ = new_global_declaration(NULL, $2);}
 	;
 
 variable_declaration :
-		OPPAR VAR identifier expression CLPAR
+		OPPAR VAR identifier expression CLPAR 		{$$ = new_variable_declaration($3, $4);}
 	;
 
 function_declaration :
-		OPPAR FUN IDENTIFIER OPRPAR formal_args CLRPAR body CLPAR
+		OPPAR FUN IDENTIFIER OPRPAR formal_args CLRPAR body CLPAR {$$ = new_function_declaration($3, $5, $7);}
 	; 
 
 identifier :
-		OPPAR ID IDENTIFIER kind type CLPAR
+		OPPAR ID IDENTIFIER kind type CLPAR 		{$$ = new_identifier($3, $4, $5);}
 	;
 
 kind :
-		VAR
-	| 	LOCAL
-	|	ARG
+		VAR 					{$$ = new_kind($1);}
+	| 	LOCAL 					{$$ = new_kind($1);}
+	|	ARG 					{$$ = new_kind($1);}
 	;
 
 type : 
-		INT
-	| 	REAL
-	| 	BOOL
+		INT 					{$$ = new_type($1);}
+	| 	REAL 					{$$ = new_type($1);}
+	| 	BOOL 					{$$ = new_type($1);}
 	;
 
 formal_arg :
-		OPPAR ARG IDENTIFIER type CLPAR
+		OPPAR ARG IDENTIFIER type CLPAR 	{$$ = new_formal_arg($3, $4);}
 	;
 
 formal_args :
-		formal_arg formal_args
+		formal_arg formal_args 				{$$ = new_formal_args($1, $2);}
 	| 	/*empty*/
 	;
 

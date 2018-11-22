@@ -49,7 +49,7 @@ struct tree
 
 struct global_declarations
 {
-	enum{one, multi} kind;
+	enum{single, multi} kind;
 
 	union {
 		struct
@@ -76,7 +76,7 @@ struct global_declaration
 		}var_decl;
 		struct
 		{
-			function_declaration arg0;	
+			function_declaration arg1;	
 		}fun_decl;
 	}u;
 };
@@ -255,8 +255,7 @@ struct atomic_expression
 };
 
 global_declarations new_global_declarations(global_declaration arg0, global_declarations arg1);
-global_declaration new_global_declaration(variable_declaration arg0);
-global_declaration new_global_declaration(function_declaration arg0);
+global_declaration new_global_decl_var(variable_declaration arg0, function_declaration arg1);
 
 variable_declaration new_variable_declaration(identifier arg0, expression arg1);
 function_declaration new_function_declaration(char *arg0, formal_args arg1, body arg2);
