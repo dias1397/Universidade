@@ -7,5 +7,11 @@ Um dos principais problemas na análise sintactica é a ambiguidade, pois pode h
 
 Cocke-Kasami-Younger (CKY)
 Antes de começar a falar do algoritmo CKY, convem relembrar que as gramaticas devem estar na Forma Normal de Chomsky.
-Estando a gramtica já na forma normal de Chomsky, pode se correr o algoritmo CKY. O algoritmo começa com uma matriz n*n tendo em conta apenas a metade triangular superior.
+Estando a gramtica já na forma normal de Chomsky, pode se correr o algoritmo CKY. O algoritmo começa pela palavra a analisar e tenta deduzir qual a produção que contribuiu diretamente para a geração da mesma. Se o simbolo inicial tiver na célula inicial significa que a frase foi reconhecida pela gramatica.
 
+Exemplo:
+
+
+Alguns processos de analise sintática não necessitam concretamente de analisar completamente todo o input gerando uma arvore completa, podendo apenas fazer uma analise parcial do mesmo input.
+Por exemplo alguns sistemas não colectam toda a informação de cada palavra de um texto mas sim identificam e classificam segmentos desse texto.
+Outra alternativa a analise parcial é a divisão em pedaços chamado de chunking.
