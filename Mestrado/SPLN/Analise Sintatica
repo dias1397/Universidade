@@ -14,4 +14,5 @@ Exemplo:
 
 Alguns processos de analise sintática não necessitam concretamente de analisar completamente todo o input gerando uma arvore completa, podendo apenas fazer uma analise parcial do mesmo input.
 Por exemplo alguns sistemas não colectam toda a informação de cada palavra de um texto mas sim identificam e classificam segmentos desse texto.
-Outra alternativa a analise parcial é a divisão em pedaços chamado de chunking.
+Outra alternativa a analise parcial é a divisão em pedaços chamado de chunking. Nesta analise são apenas classificados segmentos de texto que não se misturam, é o caso de frases nominais e verbais que vão ser sempre classificadas de maneira diferente.
+
