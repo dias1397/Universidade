@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct tree *tree;
 typedef struct global_declarations *global_declarations;
 typedef struct global_declaration *global_declaration;
 
@@ -11,6 +10,7 @@ typedef struct variable_declaration *variable_declaration;
 typedef struct function_declaration *function_declaration;
 
 typedef struct identifier *identifier;
+typedef struct literal *literal;
 
 typedef struct expression *expression;
 typedef struct expressions *expressions;
@@ -20,9 +20,10 @@ typedef struct statements *statements;
 
 typedef struct kind *kind;
 typedef struct type *type;
-typedef struct operator *operator;
+typedef struct operator_one *operator_one;
+typedef struct operator_two *operator_two;
 
-typedef struct formal_arg * formal_arg;
+typedef struct formal_arg  *formal_arg;
 typedef struct formal_args *formal_args;
 
 typedef struct body *body;
@@ -35,17 +36,12 @@ typedef struct call_statement *call_statement;
 typedef struct fun_call *fun_call;
 typedef struct atomic_expression *atomic_expression;
 
-enum kind_ {VAR_, LOCAL_, ARG_};
-enum type_ {INT_, REAL_, BOOL_};
-enum op_ {OR, AND, EQ, NE, 
-		LT, LE, GT, GE,
-		PLUS, MINUS, TIMES, DIV, MOD,
-		INV, TOREAL};
-
-struct tree
-{
-	global_declarations root;	
-};
+typedef enum kind_ {VAR_, LOCAL_, ARG_} kind_;
+typedef enum type_ {INT_, REAL_, BOOL_} type_;
+typedef enum op1_ {OR_, AND_, EQ_, NE_, 
+		LT_, LE_, GT_, GE_,
+		PLUS_, MINUS_, TIMES_, DIV_, MOD_} op1_;
+typedef enum op2_{INV_, TOREAL_, NOT_} op2_;
 
 struct global_declarations
 {
@@ -101,22 +97,41 @@ struct identifier
 	type arg2;
 };
 
-struct expression
+struct literal
 {
-	enum{binop, unop, literal, atomic} kind;
+	enum{integer, real} kind;
 
 	union
 	{
 		struct
 		{
-			operator arg0;
+			int arg0;
+		}int_;
+		struct
+		{
+			double arg1;
+		}real_;
+	}u;
+};
+
+struct expression
+{
+	enum{BINOP, UNOP, LITERAL, ATOMIC} kind;
+
+	union
+	{
+		struct
+		{
+			operator_two arg0;
 			expression arg1;
 			expression arg2;
+			type arg3;
 		}binop;
 		struct
 		{
-			operator arg0;
+			operator_one arg0;
 			expression arg1;	
+			type arg2;
 		}unop;
 		struct
 		{
@@ -139,7 +154,7 @@ struct expressions
 
 struct statement
 {
-	enum{assign_, call_, print_, if_, while_, stmts_} kind;
+	enum{ASSIGN_, CALL_, PRINT_, IF_, WHILE_, STMTS_} kind;
 	
 	union{
 		struct
@@ -187,9 +202,14 @@ struct type
 	type_ type;
 };
 
-struct operator
+struct operator_one
 {
-	op_ op;
+	op1_ op1;
+};
+
+struct operator_two
+{
+	op2_ op2;
 };
 
 struct formal_arg
@@ -255,15 +275,17 @@ struct atomic_expression
 };
 
 global_declarations new_global_declarations(global_declaration arg0, global_declarations arg1);
-global_declaration new_global_decl_var(variable_declaration arg0, function_declaration arg1);
+global_declaration new_global_declaration(variable_declaration arg0, function_declaration arg1);
 
 variable_declaration new_variable_declaration(identifier arg0, expression arg1);
 function_declaration new_function_declaration(char *arg0, formal_args arg1, body arg2);
 
 identifier new_identifier(char *arg0, kind arg1, type arg2);
+literal new_literal_int(int arg0);
+literal new_literal_real(double arg0);
 
 expressions new_expressions(expression arg0, expressions arg1);
-expression new_expression_operation(operator arg0, expression arg1, expression arg2);
+expression new_expression_operation(operator_two arg0, operator_one arg1, expression arg2, expression arg3, type arg4);
 expression new_expression_literal(literal arg0, type arg1);
 expression new_expression_atomic(atomic_expression arg0, type arg1);
 expression new_expression_empty();
@@ -278,7 +300,8 @@ statement new_statement_compound(statements arg0);
 
 kind new_kind(kind_ arg0);
 type new_type(type_ arg0);
-operator new_operator(op_ arg0);
+operator_one new_operator_one(op1_ arg0);
+operator_two new_operator_two(op2_ arg0);
 
 formal_arg new_formal_arg(char *arg0, type arg1);
 formal_args new_formal_args(formal_arg arg0, formal_args arg1);
