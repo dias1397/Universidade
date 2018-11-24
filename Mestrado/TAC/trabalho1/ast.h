@@ -38,10 +38,10 @@ typedef struct atomic_expression *atomic_expression;
 
 typedef enum kind_ {VAR_, LOCAL_, ARG_} kind_;
 typedef enum type_ {INT_, REAL_, BOOL_} type_;
-typedef enum op1_ {OR_, AND_, EQ_, NE_, 
+typedef enum op2_ {OR_, AND_, EQ_, NE_, 
 		LT_, LE_, GT_, GE_,
-		PLUS_, MINUS_, TIMES_, DIV_, MOD_} op1_;
-typedef enum op2_{INV_, TOREAL_, NOT_} op2_;
+		PLUS_, MINUS_, TIMES_, DIV_, MOD_} op2_;
+typedef enum op1_{INV_, TOREAL_, NOT_} op1_;
 
 struct global_declarations
 {
