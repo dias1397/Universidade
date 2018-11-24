@@ -65,7 +65,7 @@
 #line 1 "tacl.y" /* yacc.c:339  */
 
 #include <stdio.h>
-#include "ast.h"
+#include "ir.h"
 
 int yylex(void);
 void yyerror(const char *);	// see below
@@ -1370,374 +1370,380 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-        case 3:
+        case 2:
+#line 95 "tacl.y" /* yacc.c:1646  */
+    {ir((yyvsp[0].global_declarations));}
+#line 1377 "tacl.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 3:
 #line 99 "tacl.y" /* yacc.c:1646  */
     {(yyval.global_declarations) = new_global_declarations((yyvsp[-1].global_declaration), (yyvsp[0].global_declarations));}
-#line 1377 "tacl.tab.c" /* yacc.c:1646  */
+#line 1383 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
 #line 100 "tacl.y" /* yacc.c:1646  */
     {}
-#line 1383 "tacl.tab.c" /* yacc.c:1646  */
+#line 1389 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
 #line 104 "tacl.y" /* yacc.c:1646  */
     {(yyval.global_declaration) = new_global_declaration((yyvsp[0].variable_declaration), NULL);}
-#line 1389 "tacl.tab.c" /* yacc.c:1646  */
+#line 1395 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
 #line 105 "tacl.y" /* yacc.c:1646  */
     {(yyval.global_declaration) = new_global_declaration(NULL, (yyvsp[0].function_declaration));}
-#line 1395 "tacl.tab.c" /* yacc.c:1646  */
+#line 1401 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
 #line 109 "tacl.y" /* yacc.c:1646  */
     {(yyval.variable_declaration) = new_variable_declaration((yyvsp[-2].identifier), (yyvsp[-1].expression));}
-#line 1401 "tacl.tab.c" /* yacc.c:1646  */
+#line 1407 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
 #line 113 "tacl.y" /* yacc.c:1646  */
     {(yyval.function_declaration) = new_function_declaration((yyvsp[-5].string), (yyvsp[-3].formal_args), (yyvsp[-1].body));}
-#line 1407 "tacl.tab.c" /* yacc.c:1646  */
+#line 1413 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
 #line 117 "tacl.y" /* yacc.c:1646  */
     {(yyval.identifier) = new_identifier((yyvsp[-3].string), (yyvsp[-2].kind), (yyvsp[-1].type));}
-#line 1413 "tacl.tab.c" /* yacc.c:1646  */
+#line 1419 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 10:
 #line 121 "tacl.y" /* yacc.c:1646  */
     {(yyval.kind) = new_kind(VAR_);}
-#line 1419 "tacl.tab.c" /* yacc.c:1646  */
+#line 1425 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
 #line 122 "tacl.y" /* yacc.c:1646  */
     {(yyval.kind) = new_kind(LOCAL_);}
-#line 1425 "tacl.tab.c" /* yacc.c:1646  */
+#line 1431 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 12:
 #line 123 "tacl.y" /* yacc.c:1646  */
     {(yyval.kind) = new_kind(ARG_);}
-#line 1431 "tacl.tab.c" /* yacc.c:1646  */
+#line 1437 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
 #line 127 "tacl.y" /* yacc.c:1646  */
     {(yyval.type) = new_type(INT_);}
-#line 1437 "tacl.tab.c" /* yacc.c:1646  */
+#line 1443 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
 #line 128 "tacl.y" /* yacc.c:1646  */
     {(yyval.type) = new_type(REAL_);}
-#line 1443 "tacl.tab.c" /* yacc.c:1646  */
+#line 1449 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
 #line 129 "tacl.y" /* yacc.c:1646  */
     {(yyval.type) = new_type(BOOL_);}
-#line 1449 "tacl.tab.c" /* yacc.c:1646  */
+#line 1455 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
 #line 133 "tacl.y" /* yacc.c:1646  */
     {(yyval.formal_arg) = new_formal_arg((yyvsp[-2].string), (yyvsp[-1].type));}
-#line 1455 "tacl.tab.c" /* yacc.c:1646  */
+#line 1461 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
 #line 137 "tacl.y" /* yacc.c:1646  */
     {(yyval.formal_args) = new_formal_args((yyvsp[-1].formal_arg), (yyvsp[0].formal_args));}
-#line 1461 "tacl.tab.c" /* yacc.c:1646  */
+#line 1467 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
 #line 138 "tacl.y" /* yacc.c:1646  */
     {}
-#line 1467 "tacl.tab.c" /* yacc.c:1646  */
+#line 1473 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
 #line 142 "tacl.y" /* yacc.c:1646  */
     {(yyval.body) = new_body((yyvsp[-4].local_declarations), (yyvsp[-2].statement), (yyvsp[-1].expression));}
-#line 1473 "tacl.tab.c" /* yacc.c:1646  */
+#line 1479 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
 #line 146 "tacl.y" /* yacc.c:1646  */
     {(yyval.local_declaration) = new_local_declaration((yyvsp[-3].string), (yyvsp[-2].type), (yyvsp[-1].expression));}
-#line 1479 "tacl.tab.c" /* yacc.c:1646  */
+#line 1485 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 21:
 #line 150 "tacl.y" /* yacc.c:1646  */
     {(yyval.local_declarations) = new_local_declarations((yyvsp[-1].local_declaration), (yyvsp[0].local_declarations));}
-#line 1485 "tacl.tab.c" /* yacc.c:1646  */
+#line 1491 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 22:
 #line 151 "tacl.y" /* yacc.c:1646  */
     {}
-#line 1491 "tacl.tab.c" /* yacc.c:1646  */
+#line 1497 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
 #line 155 "tacl.y" /* yacc.c:1646  */
     {(yyval.statements) = new_statements((yyvsp[-1].statement), (yyvsp[0].statements));}
-#line 1497 "tacl.tab.c" /* yacc.c:1646  */
+#line 1503 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 24:
 #line 156 "tacl.y" /* yacc.c:1646  */
     {}
-#line 1503 "tacl.tab.c" /* yacc.c:1646  */
+#line 1509 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 25:
 #line 160 "tacl.y" /* yacc.c:1646  */
     {}
-#line 1509 "tacl.tab.c" /* yacc.c:1646  */
+#line 1515 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 26:
 #line 161 "tacl.y" /* yacc.c:1646  */
     {(yyval.statement) = new_statement_assign((yyvsp[-2].identifier), (yyvsp[-1].expression));}
-#line 1515 "tacl.tab.c" /* yacc.c:1646  */
+#line 1521 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 27:
 #line 162 "tacl.y" /* yacc.c:1646  */
     {(yyval.statement) = new_statement_call((yyvsp[-1].call_statement));}
-#line 1521 "tacl.tab.c" /* yacc.c:1646  */
+#line 1527 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
 #line 163 "tacl.y" /* yacc.c:1646  */
     {(yyval.statement) = new_statement_print((yyvsp[-1].expression));}
-#line 1527 "tacl.tab.c" /* yacc.c:1646  */
+#line 1533 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
 #line 164 "tacl.y" /* yacc.c:1646  */
     {(yyval.statement) = new_statement_if((yyvsp[-1].if_statement));}
-#line 1533 "tacl.tab.c" /* yacc.c:1646  */
+#line 1539 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
 #line 165 "tacl.y" /* yacc.c:1646  */
     {(yyval.statement) = new_statement_while((yyvsp[-2].expression), (yyvsp[-1].statement));}
-#line 1539 "tacl.tab.c" /* yacc.c:1646  */
+#line 1545 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 31:
 #line 166 "tacl.y" /* yacc.c:1646  */
     {(yyval.statement) = new_statement_compound((yyvsp[-1].statements));}
-#line 1545 "tacl.tab.c" /* yacc.c:1646  */
+#line 1551 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
 #line 170 "tacl.y" /* yacc.c:1646  */
     {(yyval.if_statement) = new_if_statement((yyvsp[-2].expression), (yyvsp[-1].statement), (yyvsp[0].statement));}
-#line 1551 "tacl.tab.c" /* yacc.c:1646  */
+#line 1557 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 33:
 #line 174 "tacl.y" /* yacc.c:1646  */
     {(yyval.call_statement) = new_call_statement(NULL, (yyvsp[-3].identifier), (yyvsp[-1].expressions));}
-#line 1557 "tacl.tab.c" /* yacc.c:1646  */
+#line 1563 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 34:
 #line 175 "tacl.y" /* yacc.c:1646  */
     {(yyval.call_statement) = new_call_statement((yyvsp[-3].string), NULL, (yyvsp[-1].expressions));}
-#line 1563 "tacl.tab.c" /* yacc.c:1646  */
+#line 1569 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 35:
 #line 179 "tacl.y" /* yacc.c:1646  */
     {(yyval.expressions) = new_expressions((yyvsp[-1].expression), (yyvsp[0].expressions));}
-#line 1569 "tacl.tab.c" /* yacc.c:1646  */
+#line 1575 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 36:
 #line 180 "tacl.y" /* yacc.c:1646  */
     {}
-#line 1575 "tacl.tab.c" /* yacc.c:1646  */
+#line 1581 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 37:
 #line 184 "tacl.y" /* yacc.c:1646  */
     {(yyval.expression) = new_expression_operation((yyvsp[-5].operator_two), NULL, (yyvsp[-4].expression), (yyvsp[-3].expression), (yyvsp[0].type));}
-#line 1581 "tacl.tab.c" /* yacc.c:1646  */
+#line 1587 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 38:
 #line 185 "tacl.y" /* yacc.c:1646  */
     {(yyval.expression) = new_expression_operation(NULL, (yyvsp[-4].operator_one), (yyvsp[-3].expression), NULL, (yyvsp[0].type));}
-#line 1587 "tacl.tab.c" /* yacc.c:1646  */
+#line 1593 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 39:
 #line 186 "tacl.y" /* yacc.c:1646  */
     {(yyval.expression) = new_expression_literal((yyvsp[-3].literal), (yyvsp[0].type));}
-#line 1593 "tacl.tab.c" /* yacc.c:1646  */
+#line 1599 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 40:
 #line 187 "tacl.y" /* yacc.c:1646  */
     {(yyval.expression) = new_expression_atomic((yyvsp[-2].atomic_expression), (yyvsp[0].type));}
-#line 1599 "tacl.tab.c" /* yacc.c:1646  */
+#line 1605 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 41:
 #line 188 "tacl.y" /* yacc.c:1646  */
     {(yyval.expression) = new_expression_empty();}
-#line 1605 "tacl.tab.c" /* yacc.c:1646  */
+#line 1611 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 42:
 #line 193 "tacl.y" /* yacc.c:1646  */
     {(yyval.fun_call) = new_fun_call((yyvsp[-4].string), (yyvsp[-2].expressions));}
-#line 1611 "tacl.tab.c" /* yacc.c:1646  */
+#line 1617 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 43:
 #line 197 "tacl.y" /* yacc.c:1646  */
     {(yyval.operator_two) = new_operator_two(OR_);}
-#line 1617 "tacl.tab.c" /* yacc.c:1646  */
+#line 1623 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 44:
 #line 198 "tacl.y" /* yacc.c:1646  */
     {(yyval.operator_two) = new_operator_two(AND_);}
-#line 1623 "tacl.tab.c" /* yacc.c:1646  */
+#line 1629 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 45:
 #line 199 "tacl.y" /* yacc.c:1646  */
     {(yyval.operator_two) = new_operator_two(EQ_);}
-#line 1629 "tacl.tab.c" /* yacc.c:1646  */
+#line 1635 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 46:
 #line 200 "tacl.y" /* yacc.c:1646  */
     {(yyval.operator_two) = new_operator_two(NE_);}
-#line 1635 "tacl.tab.c" /* yacc.c:1646  */
+#line 1641 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 47:
 #line 201 "tacl.y" /* yacc.c:1646  */
     {(yyval.operator_two) = new_operator_two(LT_);}
-#line 1641 "tacl.tab.c" /* yacc.c:1646  */
+#line 1647 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 48:
 #line 202 "tacl.y" /* yacc.c:1646  */
     {(yyval.operator_two) = new_operator_two(LE_);}
-#line 1647 "tacl.tab.c" /* yacc.c:1646  */
+#line 1653 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 49:
 #line 203 "tacl.y" /* yacc.c:1646  */
     {(yyval.operator_two) = new_operator_two(GT_);}
-#line 1653 "tacl.tab.c" /* yacc.c:1646  */
+#line 1659 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 50:
 #line 204 "tacl.y" /* yacc.c:1646  */
     {(yyval.operator_two) = new_operator_two(GE_);}
-#line 1659 "tacl.tab.c" /* yacc.c:1646  */
+#line 1665 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 51:
 #line 205 "tacl.y" /* yacc.c:1646  */
     {(yyval.operator_two) = new_operator_two(PLUS_);}
-#line 1665 "tacl.tab.c" /* yacc.c:1646  */
+#line 1671 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 52:
 #line 206 "tacl.y" /* yacc.c:1646  */
     {(yyval.operator_two) = new_operator_two(MINUS_);}
-#line 1671 "tacl.tab.c" /* yacc.c:1646  */
+#line 1677 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 53:
 #line 207 "tacl.y" /* yacc.c:1646  */
     {(yyval.operator_two) = new_operator_two(TIMES_);}
-#line 1677 "tacl.tab.c" /* yacc.c:1646  */
+#line 1683 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 54:
 #line 208 "tacl.y" /* yacc.c:1646  */
     {(yyval.operator_two) = new_operator_two(DIV_);}
-#line 1683 "tacl.tab.c" /* yacc.c:1646  */
+#line 1689 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 55:
 #line 209 "tacl.y" /* yacc.c:1646  */
     {(yyval.operator_two) = new_operator_two(MOD_);}
-#line 1689 "tacl.tab.c" /* yacc.c:1646  */
+#line 1695 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 56:
 #line 213 "tacl.y" /* yacc.c:1646  */
     {(yyval.operator_one) = new_operator_one(NOT_);}
-#line 1695 "tacl.tab.c" /* yacc.c:1646  */
+#line 1701 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 57:
 #line 214 "tacl.y" /* yacc.c:1646  */
     {(yyval.operator_one) = new_operator_one(INV_);}
-#line 1701 "tacl.tab.c" /* yacc.c:1646  */
+#line 1707 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 58:
 #line 215 "tacl.y" /* yacc.c:1646  */
     {(yyval.operator_one) = new_operator_one(TOREAL_);}
-#line 1707 "tacl.tab.c" /* yacc.c:1646  */
+#line 1713 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 59:
 #line 219 "tacl.y" /* yacc.c:1646  */
     {(yyval.atomic_expression) = new_atomic_identifier((yyvsp[0].identifier));}
-#line 1713 "tacl.tab.c" /* yacc.c:1646  */
+#line 1719 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 60:
 #line 220 "tacl.y" /* yacc.c:1646  */
     {(yyval.atomic_expression) = new_atomic_fun_call((yyvsp[0].fun_call));}
-#line 1719 "tacl.tab.c" /* yacc.c:1646  */
+#line 1725 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 61:
 #line 221 "tacl.y" /* yacc.c:1646  */
     {(yyval.atomic_expression) = new_atomic_boolean((yyvsp[0].integer));}
-#line 1725 "tacl.tab.c" /* yacc.c:1646  */
+#line 1731 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 62:
 #line 225 "tacl.y" /* yacc.c:1646  */
     {(yyval.literal) = new_literal_int((yyvsp[0].integer));}
-#line 1731 "tacl.tab.c" /* yacc.c:1646  */
+#line 1737 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
   case 63:
 #line 226 "tacl.y" /* yacc.c:1646  */
     {(yyval.literal) = new_literal_real((yyvsp[0].real));}
-#line 1737 "tacl.tab.c" /* yacc.c:1646  */
+#line 1743 "tacl.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1741 "tacl.tab.c" /* yacc.c:1646  */
+#line 1747 "tacl.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires

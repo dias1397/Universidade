@@ -1,6 +1,6 @@
 %{
 #include <stdio.h>
-#include "ast.h"
+#include "ir.h"
 
 int yylex(void);
 void yyerror(const char *);	// see below
@@ -92,7 +92,7 @@ void yyerror(const char *);	// see below
 %%
 
 program : 
-		global_declarations
+		global_declarations 												{ir($1);}
 	;
 
 global_declarations : 
