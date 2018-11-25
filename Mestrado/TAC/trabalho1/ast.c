@@ -103,12 +103,13 @@ expression new_expression_operation(operator_two arg0, operator_one arg1, expres
 {
 	expression ret = (expression) malloc(sizeof(*ret));
 
+	ret->type = arg4;
+
 	if (arg3 == NULL)
 	{
 		ret->kind = UNOP;
 		ret->u.unop.arg0 = arg1;
 		ret->u.unop.arg1 = arg2;
-		ret->u.unop.arg2 = arg4;
 	}
 	else
 	{
@@ -116,7 +117,6 @@ expression new_expression_operation(operator_two arg0, operator_one arg1, expres
 		ret->u.binop.arg0 = arg0;
 		ret->u.binop.arg1 = arg2;
 		ret->u.binop.arg2 = arg3;
-		ret->u.binop.arg3 = arg4;
 	}
 
 	return ret;
@@ -126,9 +126,10 @@ expression new_expression_literal(literal arg0, type arg1)
 {
 	expression ret = (expression) malloc(sizeof(*ret));
 
+	ret->type = arg1;
+
 	ret->kind = LITERAL;
 	ret->u.literal.arg0 = arg0;
-	ret->u.literal.arg1 = arg1;
 
 	return ret;
 }
@@ -137,16 +138,21 @@ expression new_expression_atomic(atomic_expression arg0, type arg1)
 {
 	expression ret = (expression) malloc(sizeof(*ret));
 
+	ret->type = arg1;
+
 	ret->kind = ATOMIC;
 	ret->u.atomic.arg0 = arg0;
-	ret->u.atomic.arg1 = arg1;
 
 	return ret;
 }
 
 expression new_expression_empty()
 {
-	return NULL;
+	expression ret = (expression) malloc(sizeof(*ret));
+
+	ret->kind = EMPTY;
+
+	return ret;
 }
 
 statements new_statements(statement arg0, statements arg1)

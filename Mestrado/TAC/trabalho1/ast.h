@@ -116,7 +116,9 @@ struct literal
 
 struct expression
 {
-	enum{BINOP, UNOP, LITERAL, ATOMIC} kind;
+	enum{BINOP, UNOP, LITERAL, ATOMIC, EMPTY} kind;
+
+	type type;
 
 	union
 	{
@@ -125,23 +127,19 @@ struct expression
 			operator_two arg0;
 			expression arg1;
 			expression arg2;
-			type arg3;
 		}binop;
 		struct
 		{
 			operator_one arg0;
-			expression arg1;	
-			type arg2;
+			expression arg1;
 		}unop;
 		struct
 		{
 			literal arg0;
-			type arg1;
 		}literal;
 		struct
 		{
 			atomic_expression arg0;
-			type arg1;
 		}atomic;
 	}u;
 };
