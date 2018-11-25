@@ -94,7 +94,14 @@ expressions new_expressions(expression arg0, expressions arg1)
 	expressions ret = (expressions) malloc(sizeof(*ret));
 
 	ret->arg0 = arg0;
-	ret->arg1 = arg1;
+	if (arg1 != NULL)
+	{
+		ret->arg1 = arg1;
+	}
+	else
+	{
+		ret->arg1 = NULL;
+	}
 
 	return ret;
 }
@@ -160,7 +167,14 @@ statements new_statements(statement arg0, statements arg1)
 	statements ret = (statements) malloc(sizeof(*ret));
 
 	ret->arg0 = arg0;
-	ret->arg1 = arg1;
+	if (arg1 != NULL)
+	{
+		ret->arg1 = arg1;
+	}
+	else
+	{
+		ret->arg1 = NULL;
+	}
 
 	return ret;
 }

@@ -153,7 +153,7 @@ local_declarations :
 
 statements :
 		statement statements 												{$$ = new_statements($1, $2);}
-	| 	/*empty*/ 															{}
+	| 	statement 															{$$ = new_statements($1, NULL);}
 	;
 
 statement :
@@ -177,7 +177,7 @@ call_statement :
 
 expressions :
 		expression expressions 												{$$ = new_expressions($1, $2);}
-	|	/*empty*/ 															{}
+	|	expression 															{$$ = new_expressions($1, NULL);}
 	;
 
 expression :

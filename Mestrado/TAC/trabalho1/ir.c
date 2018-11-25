@@ -7,6 +7,8 @@ int temp_t = 0;
 int temp_fp = 0;
 int labels = 0;
 
+int tipo = -1; // 0 -> int , 1 -> real
+
 void ir(global_declarations global_declarations)
 {
 	ir_global_decls(global_declarations);
@@ -101,12 +103,11 @@ int ir_expression(expression expression)
 int ir_expressions(expressions expressions)
 {
 	int temp1 = ir_expression(expressions->arg0);
-	/*if (expressions->arg1 != NULL)
+	if (expressions->arg1 != NULL)
 	{
 		int temp2 = ir_expressions(expressions->arg1);
-	printf("%d\n", temp2);
 		return temp2;
-	}*/
+	}
 	return temp1;
 }
 
@@ -114,11 +115,13 @@ int ir_literal(literal literal, type type)
 {
 	if (type->type == INT_)
 	{
+		tipo = 0;
 		printf("\tt%d <- i_value %d\n", temp_t, literal->u.int_.arg0);
 		return temp_t++;
 	}
 	else if (type->type == REAL_)
 	{
+		tipo = 1;
 		printf("\tfp%d <- r_value %.1f\n", temp_fp, literal->u.real_.arg1);
 		return temp_fp++;
 	}
@@ -132,163 +135,180 @@ int ir_atomic(atomic_expression atomic_expression, type type)
 	{
 		return ir_identifier(atomic_expression->arg0, type);
 	}
+	if (atomic_expression->arg2 != NULL)
+	{
+		tipo = 0;
+		printf("\tt%d <- i_value %d\n", temp_t, atomic_expression->arg2);
+		return temp_t++;
+	}
 	return -1;
 }
 
 int ir_identifier(identifier identifier, type type)
 {
 	if (type->type == INT_)
+		tipo = 0;
+	else if (type->type == REAL_)
+		tipo = 1;
+
+	switch (identifier->arg1->kind)
 	{
-		if (identifier->arg1->kind == VAR_)
+		case VAR_ 	:
 		{
-			printf("\tt%d <- i_gload @%s\n", temp_t, identifier->arg0);
-			return temp_t++;
+			if (type->type == INT_)
+			{
+				printf("\tt%d <- i_gload @%s\n", temp_t, identifier->arg0);
+				return temp_t++;
+			}
+			else if (type->type == REAL_)
+			{
+				printf("\tfp%d <- r_gload @%s\n", temp_fp, identifier->arg0);
+				return temp_fp++;
+			}
 		}
-		if (identifier->arg1->kind == LOCAL_)
+		case LOCAL_ :
 		{
-			printf("\tt%d <- i_lload @%s\n", temp_t, identifier->arg0);
-			return temp_t++;
+			if (type->type == INT_)
+			{
+				printf("\tt%d <- i_lload @%s\n", temp_t, identifier->arg0);
+				return temp_t++;
+			}
+			else if (type->type == REAL_)
+			{
+				printf("\tfp%d <- r_lload @%s\n", temp_fp, identifier->arg0);
+				return temp_fp++;
+			}
 		}
-		if (identifier->arg1->kind == ARG_)
+		case ARG_ 	:
 		{
-			printf("\tt%d <- i_aload @%s\n", temp_t, identifier->arg0);
-			return temp_t++;
+			if (type->type == INT_)
+			{
+				printf("\tt%d <- i_aload @%s\n", temp_t, identifier->arg0);
+				return temp_t++;
+			}
+			else if (type->type == REAL_)
+			{
+				printf("\tfp%d <- r_aload @%s\n", temp_fp, identifier->arg0);
+				return temp_fp++;
+			}
 		}
 	}
-	if (type->type == REAL_)
-	{
-		if (identifier->arg1->kind == VAR_)
-		{
-			printf("\tfp%d <- r_gload @%s\n", temp_fp, identifier->arg0);
-			return temp_fp++;
-		}
-		if (identifier->arg1->kind == LOCAL_)
-		{
-			printf("\tfp%d <- r_lload @%s\n", temp_fp, identifier->arg0);
-			return temp_fp++;
-		}
-		if (identifier->arg1->kind == ARG_)
-		{
-			printf("\tfp%d <- r_aload @%s\n", temp_fp, identifier->arg0);
-			return temp_fp++;
-		}
-	}
+
 	return -1;
 }
 
 int ir_oper_2(operator_two operator_two, type type, int tx, int ty)
 {
 	if (type->type == INT_)
+		tipo = 0;
+	else if (type->type == REAL_)
+		tipo = 1;
+
+	switch (operator_two->op2)
 	{
-		switch (operator_two->op2)
+		case PLUS_ :
 		{
-			case PLUS_ :
+			if (type->type == INT_)
 			{
 				printf("\tt%d <- i_add t%d t%d\n", temp_t, tx, ty);
 				return temp_t;
 			}
-			case MINUS_:
+			else if (type->type == REAL_)
+			{
+				printf("\tfp%d <- r_add fp%d fp%d\n", temp_fp, tx, ty);
+				return temp_fp;
+			} 
+		}
+		case MINUS_:
+		{
+			if (type->type == INT_)
 			{
 				printf("\tt%d <- i_sub t%d t%d\n", temp_t, tx, ty);
 				return temp_t;
 			}
-			case TIMES_:
+			else if (type->type == REAL_)
+			{
+				printf("\tfp%d <- r_sub fp%d fp%d\n", temp_fp, tx, ty);
+				return temp_fp;
+			} 
+		}
+		case TIMES_:
+		{
+			if (type->type == INT_)
 			{
 				printf("\tt%d <- i_mul t%d t%d\n", temp_t, tx, ty);
 				return temp_t;
 			}
-			case DIV_  :
+			else if (type->type == REAL_)
+			{
+				printf("\tfp%d <- r_mul fp%d fp%d\n", temp_fp, tx, ty);
+				return temp_fp;
+			} 
+		}
+		case DIV_  :
+		{
+			if (type->type == INT_)
 			{
 				printf("\tt%d <- i_div t%d t%d\n", temp_t, tx, ty);
 				return temp_t;
 			}
-			case MOD_  :
-			{
-				printf("\tt%d <- mod t%d t%d\n", temp_t, tx, ty);
-				return temp_t;
-			}
-			default :
-			{
-
-			}
-		}
-	}
-	else if (type->type == REAL_)
-	{
-		switch (operator_two->op2)
-		{
-			case PLUS_ :
-			{
-				printf("\tfp%d <- r_add fp%d fp%d\n", temp_fp, tx, ty);
-				return temp_fp;
-			}
-			case MINUS_:
-			{
-				printf("\tfp%d <- r_sub fp%d fp%d\n", temp_fp, tx, ty);
-				return temp_fp;
-			}
-			case TIMES_:
-			{
-				printf("\tfp%d <- r_mul fp%d fp%d\n", temp_fp, tx, ty);
-				return temp_fp;
-			}
-			case DIV_:
+			else if (type->type == REAL_)
 			{
 				printf("\tfp%d <- r_div fp%d fp%d\n", temp_fp, tx, ty);
 				return temp_fp;
-			}
-			default :
-			{
-
-			}
+			} 
+			
 		}
-	}
-	else
-	{
-		switch (operator_two->op2)
+		case MOD_  :
 		{
-			case EQ_   :
-			{
-				printf("\tt%d <- i_eq t%d t%d\n", temp_t, tx, ty);
-				return temp_t;
-			}
-			case NE_   :
-			{
-				printf("\tt%d <- i_eq t%d t%d\n", temp_t, tx, ty);
-				return temp_t;
-			}
-			case LT_   :
-			{
-				printf("\tt%d <- i_lt t%d t%d\n", temp_t, tx, ty);
-				return temp_t;
-			}
-			case GT_   :
-			{
-				printf("\tt%d <- i_lt t%d t%d\n", temp_t, ty, tx);
-				return temp_t;
-			}
-			case LE_   :
-			{
-				printf("\tt%d <- i_lt t%d t%d\n", temp_t, ty, tx);
-				return temp_t;
-			}
-			case GE_   :
-			{
-				printf("\tt%d <- i_lt t%d t%d\n", temp_t, tx, ty);
-				return temp_t;
-			}
-			default :
-			{
-
-			}
+			printf("\tt%d <- mod t%d t%d\n", temp_t, tx, ty);
+			return temp_t;
+		}
+		case EQ_   :
+		{
+			printf("\tt%d <- i_eq t%d t%d\n", temp_t, tx, ty);
+			return temp_t;
+		}
+		case NE_   :
+		{
+			printf("\tt%d <- i_eq t%d t%d\n", temp_t, tx, ty);
+			return temp_t;
+		}
+		case LT_   :
+		{
+			printf("\tt%d <- i_lt t%d t%d\n", temp_t, tx, ty);
+			return temp_t;
+		}
+		case GT_   :
+		{
+			printf("\tt%d <- i_lt t%d t%d\n", temp_t, ty, tx);
+			return temp_t;
+		}
+		case LE_   :
+		{
+			printf("\tt%d <- i_lt t%d t%d\n", temp_t, ty, tx);
+			return temp_t;
+		}
+		case GE_   :
+		{
+			printf("\tt%d <- i_lt t%d t%d\n", temp_t, tx, ty);
+			return temp_t;
+		}
+		default :
+		{
+			printf("ERRO\n");
+			return -1;
 		}
 	}
-
-	return -1;
 }
 
 int ir_oper_1(operator_one operator_one, type type, int tx)
 {
+	if (type->type == INT_)
+		tipo = 0;
+	else if (type->type == REAL_)
+		tipo = 1;
+
 	switch (operator_one->op1)
 	{
 		case TOREAL_ :
@@ -296,9 +316,23 @@ int ir_oper_1(operator_one operator_one, type type, int tx)
 			printf("\tfp%d <- itor t%d\n", temp_fp, tx);
 			return temp_fp;	
 		}
-		default :
+		case INV_ 	:
 		{
-
+			if (type->type == INT_)
+			{
+				printf("\tt%d <- i_inv t%d\n", temp_t, tx);
+				return temp_t;	
+			}
+			else if (type->type == REAL_)
+			{
+				printf("\tfp%d <- r_inv fp%d\n", temp_fp, tx);
+				return temp_fp;	
+			}
+		}
+		case NOT_ 	:
+		{
+			printf("NOT\n");
+			return -1;
 		}
 	}
 
@@ -318,7 +352,19 @@ void ir_statement(statement statement)
 	else if (statement->kind == PRINT_)
 	{
 		int temp = ir_expression(statement->u.print_.arg0);
-		printf("\tr_print fp%d\n", temp);
+
+		if (tipo == 0)
+		{
+			printf("\tt_print t%d\n", temp);
+		}
+		else if (tipo == 1)
+		{
+			printf("\tr_print fp%d\n", temp);
+		}
+		else if (tipo == 2)
+		{
+			printf("\tb_print t%d\n", temp);
+		}	
 	}
 	else if (statement->kind == STMTS_)
 	{
@@ -346,48 +392,47 @@ void ir_assign(identifier identifier, expression expression)
 {
 	int temp = ir_expression(expression);
 
-	if (expression->type->type == INT_)
+	switch (identifier->arg1->kind)
 	{
-		switch (identifier->arg1->kind)
+		case VAR_	:
 		{
-			case VAR_  :
+			if (expression->type->type == INT_)
 			{
 				printf("\t@%s <- i_gstore t%d\n", identifier->arg0, temp);
 				break;
 			}
-			case LOCAL_:
-			{
-				printf("\t@%s <- i_lstore t%d\n", identifier->arg0, temp);
-				break;
-			}
-			case ARG_  :
-			{
-				printf("\t@%s <- i_astore t%d\n", identifier->arg0, temp);
-				break;
-			}
-		}
-	}
-
-	if (expression->type->type == REAL_)
-	{
-		switch (identifier->arg1->kind)
-		{
-			case VAR_:
+			else if (expression->type->type == REAL_)
 			{
 				printf("\t@%s <- r_gstore fp%d\n", identifier->arg0, temp);
 				break;
 			}
-			case LOCAL_:
+		}
+		case LOCAL_ :
+		{
+			if (expression->type->type == INT_)
+			{
+				printf("\t@%s <- i_lstore t%d\n", identifier->arg0, temp);
+				break;
+			}
+			else if (expression->type->type == REAL_)
 			{
 				printf("\t@%s <- r_lstore fp%d\n", identifier->arg0, temp);
 				break;
 			}
-			case ARG_  :
+		}
+		case ARG_ 	:
+		{
+			if (expression->type->type == INT_)
+			{
+				printf("\t@%s <- i_astore t%d\n", identifier->arg0, temp);
+				break;
+			}
+			else if (expression->type->type == REAL_)
 			{
 				printf("\t@%s <- r_astore fp%d\n", identifier->arg0, temp);
 				break;
 			}
 		}
-	}
 
+	}
 }
