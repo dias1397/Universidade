@@ -24,3 +24,10 @@ void ir_assign(identifier identifier, expression expression);
 
 void ir_statements(statements statements);
 void ir_call_stmt(call_statement call_statement);
+
+void ir_if_stmt(if_statement if_statement);
+
+void ir_local_decl(local_declaration local_declaration);
+void ir_local_decls(local_declarations local_declarations);
+
+void ir_fun_call(fun_call fun_call);

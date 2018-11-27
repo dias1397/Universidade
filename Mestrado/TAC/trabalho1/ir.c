@@ -49,7 +49,7 @@ void ir_fun_decl(function_declaration function_declaration)
 
 void ir_fun_body(body body)
 {
-//	ir_local_decl(body->arg0);
+	ir_local_decls(body->arg0);
 	ir_statement(body->arg1);
 	if (body->arg2->kind != EMPTY)
 	{
@@ -70,6 +70,31 @@ void ir_fun_body(body body)
 		printf("\treturn\n");
 	}
 	
+}
+
+void ir_local_decl(local_declaration local_declaration)
+{
+	int temp = ir_expression(local_declaration->arg2);
+
+	if (local_declaration->arg1->type == INT_)
+	{
+		printf("\t@%s <- i_lstore t%d\n", local_declaration->arg0, temp);
+		temp_t++;
+	}
+	else if (local_declaration->arg1->type == REAL_)
+	{
+		printf("\t@%s <- r_lstore fp%d\n", local_declaration->arg0, temp);
+		temp_fp++;
+	}
+}
+
+void ir_local_decls(local_declarations local_declarations)
+{
+	ir_local_decl(local_declarations->arg0);
+	if (local_declarations->arg1 != NULL)
+	{
+		ir_local_decls(local_declarations->arg1);
+	}
 }
 
 int ir_expression(expression expression)
@@ -134,6 +159,10 @@ int ir_atomic(atomic_expression atomic_expression, type type)
 	if (atomic_expression->arg0 != NULL)
 	{
 		return ir_identifier(atomic_expression->arg0, type);
+	}
+	if (atomic_expression->arg1 != NULL)
+	{
+		ir_fun_call(atomic_expression->arg1);
 	}
 	if (atomic_expression->arg2 != NULL)
 	{
@@ -366,10 +395,29 @@ void ir_statement(statement statement)
 			printf("\tb_print t%d\n", temp);
 		}	
 	}
+	else if (statement->kind == IF_)
+	{
+		ir_if_stmt(statement->u.if_.arg0);
+	}
+	else if (statement->kind == WHILE_)
+	{
+		
+	}
 	else if (statement->kind == STMTS_)
 	{
 		ir_statements(statement->u.compound_.arg0);
 	}
+}
+
+void ir_if_stmt(if_statement if_statement)
+{
+	int temp = ir_expression(if_statement->arg0);
+	printf("\tcjump t%d, l%d, l%d\n", temp, labels, labels+1);
+	printf("l%d:    ", labels);
+	ir_statement(if_statement->arg1);
+	printf("l%d:    ", labels++);
+	ir_statement(if_statement->arg2);
+	labels++;
 }
 
 void ir_call_stmt(call_statement call_statement)
@@ -378,6 +426,13 @@ void ir_call_stmt(call_statement call_statement)
 
 	printf("\tcall @%s, [fp%d]\n", call_statement->u.arg0, temp);
 } 
+
+void ir_fun_call(fun_call fun_call)
+{
+	int temp = ir_expressions(fun_call->arg1);
+
+	printf("\tcall @%s, [t%d]\n", fun_call->arg0, temp);
+}
 
 void ir_statements(statements statements)
 {

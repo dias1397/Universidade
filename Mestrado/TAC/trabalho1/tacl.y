@@ -148,7 +148,7 @@ local_declaration :
 
 local_declarations :
 		local_declaration local_declarations								{$$ = new_local_declarations($1, $2);}
-	|	/*empty*/ 															{}
+	|	local_declaration													{$$ = new_local_declarations($1, NULL);}
 	;
 
 statements :
