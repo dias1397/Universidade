@@ -152,7 +152,7 @@ struct expressions
 
 struct statement
 {
-	enum{ASSIGN_, CALL_, PRINT_, IF_, WHILE_, STMTS_} kind;
+	enum{ASSIGN_, CALL_, PRINT_, IF_, WHILE_, STMTS_, EMPTY_} kind;
 	
 	union{
 		struct
@@ -289,6 +289,7 @@ expression new_expression_atomic(atomic_expression arg0, type arg1);
 expression new_expression_empty();
 
 statements new_statements(statement arg0, statements arg1);
+statement new_statement_empty();
 statement new_statement_assign(identifier arg0, expression arg1);
 statement new_statement_call(call_statement arg0);
 statement new_statement_print(expression arg0);

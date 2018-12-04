@@ -1,0 +1,1435 @@
+Terminals unused in grammar
+
+   ERROR
+
+
+Grammar
+
+    0 $accept: program $end
+
+    1 program: global_declarations
+
+    2 global_declarations: global_declaration global_declarations
+    3                    | %empty
+
+    4 global_declaration: variable_declaration
+    5                   | function_declaration
+
+    6 variable_declaration: OPPAR VAR identifier expression CLPAR
+
+    7 function_declaration: OPPAR FUN IDENTIFIER OPRPAR formal_args CLRPAR body CLPAR
+
+    8 identifier: OPPAR ID IDENTIFIER kind type CLPAR
+
+    9 kind: VAR
+   10     | LOCAL
+   11     | ARG
+
+   12 type: INT
+   13     | REAL
+   14     | BOOL
+
+   15 formal_arg: OPPAR ARG IDENTIFIER type CLPAR
+
+   16 formal_args: formal_arg formal_args
+   17            | %empty
+
+   18 body: OPPAR BODY OPRPAR local_declarations CLRPAR statement expression CLPAR
+
+   19 local_declaration: OPPAR LOCAL IDENTIFIER type expression CLPAR
+
+   20 local_declarations: local_declaration local_declarations
+   21                   | local_declaration
+
+   22 statements: statement statements
+   23           | statement
+
+   24 statement: NIL
+   25          | OPPAR ASSIGN identifier expression CLPAR
+   26          | OPPAR call_statement CLPAR
+   27          | OPPAR PRINT expression CLPAR
+   28          | OPPAR if_statement CLPAR
+   29          | OPPAR WHILE expression statement CLPAR
+   30          | OPRPAR statements CLRPAR
+
+   31 if_statement: IF expression statement statement
+
+   32 call_statement: CALL identifier OPRPAR expressions CLRPAR
+   33               | CALL IDENTIFIER OPRPAR expressions CLRPAR
+
+   34 expressions: expression expressions
+   35            | expression
+
+   36 expression: OPPAR operator_two expression expression CLPAR COLON type
+   37           | OPPAR operator_one expression CLPAR COLON type
+   38           | OPPAR literal CLPAR COLON type
+   39           | atomic_expression COLON type
+   40           | NIL
+
+   41 fun_call: OPPAR CALL IDENTIFIER OPRPAR expressions CLRPAR CLPAR
+
+   42 operator_two: OR
+   43             | AND
+   44             | EQ
+   45             | NE
+   46             | LT
+   47             | LE
+   48             | GT
+   49             | GE
+   50             | PLUS
+   51             | MINUS
+   52             | TIMES
+   53             | DIV
+   54             | MOD
+
+   55 operator_one: NOT
+   56             | INV
+   57             | TOREAL
+
+   58 atomic_expression: identifier
+   59                  | fun_call
+   60                  | BOOL_LITERAL
+
+   61 literal: INT_LITERAL INT_LITERAL_VALUE
+   62        | REAL_LITERAL REAL_LITERAL_VALUE
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+VAR (258) 6 9
+FUN (259) 7
+BODY (260) 18
+ARG (261) 11 15
+LOCAL (262) 10 19
+ASSIGN (263) 25
+CALL (264) 32 33 41
+PRINT (265) 27
+IF (266) 31
+WHILE (267) 29
+OPPAR (268) 6 7 8 15 18 19 25 26 27 28 29 36 37 38 41
+CLPAR (269) 6 7 8 15 18 19 25 26 27 28 29 36 37 38 41
+OPRPAR (270) 7 18 30 32 33 41
+CLRPAR (271) 7 18 30 32 33 41
+COLON (272) 36 37 38 39
+ID (273) 8
+INT_LITERAL (274) 61
+REAL_LITERAL (275) 62
+INT (276) 12
+REAL (277) 13
+BOOL (278) 14
+TOREAL (279) 57
+NIL (280) 24 40
+INT_LITERAL_VALUE (281) 61
+REAL_LITERAL_VALUE (282) 62
+BOOL_LITERAL (283) 60
+IDENTIFIER (284) 7 8 15 19 33 41
+OR (285) 42
+AND (286) 43
+EQ (287) 44
+NE (288) 45
+LT (289) 46
+LE (290) 47
+GT (291) 48
+GE (292) 49
+PLUS (293) 50
+MINUS (294) 51
+TIMES (295) 52
+DIV (296) 53
+MOD (297) 54
+NOT (298) 55
+INV (299) 56
+ERROR (300)
+
+
+Nonterminals, with rules where they appear
+
+$accept (46)
+    on left: 0
+program (47)
+    on left: 1, on right: 0
+global_declarations (48)
+    on left: 2 3, on right: 1 2
+global_declaration (49)
+    on left: 4 5, on right: 2
+variable_declaration (50)
+    on left: 6, on right: 4
+function_declaration (51)
+    on left: 7, on right: 5
+identifier (52)
+    on left: 8, on right: 6 25 32 58
+kind (53)
+    on left: 9 10 11, on right: 8
+type (54)
+    on left: 12 13 14, on right: 8 15 19 36 37 38 39
+formal_arg (55)
+    on left: 15, on right: 16
+formal_args (56)
+    on left: 16 17, on right: 7 16
+body (57)
+    on left: 18, on right: 7
+local_declaration (58)
+    on left: 19, on right: 20 21
+local_declarations (59)
+    on left: 20 21, on right: 18 20
+statements (60)
+    on left: 22 23, on right: 22 30
+statement (61)
+    on left: 24 25 26 27 28 29 30, on right: 18 22 23 29 31
+if_statement (62)
+    on left: 31, on right: 28
+call_statement (63)
+    on left: 32 33, on right: 26
+expressions (64)
+    on left: 34 35, on right: 32 33 34 41
+expression (65)
+    on left: 36 37 38 39 40, on right: 6 18 19 25 27 29 31 34 35 36
+    37
+fun_call (66)
+    on left: 41, on right: 59
+operator_two (67)
+    on left: 42 43 44 45 46 47 48 49 50 51 52 53 54, on right: 36
+operator_one (68)
+    on left: 55 56 57, on right: 37
+atomic_expression (69)
+    on left: 58 59 60, on right: 39
+literal (70)
+    on left: 61 62, on right: 38
+
+
+State 0
+
+    0 $accept: . program $end
+
+    OPPAR  shift, and go to state 1
+
+    $default  reduce using rule 3 (global_declarations)
+
+    program               go to state 2
+    global_declarations   go to state 3
+    global_declaration    go to state 4
+    variable_declaration  go to state 5
+    function_declaration  go to state 6
+
+
+State 1
+
+    6 variable_declaration: OPPAR . VAR identifier expression CLPAR
+    7 function_declaration: OPPAR . FUN IDENTIFIER OPRPAR formal_args CLRPAR body CLPAR
+
+    VAR  shift, and go to state 7
+    FUN  shift, and go to state 8
+
+
+State 2
+
+    0 $accept: program . $end
+
+    $end  shift, and go to state 9
+
+
+State 3
+
+    1 program: global_declarations .
+
+    $default  reduce using rule 1 (program)
+
+
+State 4
+
+    2 global_declarations: global_declaration . global_declarations
+
+    OPPAR  shift, and go to state 1
+
+    $default  reduce using rule 3 (global_declarations)
+
+    global_declarations   go to state 10
+    global_declaration    go to state 4
+    variable_declaration  go to state 5
+    function_declaration  go to state 6
+
+
+State 5
+
+    4 global_declaration: variable_declaration .
+
+    $default  reduce using rule 4 (global_declaration)
+
+
+State 6
+
+    5 global_declaration: function_declaration .
+
+    $default  reduce using rule 5 (global_declaration)
+
+
+State 7
+
+    6 variable_declaration: OPPAR VAR . identifier expression CLPAR
+
+    OPPAR  shift, and go to state 11
+
+    identifier  go to state 12
+
+
+State 8
+
+    7 function_declaration: OPPAR FUN . IDENTIFIER OPRPAR formal_args CLRPAR body CLPAR
+
+    IDENTIFIER  shift, and go to state 13
+
+
+State 9
+
+    0 $accept: program $end .
+
+    $default  accept
+
+
+State 10
+
+    2 global_declarations: global_declaration global_declarations .
+
+    $default  reduce using rule 2 (global_declarations)
+
+
+State 11
+
+    8 identifier: OPPAR . ID IDENTIFIER kind type CLPAR
+
+    ID  shift, and go to state 14
+
+
+State 12
+
+    6 variable_declaration: OPPAR VAR identifier . expression CLPAR
+
+    OPPAR         shift, and go to state 15
+    NIL           shift, and go to state 16
+    BOOL_LITERAL  shift, and go to state 17
+
+    identifier         go to state 18
+    expression         go to state 19
+    fun_call           go to state 20
+    atomic_expression  go to state 21
+
+
+State 13
+
+    7 function_declaration: OPPAR FUN IDENTIFIER . OPRPAR formal_args CLRPAR body CLPAR
+
+    OPRPAR  shift, and go to state 22
+
+
+State 14
+
+    8 identifier: OPPAR ID . IDENTIFIER kind type CLPAR
+
+    IDENTIFIER  shift, and go to state 23
+
+
+State 15
+
+    8 identifier: OPPAR . ID IDENTIFIER kind type CLPAR
+   36 expression: OPPAR . operator_two expression expression CLPAR COLON type
+   37           | OPPAR . operator_one expression CLPAR COLON type
+   38           | OPPAR . literal CLPAR COLON type
+   41 fun_call: OPPAR . CALL IDENTIFIER OPRPAR expressions CLRPAR CLPAR
+
+    CALL          shift, and go to state 24
+    ID            shift, and go to state 14
+    INT_LITERAL   shift, and go to state 25
+    REAL_LITERAL  shift, and go to state 26
+    TOREAL        shift, and go to state 27
+    OR            shift, and go to state 28
+    AND           shift, and go to state 29
+    EQ            shift, and go to state 30
+    NE            shift, and go to state 31
+    LT            shift, and go to state 32
+    LE            shift, and go to state 33
+    GT            shift, and go to state 34
+    GE            shift, and go to state 35
+    PLUS          shift, and go to state 36
+    MINUS         shift, and go to state 37
+    TIMES         shift, and go to state 38
+    DIV           shift, and go to state 39
+    MOD           shift, and go to state 40
+    NOT           shift, and go to state 41
+    INV           shift, and go to state 42
+
+    operator_two  go to state 43
+    operator_one  go to state 44
+    literal       go to state 45
+
+
+State 16
+
+   40 expression: NIL .
+
+    $default  reduce using rule 40 (expression)
+
+
+State 17
+
+   60 atomic_expression: BOOL_LITERAL .
+
+    $default  reduce using rule 60 (atomic_expression)
+
+
+State 18
+
+   58 atomic_expression: identifier .
+
+    $default  reduce using rule 58 (atomic_expression)
+
+
+State 19
+
+    6 variable_declaration: OPPAR VAR identifier expression . CLPAR
+
+    CLPAR  shift, and go to state 46
+
+
+State 20
+
+   59 atomic_expression: fun_call .
+
+    $default  reduce using rule 59 (atomic_expression)
+
+
+State 21
+
+   39 expression: atomic_expression . COLON type
+
+    COLON  shift, and go to state 47
+
+
+State 22
+
+    7 function_declaration: OPPAR FUN IDENTIFIER OPRPAR . formal_args CLRPAR body CLPAR
+
+    OPPAR  shift, and go to state 48
+
+    $default  reduce using rule 17 (formal_args)
+
+    formal_arg   go to state 49
+    formal_args  go to state 50
+
+
+State 23
+
+    8 identifier: OPPAR ID IDENTIFIER . kind type CLPAR
+
+    VAR    shift, and go to state 51
+    ARG    shift, and go to state 52
+    LOCAL  shift, and go to state 53
+
+    kind  go to state 54
+
+
+State 24
+
+   41 fun_call: OPPAR CALL . IDENTIFIER OPRPAR expressions CLRPAR CLPAR
+
+    IDENTIFIER  shift, and go to state 55
+
+
+State 25
+
+   61 literal: INT_LITERAL . INT_LITERAL_VALUE
+
+    INT_LITERAL_VALUE  shift, and go to state 56
+
+
+State 26
+
+   62 literal: REAL_LITERAL . REAL_LITERAL_VALUE
+
+    REAL_LITERAL_VALUE  shift, and go to state 57
+
+
+State 27
+
+   57 operator_one: TOREAL .
+
+    $default  reduce using rule 57 (operator_one)
+
+
+State 28
+
+   42 operator_two: OR .
+
+    $default  reduce using rule 42 (operator_two)
+
+
+State 29
+
+   43 operator_two: AND .
+
+    $default  reduce using rule 43 (operator_two)
+
+
+State 30
+
+   44 operator_two: EQ .
+
+    $default  reduce using rule 44 (operator_two)
+
+
+State 31
+
+   45 operator_two: NE .
+
+    $default  reduce using rule 45 (operator_two)
+
+
+State 32
+
+   46 operator_two: LT .
+
+    $default  reduce using rule 46 (operator_two)
+
+
+State 33
+
+   47 operator_two: LE .
+
+    $default  reduce using rule 47 (operator_two)
+
+
+State 34
+
+   48 operator_two: GT .
+
+    $default  reduce using rule 48 (operator_two)
+
+
+State 35
+
+   49 operator_two: GE .
+
+    $default  reduce using rule 49 (operator_two)
+
+
+State 36
+
+   50 operator_two: PLUS .
+
+    $default  reduce using rule 50 (operator_two)
+
+
+State 37
+
+   51 operator_two: MINUS .
+
+    $default  reduce using rule 51 (operator_two)
+
+
+State 38
+
+   52 operator_two: TIMES .
+
+    $default  reduce using rule 52 (operator_two)
+
+
+State 39
+
+   53 operator_two: DIV .
+
+    $default  reduce using rule 53 (operator_two)
+
+
+State 40
+
+   54 operator_two: MOD .
+
+    $default  reduce using rule 54 (operator_two)
+
+
+State 41
+
+   55 operator_one: NOT .
+
+    $default  reduce using rule 55 (operator_one)
+
+
+State 42
+
+   56 operator_one: INV .
+
+    $default  reduce using rule 56 (operator_one)
+
+
+State 43
+
+   36 expression: OPPAR operator_two . expression expression CLPAR COLON type
+
+    OPPAR         shift, and go to state 15
+    NIL           shift, and go to state 16
+    BOOL_LITERAL  shift, and go to state 17
+
+    identifier         go to state 18
+    expression         go to state 58
+    fun_call           go to state 20
+    atomic_expression  go to state 21
+
+
+State 44
+
+   37 expression: OPPAR operator_one . expression CLPAR COLON type
+
+    OPPAR         shift, and go to state 15
+    NIL           shift, and go to state 16
+    BOOL_LITERAL  shift, and go to state 17
+
+    identifier         go to state 18
+    expression         go to state 59
+    fun_call           go to state 20
+    atomic_expression  go to state 21
+
+
+State 45
+
+   38 expression: OPPAR literal . CLPAR COLON type
+
+    CLPAR  shift, and go to state 60
+
+
+State 46
+
+    6 variable_declaration: OPPAR VAR identifier expression CLPAR .
+
+    $default  reduce using rule 6 (variable_declaration)
+
+
+State 47
+
+   39 expression: atomic_expression COLON . type
+
+    INT   shift, and go to state 61
+    REAL  shift, and go to state 62
+    BOOL  shift, and go to state 63
+
+    type  go to state 64
+
+
+State 48
+
+   15 formal_arg: OPPAR . ARG IDENTIFIER type CLPAR
+
+    ARG  shift, and go to state 65
+
+
+State 49
+
+   16 formal_args: formal_arg . formal_args
+
+    OPPAR  shift, and go to state 48
+
+    $default  reduce using rule 17 (formal_args)
+
+    formal_arg   go to state 49
+    formal_args  go to state 66
+
+
+State 50
+
+    7 function_declaration: OPPAR FUN IDENTIFIER OPRPAR formal_args . CLRPAR body CLPAR
+
+    CLRPAR  shift, and go to state 67
+
+
+State 51
+
+    9 kind: VAR .
+
+    $default  reduce using rule 9 (kind)
+
+
+State 52
+
+   11 kind: ARG .
+
+    $default  reduce using rule 11 (kind)
+
+
+State 53
+
+   10 kind: LOCAL .
+
+    $default  reduce using rule 10 (kind)
+
+
+State 54
+
+    8 identifier: OPPAR ID IDENTIFIER kind . type CLPAR
+
+    INT   shift, and go to state 61
+    REAL  shift, and go to state 62
+    BOOL  shift, and go to state 63
+
+    type  go to state 68
+
+
+State 55
+
+   41 fun_call: OPPAR CALL IDENTIFIER . OPRPAR expressions CLRPAR CLPAR
+
+    OPRPAR  shift, and go to state 69
+
+
+State 56
+
+   61 literal: INT_LITERAL INT_LITERAL_VALUE .
+
+    $default  reduce using rule 61 (literal)
+
+
+State 57
+
+   62 literal: REAL_LITERAL REAL_LITERAL_VALUE .
+
+    $default  reduce using rule 62 (literal)
+
+
+State 58
+
+   36 expression: OPPAR operator_two expression . expression CLPAR COLON type
+
+    OPPAR         shift, and go to state 15
+    NIL           shift, and go to state 16
+    BOOL_LITERAL  shift, and go to state 17
+
+    identifier         go to state 18
+    expression         go to state 70
+    fun_call           go to state 20
+    atomic_expression  go to state 21
+
+
+State 59
+
+   37 expression: OPPAR operator_one expression . CLPAR COLON type
+
+    CLPAR  shift, and go to state 71
+
+
+State 60
+
+   38 expression: OPPAR literal CLPAR . COLON type
+
+    COLON  shift, and go to state 72
+
+
+State 61
+
+   12 type: INT .
+
+    $default  reduce using rule 12 (type)
+
+
+State 62
+
+   13 type: REAL .
+
+    $default  reduce using rule 13 (type)
+
+
+State 63
+
+   14 type: BOOL .
+
+    $default  reduce using rule 14 (type)
+
+
+State 64
+
+   39 expression: atomic_expression COLON type .
+
+    $default  reduce using rule 39 (expression)
+
+
+State 65
+
+   15 formal_arg: OPPAR ARG . IDENTIFIER type CLPAR
+
+    IDENTIFIER  shift, and go to state 73
+
+
+State 66
+
+   16 formal_args: formal_arg formal_args .
+
+    $default  reduce using rule 16 (formal_args)
+
+
+State 67
+
+    7 function_declaration: OPPAR FUN IDENTIFIER OPRPAR formal_args CLRPAR . body CLPAR
+
+    OPPAR  shift, and go to state 74
+
+    body  go to state 75
+
+
+State 68
+
+    8 identifier: OPPAR ID IDENTIFIER kind type . CLPAR
+
+    CLPAR  shift, and go to state 76
+
+
+State 69
+
+   41 fun_call: OPPAR CALL IDENTIFIER OPRPAR . expressions CLRPAR CLPAR
+
+    OPPAR         shift, and go to state 15
+    NIL           shift, and go to state 16
+    BOOL_LITERAL  shift, and go to state 17
+
+    identifier         go to state 18
+    expressions        go to state 77
+    expression         go to state 78
+    fun_call           go to state 20
+    atomic_expression  go to state 21
+
+
+State 70
+
+   36 expression: OPPAR operator_two expression expression . CLPAR COLON type
+
+    CLPAR  shift, and go to state 79
+
+
+State 71
+
+   37 expression: OPPAR operator_one expression CLPAR . COLON type
+
+    COLON  shift, and go to state 80
+
+
+State 72
+
+   38 expression: OPPAR literal CLPAR COLON . type
+
+    INT   shift, and go to state 61
+    REAL  shift, and go to state 62
+    BOOL  shift, and go to state 63
+
+    type  go to state 81
+
+
+State 73
+
+   15 formal_arg: OPPAR ARG IDENTIFIER . type CLPAR
+
+    INT   shift, and go to state 61
+    REAL  shift, and go to state 62
+    BOOL  shift, and go to state 63
+
+    type  go to state 82
+
+
+State 74
+
+   18 body: OPPAR . BODY OPRPAR local_declarations CLRPAR statement expression CLPAR
+
+    BODY  shift, and go to state 83
+
+
+State 75
+
+    7 function_declaration: OPPAR FUN IDENTIFIER OPRPAR formal_args CLRPAR body . CLPAR
+
+    CLPAR  shift, and go to state 84
+
+
+State 76
+
+    8 identifier: OPPAR ID IDENTIFIER kind type CLPAR .
+
+    $default  reduce using rule 8 (identifier)
+
+
+State 77
+
+   41 fun_call: OPPAR CALL IDENTIFIER OPRPAR expressions . CLRPAR CLPAR
+
+    CLRPAR  shift, and go to state 85
+
+
+State 78
+
+   34 expressions: expression . expressions
+   35            | expression .
+
+    OPPAR         shift, and go to state 15
+    NIL           shift, and go to state 16
+    BOOL_LITERAL  shift, and go to state 17
+
+    $default  reduce using rule 35 (expressions)
+
+    identifier         go to state 18
+    expressions        go to state 86
+    expression         go to state 78
+    fun_call           go to state 20
+    atomic_expression  go to state 21
+
+
+State 79
+
+   36 expression: OPPAR operator_two expression expression CLPAR . COLON type
+
+    COLON  shift, and go to state 87
+
+
+State 80
+
+   37 expression: OPPAR operator_one expression CLPAR COLON . type
+
+    INT   shift, and go to state 61
+    REAL  shift, and go to state 62
+    BOOL  shift, and go to state 63
+
+    type  go to state 88
+
+
+State 81
+
+   38 expression: OPPAR literal CLPAR COLON type .
+
+    $default  reduce using rule 38 (expression)
+
+
+State 82
+
+   15 formal_arg: OPPAR ARG IDENTIFIER type . CLPAR
+
+    CLPAR  shift, and go to state 89
+
+
+State 83
+
+   18 body: OPPAR BODY . OPRPAR local_declarations CLRPAR statement expression CLPAR
+
+    OPRPAR  shift, and go to state 90
+
+
+State 84
+
+    7 function_declaration: OPPAR FUN IDENTIFIER OPRPAR formal_args CLRPAR body CLPAR .
+
+    $default  reduce using rule 7 (function_declaration)
+
+
+State 85
+
+   41 fun_call: OPPAR CALL IDENTIFIER OPRPAR expressions CLRPAR . CLPAR
+
+    CLPAR  shift, and go to state 91
+
+
+State 86
+
+   34 expressions: expression expressions .
+
+    $default  reduce using rule 34 (expressions)
+
+
+State 87
+
+   36 expression: OPPAR operator_two expression expression CLPAR COLON . type
+
+    INT   shift, and go to state 61
+    REAL  shift, and go to state 62
+    BOOL  shift, and go to state 63
+
+    type  go to state 92
+
+
+State 88
+
+   37 expression: OPPAR operator_one expression CLPAR COLON type .
+
+    $default  reduce using rule 37 (expression)
+
+
+State 89
+
+   15 formal_arg: OPPAR ARG IDENTIFIER type CLPAR .
+
+    $default  reduce using rule 15 (formal_arg)
+
+
+State 90
+
+   18 body: OPPAR BODY OPRPAR . local_declarations CLRPAR statement expression CLPAR
+
+    OPPAR  shift, and go to state 93
+
+    local_declaration   go to state 94
+    local_declarations  go to state 95
+
+
+State 91
+
+   41 fun_call: OPPAR CALL IDENTIFIER OPRPAR expressions CLRPAR CLPAR .
+
+    $default  reduce using rule 41 (fun_call)
+
+
+State 92
+
+   36 expression: OPPAR operator_two expression expression CLPAR COLON type .
+
+    $default  reduce using rule 36 (expression)
+
+
+State 93
+
+   19 local_declaration: OPPAR . LOCAL IDENTIFIER type expression CLPAR
+
+    LOCAL  shift, and go to state 96
+
+
+State 94
+
+   20 local_declarations: local_declaration . local_declarations
+   21                   | local_declaration .
+
+    OPPAR  shift, and go to state 93
+
+    $default  reduce using rule 21 (local_declarations)
+
+    local_declaration   go to state 94
+    local_declarations  go to state 97
+
+
+State 95
+
+   18 body: OPPAR BODY OPRPAR local_declarations . CLRPAR statement expression CLPAR
+
+    CLRPAR  shift, and go to state 98
+
+
+State 96
+
+   19 local_declaration: OPPAR LOCAL . IDENTIFIER type expression CLPAR
+
+    IDENTIFIER  shift, and go to state 99
+
+
+State 97
+
+   20 local_declarations: local_declaration local_declarations .
+
+    $default  reduce using rule 20 (local_declarations)
+
+
+State 98
+
+   18 body: OPPAR BODY OPRPAR local_declarations CLRPAR . statement expression CLPAR
+
+    OPPAR   shift, and go to state 100
+    OPRPAR  shift, and go to state 101
+    NIL     shift, and go to state 102
+
+    statement  go to state 103
+
+
+State 99
+
+   19 local_declaration: OPPAR LOCAL IDENTIFIER . type expression CLPAR
+
+    INT   shift, and go to state 61
+    REAL  shift, and go to state 62
+    BOOL  shift, and go to state 63
+
+    type  go to state 104
+
+
+State 100
+
+   25 statement: OPPAR . ASSIGN identifier expression CLPAR
+   26          | OPPAR . call_statement CLPAR
+   27          | OPPAR . PRINT expression CLPAR
+   28          | OPPAR . if_statement CLPAR
+   29          | OPPAR . WHILE expression statement CLPAR
+
+    ASSIGN  shift, and go to state 105
+    CALL    shift, and go to state 106
+    PRINT   shift, and go to state 107
+    IF      shift, and go to state 108
+    WHILE   shift, and go to state 109
+
+    if_statement    go to state 110
+    call_statement  go to state 111
+
+
+State 101
+
+   30 statement: OPRPAR . statements CLRPAR
+
+    OPPAR   shift, and go to state 100
+    OPRPAR  shift, and go to state 101
+    NIL     shift, and go to state 102
+
+    statements  go to state 112
+    statement   go to state 113
+
+
+State 102
+
+   24 statement: NIL .
+
+    $default  reduce using rule 24 (statement)
+
+
+State 103
+
+   18 body: OPPAR BODY OPRPAR local_declarations CLRPAR statement . expression CLPAR
+
+    OPPAR         shift, and go to state 15
+    NIL           shift, and go to state 16
+    BOOL_LITERAL  shift, and go to state 17
+
+    identifier         go to state 18
+    expression         go to state 114
+    fun_call           go to state 20
+    atomic_expression  go to state 21
+
+
+State 104
+
+   19 local_declaration: OPPAR LOCAL IDENTIFIER type . expression CLPAR
+
+    OPPAR         shift, and go to state 15
+    NIL           shift, and go to state 16
+    BOOL_LITERAL  shift, and go to state 17
+
+    identifier         go to state 18
+    expression         go to state 115
+    fun_call           go to state 20
+    atomic_expression  go to state 21
+
+
+State 105
+
+   25 statement: OPPAR ASSIGN . identifier expression CLPAR
+
+    OPPAR  shift, and go to state 11
+
+    identifier  go to state 116
+
+
+State 106
+
+   32 call_statement: CALL . identifier OPRPAR expressions CLRPAR
+   33               | CALL . IDENTIFIER OPRPAR expressions CLRPAR
+
+    OPPAR       shift, and go to state 11
+    IDENTIFIER  shift, and go to state 117
+
+    identifier  go to state 118
+
+
+State 107
+
+   27 statement: OPPAR PRINT . expression CLPAR
+
+    OPPAR         shift, and go to state 15
+    NIL           shift, and go to state 16
+    BOOL_LITERAL  shift, and go to state 17
+
+    identifier         go to state 18
+    expression         go to state 119
+    fun_call           go to state 20
+    atomic_expression  go to state 21
+
+
+State 108
+
+   31 if_statement: IF . expression statement statement
+
+    OPPAR         shift, and go to state 15
+    NIL           shift, and go to state 16
+    BOOL_LITERAL  shift, and go to state 17
+
+    identifier         go to state 18
+    expression         go to state 120
+    fun_call           go to state 20
+    atomic_expression  go to state 21
+
+
+State 109
+
+   29 statement: OPPAR WHILE . expression statement CLPAR
+
+    OPPAR         shift, and go to state 15
+    NIL           shift, and go to state 16
+    BOOL_LITERAL  shift, and go to state 17
+
+    identifier         go to state 18
+    expression         go to state 121
+    fun_call           go to state 20
+    atomic_expression  go to state 21
+
+
+State 110
+
+   28 statement: OPPAR if_statement . CLPAR
+
+    CLPAR  shift, and go to state 122
+
+
+State 111
+
+   26 statement: OPPAR call_statement . CLPAR
+
+    CLPAR  shift, and go to state 123
+
+
+State 112
+
+   30 statement: OPRPAR statements . CLRPAR
+
+    CLRPAR  shift, and go to state 124
+
+
+State 113
+
+   22 statements: statement . statements
+   23           | statement .
+
+    OPPAR   shift, and go to state 100
+    OPRPAR  shift, and go to state 101
+    NIL     shift, and go to state 102
+
+    $default  reduce using rule 23 (statements)
+
+    statements  go to state 125
+    statement   go to state 113
+
+
+State 114
+
+   18 body: OPPAR BODY OPRPAR local_declarations CLRPAR statement expression . CLPAR
+
+    CLPAR  shift, and go to state 126
+
+
+State 115
+
+   19 local_declaration: OPPAR LOCAL IDENTIFIER type expression . CLPAR
+
+    CLPAR  shift, and go to state 127
+
+
+State 116
+
+   25 statement: OPPAR ASSIGN identifier . expression CLPAR
+
+    OPPAR         shift, and go to state 15
+    NIL           shift, and go to state 16
+    BOOL_LITERAL  shift, and go to state 17
+
+    identifier         go to state 18
+    expression         go to state 128
+    fun_call           go to state 20
+    atomic_expression  go to state 21
+
+
+State 117
+
+   33 call_statement: CALL IDENTIFIER . OPRPAR expressions CLRPAR
+
+    OPRPAR  shift, and go to state 129
+
+
+State 118
+
+   32 call_statement: CALL identifier . OPRPAR expressions CLRPAR
+
+    OPRPAR  shift, and go to state 130
+
+
+State 119
+
+   27 statement: OPPAR PRINT expression . CLPAR
+
+    CLPAR  shift, and go to state 131
+
+
+State 120
+
+   31 if_statement: IF expression . statement statement
+
+    OPPAR   shift, and go to state 100
+    OPRPAR  shift, and go to state 101
+    NIL     shift, and go to state 102
+
+    statement  go to state 132
+
+
+State 121
+
+   29 statement: OPPAR WHILE expression . statement CLPAR
+
+    OPPAR   shift, and go to state 100
+    OPRPAR  shift, and go to state 101
+    NIL     shift, and go to state 102
+
+    statement  go to state 133
+
+
+State 122
+
+   28 statement: OPPAR if_statement CLPAR .
+
+    $default  reduce using rule 28 (statement)
+
+
+State 123
+
+   26 statement: OPPAR call_statement CLPAR .
+
+    $default  reduce using rule 26 (statement)
+
+
+State 124
+
+   30 statement: OPRPAR statements CLRPAR .
+
+    $default  reduce using rule 30 (statement)
+
+
+State 125
+
+   22 statements: statement statements .
+
+    $default  reduce using rule 22 (statements)
+
+
+State 126
+
+   18 body: OPPAR BODY OPRPAR local_declarations CLRPAR statement expression CLPAR .
+
+    $default  reduce using rule 18 (body)
+
+
+State 127
+
+   19 local_declaration: OPPAR LOCAL IDENTIFIER type expression CLPAR .
+
+    $default  reduce using rule 19 (local_declaration)
+
+
+State 128
+
+   25 statement: OPPAR ASSIGN identifier expression . CLPAR
+
+    CLPAR  shift, and go to state 134
+
+
+State 129
+
+   33 call_statement: CALL IDENTIFIER OPRPAR . expressions CLRPAR
+
+    OPPAR         shift, and go to state 15
+    NIL           shift, and go to state 16
+    BOOL_LITERAL  shift, and go to state 17
+
+    identifier         go to state 18
+    expressions        go to state 135
+    expression         go to state 78
+    fun_call           go to state 20
+    atomic_expression  go to state 21
+
+
+State 130
+
+   32 call_statement: CALL identifier OPRPAR . expressions CLRPAR
+
+    OPPAR         shift, and go to state 15
+    NIL           shift, and go to state 16
+    BOOL_LITERAL  shift, and go to state 17
+
+    identifier         go to state 18
+    expressions        go to state 136
+    expression         go to state 78
+    fun_call           go to state 20
+    atomic_expression  go to state 21
+
+
+State 131
+
+   27 statement: OPPAR PRINT expression CLPAR .
+
+    $default  reduce using rule 27 (statement)
+
+
+State 132
+
+   31 if_statement: IF expression statement . statement
+
+    OPPAR   shift, and go to state 100
+    OPRPAR  shift, and go to state 101
+    NIL     shift, and go to state 102
+
+    statement  go to state 137
+
+
+State 133
+
+   29 statement: OPPAR WHILE expression statement . CLPAR
+
+    CLPAR  shift, and go to state 138
+
+
+State 134
+
+   25 statement: OPPAR ASSIGN identifier expression CLPAR .
+
+    $default  reduce using rule 25 (statement)
+
+
+State 135
+
+   33 call_statement: CALL IDENTIFIER OPRPAR expressions . CLRPAR
+
+    CLRPAR  shift, and go to state 139
+
+
+State 136
+
+   32 call_statement: CALL identifier OPRPAR expressions . CLRPAR
+
+    CLRPAR  shift, and go to state 140
+
+
+State 137
+
+   31 if_statement: IF expression statement statement .
+
+    $default  reduce using rule 31 (if_statement)
+
+
+State 138
+
+   29 statement: OPPAR WHILE expression statement CLPAR .
+
+    $default  reduce using rule 29 (statement)
+
+
+State 139
+
+   33 call_statement: CALL IDENTIFIER OPRPAR expressions CLRPAR .
+
+    $default  reduce using rule 33 (call_statement)
+
+
+State 140
+
+   32 call_statement: CALL identifier OPRPAR expressions CLRPAR .
+
+    $default  reduce using rule 32 (call_statement)

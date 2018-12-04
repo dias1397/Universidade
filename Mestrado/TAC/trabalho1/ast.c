@@ -179,6 +179,15 @@ statements new_statements(statement arg0, statements arg1)
 	return ret;
 }
 
+statement new_statement_empty()
+{
+	statement ret = (statement) malloc(sizeof(*ret));
+
+	ret->kind = EMPTY_;
+
+	return ret;
+}
+
 statement new_statement_assign(identifier arg0, expression arg1)
 {
 	statement ret = (statement) malloc(sizeof(*ret));

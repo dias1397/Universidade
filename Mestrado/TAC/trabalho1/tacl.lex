@@ -49,7 +49,7 @@
 
 "toreal"	printf("toreal ");return TOREAL;
 
-"nil"		printf("nill ");return NIL;
+"nil"		printf("nil ");return NIL;
 
 "("			printf("( ");return OPPAR;
 ")"			printf(") ");return CLPAR;

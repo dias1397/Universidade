@@ -6,6 +6,8 @@ int yylex(void);
 void yyerror(const char *);	// see below
 %}
 
+%error-verbose
+
 %union {
 	char   *string;
 	int    integer;
@@ -148,7 +150,7 @@ local_declaration :
 
 local_declarations :
 		local_declaration local_declarations								{$$ = new_local_declarations($1, $2);}
-	|	local_declaration													{$$ = new_local_declarations($1, NULL);}
+	|	/*empty*/															{$$ = new_local_declarations(NULL, NULL);}
 	;
 
 statements :
@@ -157,7 +159,7 @@ statements :
 	;
 
 statement :
-		NIL 																{}
+		NIL 																{$$ = new_statement_empty();}
 	|	OPPAR ASSIGN identifier expression CLPAR 							{$$ = new_statement_assign($3, $4);}
 	| 	OPPAR call_statement CLPAR 											{$$ = new_statement_call($2);}
 	| 	OPPAR PRINT expression CLPAR 										{$$ = new_statement_print($3);}
