@@ -141,7 +141,7 @@ void ir_statement(statement statement)
 	}
 	else if (statement->kind == WHILE_)
 	{
-		
+		ir_while(statement->u.while_.arg0, statement->u.while_.arg1);
 	}
 	else if (statement->kind == STMTS_)
 	{
@@ -209,17 +209,20 @@ void ir_call_stmt(call_statement call_statement)
 	int temp = ir_expressions(call_statement->arg2);
 
 	printf("\tcall @%s, [fp%d]\n", remove_quotes(call_statement->u.arg0), temp);
+	temp_fp++;
 } 
 
 
 void ir_if_stmt(if_statement if_statement)
 {
+	int label1 = labels++;
+	int label2 = labels++;
+
 	int temp = ir_expression(if_statement->arg0);
-	printf("\tcjump t%d, l%d, l%d\n", temp, labels, labels+1);
-	temp_t++;
-	printf("l%d:    ", labels++);
+	printf("\tcjump t%d, l%d, l%d\n", temp, label1, label2);
+	printf("l%d:    ", label1);
 	ir_statement(if_statement->arg1);
-	printf("l%d:    ", labels++);
+	printf("l%d:    ", label2);
 	ir_statement(if_statement->arg2);
 }
 
@@ -227,9 +230,23 @@ int ir_fun_call(fun_call fun_call)
 {
 	int temp = ir_expressions(fun_call->arg1);
 
-	temp_t++;
 	printf("\tt%d <- i_call @%s, [t%d]\n",temp_t, remove_quotes(fun_call->arg0), temp);
-	return temp_t;
+	return temp_t++;
+}
+
+void ir_while(expression expression, statement statement)
+{
+	int label1 = labels++;
+	int label2 = labels++;
+	int label3 = labels++;
+
+	printf("l%d:    ", label1);
+	int temp = ir_expression(expression);
+	printf("\tcjump t%d, l%d, l%d\n", temp, label2, label3);
+	printf("l%d:    ", label2);
+	ir_statement(statement);
+	printf("\tjump l%d\n", label1);
+	printf("l%d:    ", label3);
 }
 
 void ir_statements(statements statements)
@@ -257,10 +274,26 @@ int ir_expression(expression expression)
 {
 	if (expression->kind == BINOP)
 	{
-		int t1 = ir_expression(expression->u.binop.arg1);
-		int t2 = ir_expression(expression->u.binop.arg2);
-		
-		return ir_oper_2(expression->u.binop.arg0, expression->type, t1, t2);
+		if (expression->u.binop.arg0->op2 == OR_)
+		{
+			int label1 = labels++;
+			int label2 = labels++;
+
+			int t1 = ir_expression(expression->u.binop.arg1);
+			printf("\tcjump t%d, l%d, l%d\n", t1, label1, label2);
+			printf("l%d:    ", label2);
+			int t2 = ir_expression(expression->u.binop.arg2);
+			printf("l%d:    ", label1);
+
+			return t2;
+		}
+		else
+		{
+			int t1 = ir_expression(expression->u.binop.arg1);
+			int t2 = ir_expression(expression->u.binop.arg2);
+			
+			return ir_oper_2(expression->u.binop.arg0, expression->type, t1, t2);
+		}
 
 	} 
 	if (expression->kind == UNOP)
@@ -286,14 +319,14 @@ int ir_literal(literal literal, type type)
 	if (type->type == INT_)
 	{
 		tipo = 0;
-		printf("\tt%d <- i_value %d\n", temp_t, literal->u.int_.arg0);
-		return temp_t++;
+		printf("\tt%d <- i_value %d\n", temp_t++, literal->u.int_.arg0);
+		return temp_t-1;
 	}
 	else if (type->type == REAL_)
 	{
 		tipo = 1;
-		printf("\tfp%d <- r_value %.1f\n", temp_fp, literal->u.real_.arg1);
-		return temp_fp++;
+		printf("\tfp%d <- r_value %.1f\n", temp_fp++, literal->u.real_.arg1);
+		return temp_fp-1;
 	}
 
 	return -1;
@@ -312,8 +345,8 @@ int ir_atomic(atomic_expression atomic_expression, type type)
 	else
 	{
 		tipo = 0;
-		printf("\tt%d <- i_value %d\n", temp_t, atomic_expression->arg2);
-		return temp_t++;
+		printf("\tt%d <- i_value %d\n", temp_t++, atomic_expression->arg2);
+		return temp_t-1;
 	}
 	return -1;
 }
@@ -385,93 +418,93 @@ int ir_oper_2(operator_two operator_two, type type, int tx, int ty)
 		{
 			if (type->type == INT_)
 			{
-				printf("\tt%d <- i_add t%d, t%d\n", temp_t, tx, ty);
-				return temp_t;
+				printf("\tt%d <- i_add t%d, t%d\n", temp_t++, tx, ty);
+				return temp_t-1;
 			}
 			else if (type->type == REAL_)
 			{
-				printf("\tfp%d <- r_add fp%d, fp%d\n", temp_fp, tx, ty);
-				return temp_fp;
+				printf("\tfp%d <- r_add fp%d, fp%d\n", temp_fp++, tx, ty);
+				return temp_fp-1;
 			} 
 		}
 		case MINUS_:
 		{
 			if (type->type == INT_)
 			{
-				printf("\tt%d <- i_sub t%d, t%d\n", temp_t, tx, ty);
-				return temp_t;
+				printf("\tt%d <- i_sub t%d, t%d\n", temp_t++, tx, ty);
+				return temp_t-1;
 			}
 			else if (type->type == REAL_)
 			{
-				printf("\tfp%d <- r_sub fp%d, fp%d\n", temp_fp, tx, ty);
-				return temp_fp;
+				printf("\tfp%d <- r_sub fp%d, fp%d\n", temp_fp++, tx, ty);
+				return temp_fp-1;
 			} 
 		}
 		case TIMES_:
 		{
 			if (type->type == INT_)
 			{
-				printf("\tt%d <- i_mul t%d, t%d\n", temp_t, tx, ty);
-				return temp_t;
+				printf("\tt%d <- i_mul t%d, t%d\n", temp_t++, tx, ty);
+				return temp_t-1;
 			}
 			else if (type->type == REAL_)
 			{
-				printf("\tfp%d <- r_mul fp%d, fp%d\n", temp_fp, tx, ty);
-				return temp_fp;
+				printf("\tfp%d <- r_mul fp%d, fp%d\n", temp_fp++, tx, ty);
+				return temp_fp-1;
 			} 
 		}
 		case DIV_  :
 		{
 			if (type->type == INT_)
 			{
-				printf("\tt%d <- i_div t%d, t%d\n", temp_t, tx, ty);
-				return temp_t;
+				printf("\tt%d <- i_div t%d, t%d\n", temp_t++, tx, ty);
+				return temp_t-1;
 			}
 			else if (type->type == REAL_)
 			{
-				printf("\tfp%d <- r_div fp%d, fp%d\n", temp_fp, tx, ty);
-				return temp_fp;
+				printf("\tfp%d <- r_div fp%d, fp%d\n", temp_fp++, tx, ty);
+				return temp_fp-1;
 			} 
 			
 		}
 		case MOD_  :
 		{
-			printf("\tt%d <- mod t%d, t%d\n", temp_t, tx, ty);
-			return temp_t;
+			printf("\tt%d <- mod t%d, t%d\n", temp_t++, tx, ty);
+			return temp_t-1;
 		}
 		case EQ_   :
 		{
-			printf("\tt%d <- i_eq t%d, t%d\n", temp_t, tx, ty);
-			return temp_t;
+			printf("\tt%d <- i_eq t%d, t%d\n", temp_t++, tx, ty);
+			return temp_t-1;
 		}
 		case NE_   :
 		{
-			printf("\tt%d <- i_eq t%d, t%d\n", temp_t, tx, ty);
-			return temp_t;
+			printf("\tt%d <- i_eq t%d, t%d\n", temp_t++, tx, ty);
+			return temp_t-1;
 		}
 		case LT_   :
 		{
-			printf("\tt%d <- i_lt t%d, t%d\n", temp_t, tx, ty);
-			return temp_t;
+			printf("\tt%d <- i_lt t%d, t%d\n", temp_t++, tx, ty);
+			return temp_t-1;
 		}
 		case GT_   :
 		{
-			printf("\tt%d <- i_lt t%d, t%d\n", temp_t, ty, tx);
-			return temp_t;
+			printf("\tt%d <- i_lt t%d, t%d\n", temp_t++, ty, tx);
+			return temp_t-1;
 		}
 		case LE_   :
 		{
-			printf("\tt%d <- i_lt t%d, t%d\n", temp_t, ty, tx);
-			return temp_t;
+			printf("\tt%d <- i_lt t%d, t%d\n", temp_t++, ty, tx);
+			return temp_t-1;
 		}
 		case GE_   :
 		{
-			printf("\tt%d <- i_lt t%d, t%d\n", temp_t, tx, ty);
-			return temp_t;
+			printf("\tt%d <- i_lt t%d, t%d\n", temp_t++, tx, ty);
+			return temp_t-1;
 		}
 		default :
 		{
-			printf("ERRO\n");
+			printf("ERRO wuawwwwwwwwwwwwwwwwwww\n");
 			return -1;
 		}
 	}
@@ -488,20 +521,20 @@ int ir_oper_1(operator_one operator_one, type type, int tx)
 	{
 		case TOREAL_ :
 		{
-			printf("\tfp%d <- itor t%d\n", temp_fp, tx);
-			return temp_fp;	
+			printf("\tfp%d <- itor t%d\n", temp_fp++, tx);
+			return temp_fp-1;	
 		}
 		case INV_ 	:
 		{
 			if (type->type == INT_)
 			{
-				printf("\tt%d <- i_inv t%d\n", temp_t, tx);
-				return temp_t;	
+				printf("\tt%d <- i_inv t%d\n", temp_t++, tx);
+				return temp_t-1;	
 			}
 			else if (type->type == REAL_)
 			{
-				printf("\tfp%d <- r_inv fp%d\n", temp_fp, tx);
-				return temp_fp;	
+				printf("\tfp%d <- r_inv fp%d\n", temp_fp++, tx);
+				return temp_fp-1;	
 			}
 		}
 		case NOT_ 	:

@@ -230,7 +230,7 @@ struct body
 };
 
 struct local_declarations
-{
+{	
 	local_declaration arg0;
 	local_declarations arg1;
 };

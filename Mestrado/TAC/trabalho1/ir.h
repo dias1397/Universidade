@@ -16,6 +16,7 @@ void ir_statement(statement statement);
 void ir_assign(identifier identifier, expression expression);
 void ir_call_stmt(call_statement call_statement);
 void ir_if_stmt(if_statement if_statement);
+void ir_while(expression expression, statement statement);
 void ir_statements(statements statements);
 
 int ir_expressions(expressions expressions);
