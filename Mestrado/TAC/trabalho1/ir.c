@@ -7,8 +7,6 @@ int temp_t = 0;
 int temp_fp = 0;
 int labels = 0;
 
-int tipo = -1; // 0 -> int , 1 -> real
-
 void ir(global_declarations global_declarations)
 {
 	ir_global_decls(global_declarations);
@@ -37,7 +35,6 @@ void ir_global_decl(global_declaration global_declaration)
 
 void ir_fun_decl(function_declaration function_declaration)
 {
-	printf("\n\n");
 	printf("function  @%s\n", remove_quotes(function_declaration->arg0));
 
 	temp_t = 0;
@@ -60,16 +57,16 @@ void ir_fun_body(body body)
 
 		if (tipo == INT_)
 		{
-			printf("\ti_return t%d\n", t1);
+			printf("\ti_return t%d\n\n", t1);
 		}
 		if (tipo == REAL_)
 		{
-			printf("\tr_return fp%d\n", t1);
+			printf("\tr_return fp%d\n\n", t1);
 		}
 	}
 	else
 	{
-		printf("\treturn\n");
+		printf("\treturn\n\n");
 	}
 	
 }
@@ -122,15 +119,15 @@ void ir_statement(statement statement)
 	{
 		int temp = ir_expression(statement->u.print_.arg0);
 
-		if (tipo == 0)
+		if (statement->u.print_.arg0->type->type == INT_)
 		{
-			printf("\tt_print t%d\n", temp);
+			printf("\ti_print t%d\n", temp);
 		}
-		else if (tipo == 1)
+		else if (statement->u.print_.arg0->type->type == REAL_)
 		{
 			printf("\tr_print fp%d\n", temp);
 		}
-		else if (tipo == 2)
+		else if (statement->u.print_.arg0->type->type == BOOL_)
 		{
 			printf("\tb_print t%d\n", temp);
 		}	
@@ -157,46 +154,40 @@ void ir_assign(identifier identifier, expression expression)
 	{
 		case VAR_	:
 		{
-			if (expression->type->type == INT_)
+			if (expression->type->type == INT_ || expression->type->type == BOOL_)
 			{
 				printf("\t@%s <- i_gstore t%d\n", remove_quotes(identifier->arg0), temp);
-				temp_t=temp+1;;
 				break;
 			}
 			else if (expression->type->type == REAL_)
 			{
 				printf("\t@%s <- r_gstore fp%d\n", remove_quotes(identifier->arg0), temp);
-				temp_fp=temp+1;
 				break;
 			}
 		}
 		case LOCAL_ :
 		{
-			if (expression->type->type == INT_)
+			if (expression->type->type == INT_ || expression->type->type == BOOL_)
 			{
 				printf("\t@%s <- i_lstore t%d\n", remove_quotes(identifier->arg0), temp);
-				temp_t=temp+1;;
 				break;
 			}
 			else if (expression->type->type == REAL_)
 			{
 				printf("\t@%s <- r_lstore fp%d\n", remove_quotes(identifier->arg0), temp);
-				temp_fp=temp+1;
 				break;
 			}
 		}
 		case ARG_ 	:
 		{
-			if (expression->type->type == INT_)
+			if (expression->type->type == INT_ || expression->type->type == BOOL_)
 			{
 				printf("\t@%s <- i_astore t%d\n", remove_quotes(identifier->arg0), temp);
-				temp_t=temp+1;;
 				break;
 			}
 			else if (expression->type->type == REAL_)
 			{
 				printf("\t@%s <- r_astore fp%d\n", remove_quotes(identifier->arg0), temp);
-				temp_fp=temp+1;
 				break;
 			}
 		}
@@ -208,8 +199,18 @@ void ir_call_stmt(call_statement call_statement)
 {
 	int temp = ir_expressions(call_statement->arg2);
 
-	printf("\tcall @%s, [fp%d]\n", remove_quotes(call_statement->u.arg0), temp);
-	temp_fp++;
+	printf("TESTAR%s\n", call_statement->u.arg1->arg0);
+
+	if (call_statement->arg2->arg0->type->type == INT_)
+	{
+		printf("\tcall @%s, [t%d]\n", remove_quotes(call_statement->u.arg0), temp);
+		temp_t++;
+	}
+	else if (call_statement->arg2->arg0->type->type == REAL_)
+	{
+		printf("\tcall @%s, [fp%d]\n", remove_quotes(call_statement->u.arg0), temp);
+		temp_fp++;
+	}
 } 
 
 
@@ -217,13 +218,58 @@ void ir_if_stmt(if_statement if_statement)
 {
 	int label1 = labels++;
 	int label2 = labels++;
+	int label3 = labels++;
 
-	int temp = ir_expression(if_statement->arg0);
-	printf("\tcjump t%d, l%d, l%d\n", temp, label1, label2);
-	printf("l%d:    ", label1);
-	ir_statement(if_statement->arg1);
-	printf("l%d:    ", label2);
-	ir_statement(if_statement->arg2);
+	if (if_statement->arg0->u.binop.arg0->op2 == OR_)
+	{
+		int label4 = labels++;
+		int t1 = ir_expression(if_statement->arg0->u.binop.arg1);
+		printf("\tcjump t%d, l%d, l%d\n", t1, label1, label4);
+		printf("l%d: ", label4);
+		int t2 = ir_expression(if_statement->arg0->u.binop.arg2);
+		printf("\tcjump t%d, l%d, l%d\n", t2, label1, label2);
+		printf("l%d: ", label1);
+		ir_statement(if_statement->arg1);
+		printf("\tjump l%d\n", label3);
+		printf("l%d: ", label2);
+		ir_statement(if_statement->arg2);
+		printf("l%d: ", label3);
+	}
+	else if (if_statement->arg0->u.binop.arg0->op2 == OR_)
+	{
+		int label4 = labels++;
+		int t1 = ir_expression(if_statement->arg0->u.binop.arg1);
+		printf("\tcjump t%d, l%d, l%d\n", t1, label1, label3);
+		printf("l%d: ", label1);
+		int t2 = ir_expression(if_statement->arg0->u.binop.arg2);
+		printf("\tcjump t%d, l%d, l%d\n", t2, label2, label3);
+		printf("l%d: ", label2);
+		ir_statement(if_statement->arg1);
+		printf("\tjump l%d\n", label4);
+		printf("l%d: ", label3);
+		ir_statement(if_statement->arg2);
+		printf("l%d: ", label4);
+	}
+	else
+	{
+		int temp = ir_expression(if_statement->arg0);
+		printf("\tcjump t%d, l%d, l%d\n", temp, label1, label2);
+		printf("l%d: ", label1);
+		ir_statement(if_statement->arg1);
+		if (if_statement->arg2->kind == EMPTY_)
+		{
+			printf("l%d: ", label2);
+			ir_statement(if_statement->arg2);
+		}
+		else
+		{
+			printf("\tjump l%d\n", label3);
+			printf("l%d: ", label2);
+			ir_statement(if_statement->arg2);
+			printf("l%d: ", label3);
+		}
+	}
+
 }
 
 int ir_fun_call(fun_call fun_call)
@@ -240,13 +286,13 @@ void ir_while(expression expression, statement statement)
 	int label2 = labels++;
 	int label3 = labels++;
 
-	printf("l%d:    ", label1);
+	printf("l%d: ", label1);
 	int temp = ir_expression(expression);
 	printf("\tcjump t%d, l%d, l%d\n", temp, label2, label3);
-	printf("l%d:    ", label2);
+	printf("l%d: ", label2);
 	ir_statement(statement);
 	printf("\tjump l%d\n", label1);
-	printf("l%d:    ", label3);
+	printf("l%d: ", label3);
 }
 
 void ir_statements(statements statements)
@@ -281,11 +327,26 @@ int ir_expression(expression expression)
 
 			int t1 = ir_expression(expression->u.binop.arg1);
 			printf("\tcjump t%d, l%d, l%d\n", t1, label1, label2);
-			printf("l%d:    ", label2);
+			printf("l%d: ", label2);
 			int t2 = ir_expression(expression->u.binop.arg2);
-			printf("l%d:    ", label1);
+			printf("\tt%d <- i_copy t%d\n", t1, t2);
+			printf("l%d: ", label1);
 
-			return t2;
+			return t1;
+		}
+		else if (expression->u.binop.arg0->op2 == AND_)
+		{
+			int label1 = labels++;
+			int label2 = labels++;
+
+			int t1 = ir_expression(expression->u.binop.arg1);
+			printf("\tcjump t%d, l%d, l%d\n", t1, label1, label2);
+			printf("l%d: ", label1);
+			int t2 = ir_expression(expression->u.binop.arg2);
+			printf("\tt%d <- i_copy t%d\n", t1, t2);
+			printf("l%d: ", label2);
+
+			return t1;
 		}
 		else
 		{
@@ -318,13 +379,11 @@ int ir_literal(literal literal, type type)
 {
 	if (type->type == INT_)
 	{
-		tipo = 0;
 		printf("\tt%d <- i_value %d\n", temp_t++, literal->u.int_.arg0);
 		return temp_t-1;
 	}
 	else if (type->type == REAL_)
 	{
-		tipo = 1;
 		printf("\tfp%d <- r_value %.1f\n", temp_fp++, literal->u.real_.arg1);
 		return temp_fp-1;
 	}
@@ -344,7 +403,6 @@ int ir_atomic(atomic_expression atomic_expression, type type)
 	}
 	else
 	{
-		tipo = 0;
 		printf("\tt%d <- i_value %d\n", temp_t++, atomic_expression->arg2);
 		return temp_t-1;
 	}
@@ -354,16 +412,11 @@ int ir_atomic(atomic_expression atomic_expression, type type)
 
 int ir_identifier(identifier identifier, type type)
 {
-	if (type->type == INT_)
-		tipo = 0;
-	else if (type->type == REAL_)
-		tipo = 1;
-
 	switch (identifier->arg1->kind)
 	{
 		case VAR_ 	:
 		{
-			if (type->type == INT_)
+			if (type->type == INT_ || type->type == BOOL_)
 			{
 				printf("\tt%d <- i_gload @%s\n", temp_t, remove_quotes(identifier->arg0));
 				return temp_t++;
@@ -376,7 +429,7 @@ int ir_identifier(identifier identifier, type type)
 		}
 		case LOCAL_ :
 		{
-			if (type->type == INT_)
+			if (type->type == INT_ || type->type == BOOL_)
 			{
 				printf("\tt%d <- i_lload @%s\n", temp_t, remove_quotes(identifier->arg0));
 				return temp_t++;
@@ -389,7 +442,7 @@ int ir_identifier(identifier identifier, type type)
 		}
 		case ARG_ 	:
 		{
-			if (type->type == INT_)
+			if (type->type == INT_ || type->type == BOOL_)
 			{
 				printf("\tt%d <- i_aload @%s\n", temp_t, remove_quotes(identifier->arg0));
 				return temp_t++;
@@ -407,11 +460,6 @@ int ir_identifier(identifier identifier, type type)
 
 int ir_oper_2(operator_two operator_two, type type, int tx, int ty)
 {
-	if (type->type == INT_)
-		tipo = 0;
-	else if (type->type == REAL_)
-		tipo = 1;
-
 	switch (operator_two->op2)
 	{
 		case PLUS_ :
@@ -504,7 +552,7 @@ int ir_oper_2(operator_two operator_two, type type, int tx, int ty)
 		}
 		default :
 		{
-			printf("ERRO wuawwwwwwwwwwwwwwwwwww\n");
+			printf("ERRO\n");
 			return -1;
 		}
 	}
@@ -512,11 +560,6 @@ int ir_oper_2(operator_two operator_two, type type, int tx, int ty)
 
 int ir_oper_1(operator_one operator_one, type type, int tx)
 {
-	if (type->type == INT_)
-		tipo = 0;
-	else if (type->type == REAL_)
-		tipo = 1;
-
 	switch (operator_one->op1)
 	{
 		case TOREAL_ :

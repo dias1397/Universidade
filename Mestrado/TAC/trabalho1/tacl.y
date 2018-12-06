@@ -99,7 +99,7 @@ program :
 
 global_declarations : 
 		global_declaration global_declarations								{$$ = new_global_declarations($1, $2);}
-	|	/*empty*/															{}
+	|	global_declaration													{$$ = new_global_declarations($1, NULL);}
 	;
 
 global_declaration :
