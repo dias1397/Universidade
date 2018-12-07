@@ -42,7 +42,17 @@ run-6 : tacl
 
 run-7 : tacl
 	@echo '[procedure.ast]'
-	@./tacl < examples/procedure.ast > procedure.ir
+	@./tacl < examples/procedure.ast > examples/procedure.ir
+
+run-all : tacl
+	@echo '[all-examples]'
+	@./tacl < examples/twice.ast > examples/twice.ir
+	@./tacl < examples/triangular.ast > examples/triangular.ir
+	@./tacl < examples/g.ast > examples/g.ir
+	@./tacl < examples/factorial.ast > examples/factorial.ir
+	@./tacl < examples/fig-9.ast > examples/fig-9.ir
+	@./tacl < examples/fibonacci-v2.ast > examples/fibonacci-v2.ir
+	@./tacl < examples/procedure.ast > examples/procedure.ir
 
 clean :
 	@$(RM) tacl
