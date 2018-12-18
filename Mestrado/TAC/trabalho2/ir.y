@@ -110,7 +110,7 @@ functions:
 	;
 
 ir_function:
-		IR_FUN AT IDENTIFIER COLON instructions
+		IR_FUN AT IDENTIFIER instructions
 	;
 
 instructions:
@@ -137,6 +137,8 @@ instruction:
 
 	|	I_PRINT TEMPORARIE
 	|	B_PRINT TEMPORARIE
+
+	| 	LABEL COLON instruction
 	;
 
 operation:
