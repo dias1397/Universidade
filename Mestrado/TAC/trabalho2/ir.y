@@ -13,6 +13,30 @@
 	char 	*label;
 	char 	*string;
 	int 	integer;
+
+	struct preamble *preamble;
+
+	struct global_symbol *global_symbol;
+	struct variable_declaration *variable_declaration;
+	struct function_declaration *function_declaration;
+	struct formal_args *formal_args;
+	struct formal_arg *formal_arg;
+	struct local_vars *local_vars;
+	struct local_var *local_var;
+	struct literal *literal;
+	struct type *type;
+
+	struct functions *functions;
+
+	struct ir_function *ir_function;
+	struct instructions *instructions;
+	struct instruction *instruction;
+	struct operation *operation;
+	struct load *load;
+	struct store *store;
+	struct arg *arg;
+	struct args *args;
+	struct more_args *more_args;
 }
 
 %token VAR FUN
@@ -50,6 +74,27 @@
 
 %nonassoc NOT I_INV ITOR
 
+%type <preamble> preamble
+%type <global_symbol> global_symbol
+%type <variable_declaration> variable_declaration
+%type <function_declaration> function_declaration
+%type <formal_args> formal_args
+%type <formal_arg> formal_arg
+%type <local_vars> local_vars
+%type <local_var> local_var
+%type <literal> literal
+%type <type> type
+%type <functions> functions
+%type <ir_function> ir_function
+%type <instructions> instructions
+%type <instruction> instruction
+%type <operation> operation
+%type <load> load
+%type <store> store
+%type <arg> arg
+%type <args> args
+%type <more_args> more_args
+
 %%
 
 program: 
@@ -57,46 +102,46 @@ program:
 	;
 
 preamble: 	
-		global_symbol preamble
-	| 	global_symbol
+		global_symbol preamble 									{$$ = new_preamble($1, $2);}
+	| 	global_symbol 											{$$ = new_preamble($1, NULL);}
 	;
 
 global_symbol: 	
-		variable_declaration
-	| 	function_declaration
+		variable_declaration 									{$$ = new_global_symbol($1, NULL):}
+	| 	function_declaration 									{$$ = new_global_symbol(NULL, $1):}
 	;
 
 variable_declaration:
-		OPPAR ID AT IDENTIFIER VAR type CLPAR
-	| 	OPPAR ID AT IDENTIFIER VAR type literal CLPAR
+		OPPAR ID AT IDENTIFIER VAR type CLPAR 					{$$ = new_variable_declaration($4, $6, NULL):}
+	| 	OPPAR ID AT IDENTIFIER VAR type literal CLPAR 			{$$ = new_variable_declaration($4, $6, $7):}
 	;
 
 function_declaration:
-		OPPAR ID AT IDENTIFIER FUN type OPRPAR formal_args CLRPAR OPRPAR local_vars CLRPAR CLPAR
+		OPPAR ID AT IDENTIFIER FUN type OPRPAR formal_args CLRPAR OPRPAR local_vars CLRPAR CLPAR  {$$ = new_function_declaration($4, $6, $8, $11):}
 	;
 
 formal_args:
-		formal_arg formal_args
-	|	/*empty*/
+		formal_arg formal_args 									{$$ = new_formal_args($1, $2):}
+	|	/*empty*/ 												{}
 	;	
 
 formal_arg:
-		OPPAR type AT IDENTIFIER CLPAR
+		OPPAR type AT IDENTIFIER CLPAR 							{$$ = new_formal_arg($2, $4):}
 	;
 
 local_vars:
-		local_var local_vars
+		local_var local_vars 									{$$ = new_local_vars($1, $2):}
 	|	/*empty*/
 	;
 
 local_var:
-		OPPAR type AT IDENTIFIER CLPAR
+		OPPAR type AT IDENTIFIER CLPAR 							{$$ = new_local_var($2, $4):}
 	;
 
 type:
-		INT
-	|	BOOL
-	| 	VOID
+		INT 													{$$ = new_type(int_):}
+	|	BOOL 													{$$ = new_type(bool_):}
+	| 	VOID 													{$$ = new_type(void_):}
 	;
 
 literal:
@@ -134,6 +179,7 @@ instruction:
 
 	|	I_RETURN TEMPORARIE
 	|	RETURN TEMPORARIE
+	|	RETURN
 
 	|	I_PRINT TEMPORARIE
 	|	B_PRINT TEMPORARIE
