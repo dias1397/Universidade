@@ -28,8 +28,8 @@ typedef struct args *args;
 typedef struct more_args *more_args;
 
 typedef enum type_ {int_, bool_, void_} type_;
-typedef enum load_ {global_, local_, arg_} load_;
-typedef enum store_ {global_, local_, arg_} store;
+typedef enum load_ {gload_, lload_, aload_} load_type_;
+typedef enum store_ {gstore_, lstore_, astore_} store_type_;
 typedef enum operation_ {
 	i_add, i_sub, i_mul, i_div,
 	i_inv, mod, i_eq, i_lt, i_ne, 
@@ -125,7 +125,7 @@ struct type
 
 struct literal
 {
-	enum {int_, bool_} kind;
+	enum {intlit_, boollit_} kind;
 
 	union
 	{
@@ -137,8 +137,20 @@ struct literal
 
 struct functions
 {
-	ir_function ir_function;
-	functions 	functions;
+	enum {single_fun, multi_fun} kind;
+
+	union
+	{
+		struct
+		{
+			ir_function ir_function;
+		}single;
+		struct
+		{
+			ir_function ir_function;
+			functions 	functions;
+		}multi;
+	}u;
 };
 
 struct ir_function
@@ -149,8 +161,20 @@ struct ir_function
 
 struct instructions
 {
-	instruction  instruction;
-	instructions instructions;
+	enum {single_inst, multi_inst} kind;
+
+	union
+	{
+		struct
+		{
+			instruction  instruction;
+		}single;
+		struct
+		{
+			instruction  instruction;
+			instructions instructions;
+		}multi;
+	}u;
 };
 
 struct instruction
@@ -212,7 +236,7 @@ struct instruction
 		}call;
 		struct
 		{
-			enum {iret_, ret_, void_} ret_type;
+			enum {iret_, ret_, voidret_} ret_type;
 
 			char *temporarie1;
 		}ret;
@@ -222,6 +246,7 @@ struct instruction
 		}print;
 		struct 
 		{
+			char *label1;
 			instruction instruction;
 		}label;
 	}u;
@@ -234,27 +259,63 @@ struct operation
 
 struct load
 {
-	load_ kind;
+	load_type_ kind;
 };
 
 struct store
 {
-	store_ kind;
+	store_type_ kind;
 };
 
 struct arg
 {
 	char *temporarie1;
-}
+};
 
 struct args
 {
 	arg arg;
 	more_args more_args;
-}
+};
 
 struct more_args
 {
 	arg arg;
 	more_args more_args;
-}
+};
+
+preamble new_preamble(global_symbol arg0, preamble arg1);
+
+global_symbol new_global_symbol(variable_declaration arg0, function_declaration arg1);
+variable_declaration new_variable_declaration(char *arg0, type arg1, literal arg2);
+function_declaration new_function_declaration(char *arg0, type arg1, formal_args arg2, local_vars arg3);
+formal_args new_formal_args(formal_arg arg0, formal_args arg1);
+formal_arg new_formal_arg(type arg0, char *arg1);
+local_vars new_local_vars(local_var arg0, local_vars arg1);
+local_var new_local_var(type arg0, char *arg1);
+type new_type(type_ arg0);
+literal new_int_literal(int arg0);
+literal new_bool_literal(int arg0);
+
+functions new_functions(ir_function arg0, functions arg1);
+
+ir_function new_ir_function(char *arg0, instructions arg1);
+instructions new_instructions(instruction arg0, instructions arg1);
+instruction new_binop_instruction(char *arg0, operation arg1, char *arg2, char *arg3);
+instruction new_unop_instruction(char *arg0, operation arg1, char *arg2);
+instruction new_value_instruction(char *arg0, literal arg1);
+instruction new_load_instruction(char *arg0, load arg1, char *arg2);
+instruction new_store_instruction(char *arg0, store arg1, char *arg2);
+instruction new_jump_instruction(char *arg0);
+instruction new_cjump_instruction(char *arg0, char *arg1, char *arg2);
+instruction new_icall_instruction(char *arg0, char *arg1, args arg2);
+instruction new_call_instruction(char *arg0, args arg1);
+instruction new_return_instruction(int type, char *arg0);
+instruction new_print_instruction(char *arg0);
+instruction new_label_instruction(char *arg0, instruction arg1);
+operation new_operation(operation_ arg0);
+load new_load(load_type_ arg0);
+store new_store(store_type_ arg0);
+arg new_arg(char *arg0);
+args new_args(arg arg0, more_args arg1);
+more_args new_more_args(arg arg0, more_args arg1);

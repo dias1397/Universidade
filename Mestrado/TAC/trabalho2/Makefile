@@ -3,7 +3,7 @@ YACC = bison -d
 LEX = flex
 
 
-ir : ir.tab.c lex.yy.c tree.c
+ir : ir.tab.c lex.yy.c tree.c mips.c
 	$(CC) $^ -o $@ -lfl
 
 ir.tab.c : ir.y
