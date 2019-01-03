@@ -9,3 +9,7 @@ void mips_variable_decl(variable_declaration variable_declaration);
 void mips_function_decl(function_declaration function_declaration);
 
 void mips_functions(functions functions);
+
+void mips_function(ir_function ir_function);
+void mips_instructions(instructions instructions);
+void mips_instruction(instruction instruction);
