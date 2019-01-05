@@ -1,0 +1,15 @@
+S -> SN SV
+S -> SV
+
+SN -> pronome
+SN -> determinante N
+
+N -> nome
+N -> adjetivo nome
+N -> nome adjetivo
+
+SV -> verb
+SV -> verb SN
+SV -> verb SP
+
+SP -> proposicao SN
