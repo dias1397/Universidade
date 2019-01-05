@@ -1426,7 +1426,7 @@ yyreduce:
 
   case 11:
 #line 126 "ir.y" /* yacc.c:1646  */
-    {}
+    {(yyval.formal_args) = no_formal_args();}
 #line 1431 "ir.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1444,7 +1444,7 @@ yyreduce:
 
   case 14:
 #line 135 "ir.y" /* yacc.c:1646  */
-    {}
+    {(yyval.local_vars) = no_local_vars();}
 #line 1449 "ir.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1726,7 +1726,7 @@ yyreduce:
 
   case 61:
 #line 224 "ir.y" /* yacc.c:1646  */
-    {}
+    {(yyval.args) = no_args();}
 #line 1731 "ir.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1738,7 +1738,7 @@ yyreduce:
 
   case 63:
 #line 229 "ir.y" /* yacc.c:1646  */
-    {}
+    {(yyval.more_args) = no_more_args();}
 #line 1743 "ir.tab.c" /* yacc.c:1646  */
     break;
 

@@ -74,8 +74,19 @@ formal_args new_formal_args(formal_arg arg0, formal_args arg1)
 {
 	formal_args ret = (formal_args) malloc(sizeof(*ret));
 
+	ret->kind = full_fa;
+
 	ret->formal_arg = arg0;
 	ret->formal_args = arg1;
+
+	return ret;
+}
+
+formal_args no_formal_args()
+{
+	formal_args ret = (formal_args) malloc(sizeof(*ret));
+
+	ret->kind = empty_fa;
 
 	return ret;
 }
@@ -94,8 +105,19 @@ local_vars new_local_vars(local_var arg0, local_vars arg1)
 {
 	local_vars ret = (local_vars) malloc(sizeof(*ret));
 
+	ret->kind = full_lv;
+
 	ret->local_var = arg0;
 	ret->local_vars = arg1;
+
+	return ret;
+}
+
+local_vars no_local_vars()
+{
+	local_vars ret = (local_vars) malloc(sizeof(*ret));
+
+	ret->kind = empty_lv;
 
 	return ret;
 }
@@ -378,8 +400,19 @@ args new_args(arg arg0, more_args arg1)
 {
 	args ret = (args) malloc(sizeof(*ret));
 
+	ret->kind = full_args;
+
 	ret->arg = arg0;
 	ret->more_args = arg1;
+
+	return ret;
+}
+
+args no_args()
+{
+	args ret = (args) malloc(sizeof(*ret));
+
+	ret->kind = empty_args;
 
 	return ret;
 }
@@ -388,8 +421,19 @@ more_args new_more_args(arg arg0, more_args arg1)
 {
 	more_args ret = (more_args) malloc(sizeof(*ret));
 
+	ret->kind = full_margs;
+
 	ret->arg = arg0;
 	ret->more_args = arg1;
+
+	return ret;
+}
+
+more_args no_more_args()
+{
+	more_args ret = (more_args) malloc(sizeof(*ret));
+
+	ret->kind = empty_margs;
 
 	return ret;
 }

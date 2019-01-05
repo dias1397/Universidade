@@ -96,6 +96,8 @@ struct function_declaration
 
 struct formal_args 
 {
+	enum {empty_fa, full_fa} kind;
+
 	formal_arg 	formal_arg;
 	formal_args	formal_args;
 };
@@ -108,6 +110,8 @@ struct formal_arg
 
 struct local_vars
 {
+	enum {empty_lv, full_lv} kind;
+
 	local_var  local_var;
 	local_vars local_vars;
 };
@@ -274,12 +278,16 @@ struct arg
 
 struct args
 {
+	enum {empty_args, full_args} kind;
+
 	arg arg;
 	more_args more_args;
 };
 
 struct more_args
 {
+	enum {empty_margs, full_margs} kind;
+
 	arg arg;
 	more_args more_args;
 };
@@ -290,8 +298,10 @@ global_symbol new_global_symbol(variable_declaration arg0, function_declaration 
 variable_declaration new_variable_declaration(char *arg0, type arg1, literal arg2);
 function_declaration new_function_declaration(char *arg0, type arg1, formal_args arg2, local_vars arg3);
 formal_args new_formal_args(formal_arg arg0, formal_args arg1);
+formal_args no_formal_args();
 formal_arg new_formal_arg(type arg0, char *arg1);
 local_vars new_local_vars(local_var arg0, local_vars arg1);
+local_vars no_local_vars();
 local_var new_local_var(type arg0, char *arg1);
 type new_type(type_ arg0);
 literal new_int_literal(int arg0);
@@ -318,4 +328,6 @@ load new_load(load_type_ arg0);
 store new_store(store_type_ arg0);
 arg new_arg(char *arg0);
 args new_args(arg arg0, more_args arg1);
+args no_args();
 more_args new_more_args(arg arg0, more_args arg1);
+more_args no_more_args();

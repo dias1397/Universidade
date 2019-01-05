@@ -123,7 +123,7 @@ function_declaration:
 
 formal_args:
 		formal_arg formal_args 									{$$ = new_formal_args($1, $2);}
-	|	/*empty*/ 												{}
+	|	/*empty*/ 												{$$ = no_formal_args();}
 	;	
 
 formal_arg:
@@ -132,7 +132,7 @@ formal_arg:
 
 local_vars:
 		local_var local_vars 									{$$ = new_local_vars($1, $2);}
-	|	/*empty*/ 												{}
+	|	/*empty*/ 												{$$ = no_local_vars();}
 	;
 
 local_var:
@@ -221,12 +221,12 @@ arg:
 
 args:
 		arg more_args 											{$$ = new_args($1, $2);}
-	|	/*empty*/ 												{}
+	|	/*empty*/ 												{$$ = no_args();}
 	;
 
 more_args:
 		COMMA arg more_args 									{$$ = new_more_args($2, $3);}
-	|	/*empty*/ 												{}
+	|	/*empty*/ 												{$$ = no_more_args();}
 	;
 
 %%
