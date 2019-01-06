@@ -339,11 +339,13 @@ instruction new_return_instruction(int type, char *arg0)
 	return ret;
 }
 
-instruction new_print_instruction(char *arg0)
+instruction new_print_instruction(int type, char *arg0)
 {
 	instruction ret = (instruction) malloc(sizeof(*ret));
 
 	ret->kind = print_;
+
+	ret->u.print.kind = type;
 	ret->u.print.temporarie1 = arg0;
 	
 	return ret;

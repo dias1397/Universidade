@@ -94,8 +94,6 @@ function new_function(formal_args f_args, local_vars l_vars)
 
 void mips(preamble preamble, functions functions)
 {
-	printf("\n::MIPS start::\n");
-
 	if (preamble != NULL)
 	{
 		if (preamble->kind == single)
@@ -119,7 +117,6 @@ void mips(preamble preamble, functions functions)
 	{
 		mips_functions(functions);
 	}
-	printf("\n::MIPS end::\n");
 }
 
 void mips_preamble(preamble preamble)
@@ -199,7 +196,7 @@ void mips_functions(functions functions)
 {
 	//printf("::Functions start::\n");
 
-	printf("\n\t.text\n");
+	printf("\t.text\n");
 
 	if (functions->kind == single_fun)
 	{
@@ -216,7 +213,7 @@ void mips_functions(functions functions)
 
 void mips_function(ir_function ir_function)
 {
-	printf("%s:\n", ir_function->identifier);
+	printf("%s:", ir_function->identifier);
 
 	current = get_function(stack_frame, stack_frame->current-1);
 	stack_frame->current--;
@@ -304,7 +301,7 @@ void mips_instruction(instruction instruction)
 		}
 		else if (temp->kind == i_le)
 		{
-			printf("\tslt\t %s, %s, %s\n", temp1, temp2, temp3);
+			printf("\tslt\t %s, %s, %s\n", temp1, temp3, temp2);
 			printf("\txori\t %s, %s, 1\n", temp1, temp1);
 		}
 	}
@@ -333,7 +330,17 @@ void mips_instruction(instruction instruction)
 		literal temp = instruction->u.value.literal;
 		if (temp->kind == intlit_)
 		{
-			printf("\tori\t %s, $0, %d\n", instruction->u.value.temporarie1, temp->u.int_literal);
+			int res = temp->u.int_literal / (65536);
+			if (res > 0)
+			{
+				printf("\tlui\t%s, %d\n", instruction->u.value.temporarie1, res);
+				res = temp->u.int_literal - (res * 65536);
+				printf("\tori\t %s, %s, %d\n", instruction->u.value.temporarie1, instruction->u.value.temporarie1, res);
+			}
+			else
+			{
+				printf("\tori\t %s, $0, %d\n", instruction->u.value.temporarie1, temp->u.int_literal);
+			}
 		}
 		else if (temp->kind == boollit_)
 		{
@@ -349,7 +356,8 @@ void mips_instruction(instruction instruction)
 
 		if (temp->kind == gload_)
 		{
-			
+			printf("\tla\t%s, %s\n", temp1, identifier);
+			printf("\tlw\t%s, 0(%s)\n", temp1, temp1);
 		}
 		else if (temp->kind == lload_)
 		{
@@ -377,7 +385,8 @@ void mips_instruction(instruction instruction)
 
 		if (temp->kind == gstore_)
 		{
-			
+			printf("\tla\t$at, %s\n", identifier);
+			printf("\tsw\t%s, 0($at)\n", temp1);
 		}
 		else if (temp->kind == lstore_)
 		{
@@ -398,7 +407,7 @@ void mips_instruction(instruction instruction)
 	}
 	else if (instruction->kind == jump_)
 	{
-		printf("\tj\tl$%s\n", instruction->u.jump.label);
+		printf("\tj\t%s\n", change_label(instruction->u.jump.label));
 	}
 	else if (instruction->kind == cjump_)
 	{
@@ -406,8 +415,8 @@ void mips_instruction(instruction instruction)
 		char *label1 = instruction->u.cjump.label1;
 		char *label2 = instruction->u.cjump.label2;
 
-		printf("\tbeq\t%s, $0, %s\n", temp1, label2);
-		printf("\tj\t%s\n", label1);
+		printf("\tbeq\t%s, $0, %s\n", temp1, change_label(label2));
+		printf("\tj\t%s\n", change_label(label1));
 	}
 	else if (instruction->kind == icall_)
 	{
@@ -433,11 +442,19 @@ void mips_instruction(instruction instruction)
 	}
 	else if (instruction->kind == print_)
 	{
-		printf("\ti_print$ %s\n", instruction->u.print.temporarie1);
+		if (instruction->u.print.kind == i)
+		{
+			printf("\ti_print$ %s\n", instruction->u.print.temporarie1);
+		}
+		else
+		{
+			printf("\tb_print$ %s\n", instruction->u.print.temporarie1);
+		}
+		
 	}
 	else if (instruction->kind == label_)
 	{
-		printf("%s:", instruction->u.label.label1);
+		printf("%s:", change_label(instruction->u.label.label1));
 
 		mips_instruction(instruction->u.label.instruction);
 	}
@@ -449,17 +466,18 @@ void mips_instruction(instruction instruction)
 
 void mips_args(args args)
 {
+
 	if (args->kind == full_args)
 	{
 		mips_arg(args->arg);
-	}
 
-	more_args m_args = args->more_args;
+		more_args m_args = args->more_args;
 
-	while(m_args->kind != empty_margs)
-	{
-		mips_arg(m_args->arg);
-		m_args = m_args->more_args;
+		while(m_args->kind != empty_margs)
+		{
+			mips_arg(m_args->arg);
+			m_args = m_args->more_args;
+		}
 	}
 }
 
@@ -467,4 +485,21 @@ void mips_arg(arg arg)
 {
 	printf("\taddiu\t $sp, $sp, -4\n");
 	printf("\tsw\t%s, 0($sp)\n", arg->temporarie1);
+}
+
+char *change_label(char *src)
+{
+	int length = strlen(src);
+	char *dest = malloc(sizeof(char) * (length+1));
+
+
+	memset(dest, '\0', sizeof(*dest));
+
+	memcpy(dest, src, 1);
+
+	strcat(dest, src);
+
+	dest[1] = '$';
+
+	return dest;
 }

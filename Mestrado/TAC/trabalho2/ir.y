@@ -180,9 +180,10 @@ instruction:
 
 	|	I_RETURN TEMPORARIE 									{$$ = new_return_instruction(0, $2);}
 	|	RETURN TEMPORARIE 										{$$ = new_return_instruction(1, $2);}
+	| 	RETURN 													{$$ = new_return_instruction(2, NULL);}
 
-	|	I_PRINT TEMPORARIE 										{$$ = new_print_instruction($2);}
-	|	B_PRINT TEMPORARIE 										{$$ = new_print_instruction($2);}
+	|	I_PRINT TEMPORARIE 										{$$ = new_print_instruction(0, $2);}
+	|	B_PRINT TEMPORARIE 										{$$ = new_print_instruction(1, $2);}
 
 	| 	LABEL COLON instruction 								{$$ = new_label_instruction($1, $3);}
 	;

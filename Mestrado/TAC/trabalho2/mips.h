@@ -46,3 +46,5 @@ void mips_instructions(instructions instructions);
 void mips_instruction(instruction instruction);
 void mips_args(args args);
 void mips_arg(arg arg);
+
+char *change_label(char *src);

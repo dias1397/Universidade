@@ -246,6 +246,7 @@ struct instruction
 		}ret;
 		struct 
 		{
+			enum {i, b} kind;
 			char *temporarie1;
 		}print;
 		struct 
@@ -321,7 +322,7 @@ instruction new_cjump_instruction(char *arg0, char *arg1, char *arg2);
 instruction new_icall_instruction(char *arg0, char *arg1, args arg2);
 instruction new_call_instruction(char *arg0, args arg1);
 instruction new_return_instruction(int type, char *arg0);
-instruction new_print_instruction(char *arg0);
+instruction new_print_instruction(int type, char *arg0);
 instruction new_label_instruction(char *arg0, instruction arg1);
 operation new_operation(operation_ arg0);
 load new_load(load_type_ arg0);
