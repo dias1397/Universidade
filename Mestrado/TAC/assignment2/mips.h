@@ -1,8 +1,8 @@
 #include "tree.h"
 #define N 10
  
-typedef struct function *function;
 typedef struct list *list;
+typedef struct function *function;
 
 struct function 
 {

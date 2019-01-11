@@ -121,8 +121,6 @@ void mips(preamble preamble, functions functions)
 
 void mips_preamble(preamble preamble)
 {
-	//printf("::Preamble start::\n");
-
 	if (preamble->kind == single)
 	{
 		mips_global_symbol(preamble->u.single.global_symbol);
@@ -132,13 +130,10 @@ void mips_preamble(preamble preamble)
 		mips_global_symbol(preamble->u.multi.global_symbol);
 		mips_preamble(preamble->u.multi.preamble);
 	}
-
-	//printf("::Preamble end::\n");
 }
 
 void mips_global_symbol(global_symbol global_symbol)
 {
-	//printf("::Global Symbol start::\n");
 	if (global_symbol->kind == var)
 	{
 		mips_variable_decl(global_symbol->u.variable_declaration);
@@ -147,13 +142,10 @@ void mips_global_symbol(global_symbol global_symbol)
 	{
 		mips_function_decl(global_symbol->u.function_declaration);
 	}
-	//printf("::Global Symbol end::\n");
 }
 
 void mips_variable_decl(variable_declaration variable_declaration)
 {
-	//printf("::Variable Declaration start::\n");
-
 	printf("%s:\t", variable_declaration->identifier);
 
 	if (variable_declaration->kind == empty)
@@ -172,14 +164,10 @@ void mips_variable_decl(variable_declaration variable_declaration)
 			printf(".word %d\n", temp->u.bool_literal);
 		}
 	}
-
-	//printf("::Variable Declaration end::\n");
 }
 
 void mips_function_decl(function_declaration function_declaration)
 {
-	//printf("::Function Declaration start::\n");
-
 	if (stack_frame == NULL)
 	{
 		stack_frame = new_list();
@@ -187,15 +175,11 @@ void mips_function_decl(function_declaration function_declaration)
 
 	function fun = new_function(function_declaration->formal_args, function_declaration->local_vars);
 	insert(stack_frame, fun);
-
-	//printf("::Function Declaration end::\n");
 }
 
 
 void mips_functions(functions functions)
 {
-	//printf("::Functions start::\n");
-
 	printf("\t.text\n");
 
 	if (functions->kind == single_fun)
@@ -207,8 +191,6 @@ void mips_functions(functions functions)
 		mips_function(functions->u.multi.ir_function);
 		mips_functions(functions->u.multi.functions);
 	}
-
-	//printf("::Functions end::\n");
 }
 
 void mips_function(ir_function ir_function)
@@ -228,7 +210,7 @@ void mips_prologue()
 	printf("\tsw\t $fp, -4($sp)\n");
 	printf("\taddiu\t $fp, $sp, -4\n");
 	printf("\tsw\t $ra, -4($fp)\n");
-	printf("\taddiu\t $sp, $fp, -%d\n", ((current->nr_args)+(current->nr_vars))*4);
+	printf("\taddiu\t $sp, $fp, -%d\n", ((current->nr_vars))*4+4);
 }
 
 void mips_epilogue()
