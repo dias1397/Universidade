@@ -20,7 +20,7 @@ CREATE OR REPLACE FUNCTION check_author_name()
 	RETURNS trigger AS $BODY$
 	BEGIN
 		IF NEW.nome = NEW.apelido THEN
-			RAISE EXCEPTION '% and % cannot be the same', NEW.nome, NEW.apelido;
+			RAISE EXCEPTION 'First name (%) and last name (%) cannot be the same', NEW.nome, NEW.apelido;
 		END IF;
 
 		RETURN NEW;
