@@ -124,3 +124,34 @@ BEGIN
 END;
 $$
 LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION getTitles()
+RETURNS TABLE (book_title text)
+AS $$
+BEGIN
+	RETURN QUERY SELECT titulo
+					FROM livros;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION addBookTag(
+	IN isbn NUMERIC,
+	IN tag VARCHAR(50))
+RETURNS VOID
+AS $$
+DECLARE 
+	counter integer := 0;
+BEGIN
+	SELECT count(*) INTO counter 
+		FROM identificadores
+		WHERE etiqueta = tag;
+
+	IF counter = 0 THEN
+		INSERT INTO identificadores VALUES(tag);
+	END IF;
+
+	INSERT INTO livros_etiquetas VALUES(isbn, tag);
+END;
+$$
+LANGUAGE plpgsql;

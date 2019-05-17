@@ -4,9 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
-import javafx.scene.control.skin.TextFieldSkin;
 import javafx.scene.text.Text;
-import org.controlsfx.control.textfield.TextFields;
 
 import java.math.BigDecimal;
 import java.sql.CallableStatement;
@@ -32,9 +30,12 @@ public class BookInsertController {
     @FXML Text livro;
     @FXML Text autor;
 
+    public void setConnection(Connection con) {
+        this.connection = con;
+    }
+
     @FXML
     public void newRecord(ActionEvent event) {
-        TextFields.bindAutoCompletion();
         CallableStatement callableStatement;
 
         livro.setText("Livro: ");
@@ -63,13 +64,6 @@ public class BookInsertController {
                 insertCounter++;
                 livro.setText("Livro: " + titulo.getText() + " foi adicionado a base de dados");
 
-                isbn.setText("");
-                titulo.setText("");
-                edicao.setText("");
-                idioma.setText("");
-                lancamento.setValue(null);
-                aquisicao.setValue(null);
-
             }catch (SQLException e){
                 livro.setText("Livro: " + e.getMessage().substring(0, e.getMessage().indexOf('.')));
             }
@@ -91,10 +85,6 @@ public class BookInsertController {
                 insertCounter++;
                 autor.setText("Autor: " + nome.getText() + " " + apelido.getText() + " foi adicionado a base de dados");
 
-                nome.setText("");
-                apelido.setText("");
-                sexo.setText("");
-                nascimento.setValue(null);
             }catch (SQLException e){
                 autor.setText("Autor: " + e.getMessage().substring(0, e.getMessage().indexOf('.')));
             }
@@ -115,9 +105,17 @@ public class BookInsertController {
                 System.out.println("EXCEPTION: " + e.getMessage());
             }
         }
-    }
 
-    public void setConnection(Connection con) {
-        this.connection = con;
+        isbn.setText("");
+        titulo.setText("");
+        edicao.setText("");
+        idioma.setText("");
+        lancamento.setValue(null);
+        aquisicao.setValue(null);
+
+        nome.setText("");
+        apelido.setText("");
+        sexo.setText("");
+        nascimento.setValue(null);
     }
 }
