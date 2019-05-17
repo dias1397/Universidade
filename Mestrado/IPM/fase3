@@ -1,0 +1,6 @@
+Briefing
+O objetivo deste projeto é a criação de uma aplicação direccionada à gestão de canis municipais, mais concretamente o da cidade de Évora. Esta aplicação tem de ser intuitiva e "user-friendly" pois será utilizada por pessoas com um conhecimento informativo limitado. Com esta aplicação pretende-se simplificar a maneira como as tarefas administrativas são hoje realizadas de modo a dar ao utilizador mais tempo para realizar outras tarefas no canil. 
+As funções desta aplicação pretendem representar as tarefas efetuadas no dia-a-dia de um canil como o registo de um novo animal recolhido pelo canil, o registo de uma nova adoção, o planeamento de consultas veterinárias para animais do canil e tambem o controlo de recursos disponiveis ou em falta no canil. Esta aplicação também terá um papel a desempenhar na gestão do pessoal, podendo ser executadas tarefas pelo gestor do canil como a atribuição de papeis e permissões a utilizadores abaixo de si na cadeia hierarquica.
+Para poder utilizar esta aplicação o utilizador para alem de trabalhar no canil deve ter a experiencia minima de como manusear uma aplicação de computador. Caso seja um utilizador com mais permissões, é requerido um conhecimento a nivel de gestão de modo a melhor aproveitar as funcionalidades que a aplicação tem para oferecer.
+
+

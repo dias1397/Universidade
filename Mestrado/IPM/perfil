@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: 000000;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <MenuBar prefHeight="29.0" prefWidth="508.0">
+         <menus>
+            <Menu mnemonicParsing="false" text="Animais &gt; Snoopy &gt;" />
+         </menus>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets left="35.0" />
+         </padding>
+      </MenuBar>
+      <MenuBar layoutX="503.0">
+         <menus>
+            <Menu mnemonicParsing="false" text="Joao Dias">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Definiçoes" />
+                  <MenuItem mnemonicParsing="false" text="Permissoes" />
+                  <MenuItem mnemonicParsing="false" text="Aprovaçoes" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="Sair" />
+              </items>
+            </Menu>
+         </menus>
+      </MenuBar>
+      <ImageView fitHeight="47.0" fitWidth="32.0" layoutX="5.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../Pictures/IPMfase3/cover.jpeg" />
+         </image>
+      </ImageView>
+      <HBox alignment="CENTER_LEFT" layoutX="37.0" layoutY="47.0" prefHeight="29.0" prefWidth="534.0">
+         <children>
+            <Label text="Snoopy" underline="true">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </Label>
+            <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+            <Button mnemonicParsing="false" text="Editar">
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" text="Eliminar">
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" text="Veterinario" />
+         </children>
+      </HBox>
+      <TextField editable="false" layoutX="26.0" layoutY="111.0" text="1234" />
+      <TextField editable="false" layoutX="27.0" layoutY="168.0" text="Cão" />
+      <TextField editable="false" layoutX="27.0" layoutY="229.0" text="Labrador" />
+      <TextField editable="false" layoutX="27.0" layoutY="285.0" text="Masculino" />
+      <TextField editable="false" layoutX="28.0" layoutY="340.0" text="Castanho" />
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="421.0" layoutY="106.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../Pictures/IPMfase3/dog.jpeg" />
+         </image>
+      </ImageView>
+      <TextField editable="false" layoutX="225.0" layoutY="111.0" text="Médio" />
+      <TextField editable="false" layoutX="225.0" layoutY="168.0" text="Comprida" />
+      <TextField editable="false" layoutX="225.0" layoutY="229.0" text="Médio" />
+      <TextField editable="false" layoutX="228.0" layoutY="285.0" text="13-04-2017" />
+      <TextField editable="false" layoutX="227.0" layoutY="340.0" text="João Dias" />
+      <Label layoutX="37.0" layoutY="98.0" text="Numero" />
+      <Label layoutX="36.0" layoutY="152.0" text="Especie" />
+      <Label layoutX="35.0" layoutY="213.0" text="Raça" />
+      <Label layoutX="34.0" layoutY="269.0" text="Genero" />
+      <Label layoutX="34.0" layoutY="324.0" text="Cor" />
+      <Label layoutX="236.0" layoutY="98.0" text="Pelo" />
+      <Label layoutX="236.0" layoutY="152.0" text="Cauda" />
+      <Label layoutX="232.0" layoutY="213.0" text="Porte" />
+      <Label layoutX="236.0" layoutY="269.0" text="Data de Nascimento" />
+      <Label layoutX="236.0" layoutY="324.0" text="Responsavel" />
+      <TextField editable="false" layoutX="418.0" layoutY="285.0" prefHeight="26.0" prefWidth="150.0" text="17-07-2019 10h30" />
+      <Label layoutX="421.0" layoutY="269.0" text="Proxima Consulta" />
+      <CheckBox layoutX="421.0" layoutY="340.0" mnemonicParsing="false" selected="true" text="Disp. Adocao" />
+   </children>
+</AnchorPane>
