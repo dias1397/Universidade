@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="controller.PerfilController">
+   <left>
+      <VBox alignment="CENTER" prefWidth="200.0" style="-fx-background-color: ffffff;" BorderPane.alignment="CENTER">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Número">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Text>
+            <TextField fx:id="numero" disable="true" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Espécie">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Text>
+            <TextField fx:id="especie" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Raça">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Text>
+            <TextField fx:id="raca" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Género">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Text>
+            <TextField fx:id="genero" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Cor">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Text>
+            <TextField fx:id="cor" />
+         </children>
+         <padding>
+            <Insets left="10.0" right="10.0" />
+         </padding>
+      </VBox>
+   </left>
+   <center>
+      <VBox alignment="CENTER" prefWidth="200.0" style="-fx-background-color: ffffff;" BorderPane.alignment="CENTER">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-alignment: left;" text="Pelo">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Text>
+            <TextField fx:id="pelo" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Cauda">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Text>
+            <TextField fx:id="cauda" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Porte">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Text>
+            <TextField fx:id="porte" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Data de Nascimento">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Text>
+            <TextField fx:id="data" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Responsável">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Text>
+            <TextField fx:id="responsavel" />
+         </children>
+         <padding>
+            <Insets left="10.0" right="10.0" />
+         </padding>
+      </VBox>
+   </center>
+   <right>
+      <VBox alignment="CENTER" prefWidth="200.0" style="-fx-background-color: ffffff;" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fx:id="image" fitHeight="96.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
+               <VBox.margin>
+                  <Insets bottom="20.0" />
+               </VBox.margin>
+               <image>
+                  <Image url="@../resources/dog.png" />
+               </image>
+            </ImageView>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Próxima Consulta" />
+            <TextField fx:id="consulta" />
+            <CheckBox fx:id="adocao" mnemonicParsing="false" text="Disp. Adoção">
+               <VBox.margin>
+                  <Insets top="15.0" />
+               </VBox.margin>
+            </CheckBox>
+         </children>
+         <padding>
+            <Insets left="10.0" right="10.0" />
+         </padding>
+      </VBox>
+   </right>
+   <top>
+      <VBox BorderPane.alignment="CENTER">
+         <children>
+            <HBox>
+               <children>
+                  <ImageView fitHeight="33.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/logo.jpg" />
+                     </image>
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Animais &gt; ">
+                     <HBox.margin>
+                        <Insets top="10.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="nomeCao" strokeType="OUTSIDE" strokeWidth="0.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="10.0" />
+                     </HBox.margin>
+                  </Text>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <MenuBar>
+                     <menus>
+                        <Menu fx:id="username" mnemonicParsing="false" text="TestUser">
+                           <items>
+                              <MenuItem mnemonicParsing="false" text="Close" />
+                           </items>
+                        </Menu>
+                     </menus>
+                     <HBox.margin>
+                        <Insets right="5.0" top="10.0" />
+                     </HBox.margin>
+                  </MenuBar>
+               </children>
+            </HBox>
+            <HBox style="-fx-background-color: ffffff;">
+               <children>
+                  <TextField fx:id="nome" promptText="Nome">
+                     <HBox.margin>
+                        <Insets left="30.0" top="20.0" />
+                     </HBox.margin>
+                  </TextField>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <Text fx:id="message" strokeType="OUTSIDE" strokeWidth="0.0">
+                     <HBox.margin>
+                        <Insets top="20.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <Button fx:id="remove" mnemonicParsing="false" onAction="#onRemove" text="Remover" visible="false">
+                     <HBox.margin>
+                        <Insets right="10.0" top="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="cancelar" mnemonicParsing="false" onAction="#cancel" text="Cancelar" visible="false">
+                     <HBox.margin>
+                        <Insets right="10.0" top="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="acao" mnemonicParsing="false" onAction="#onAction" text="Editar">
+                     <HBox.margin>
+                        <Insets right="30.0" top="20.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </top>
+</BorderPane>
