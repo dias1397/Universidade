@@ -1,0 +1,156 @@
+-- TRIGER book_integrity
+
+CREATE TRIGGER book_integrity
+	BEFORE INSERT OR UPDATE ON livros
+	FOR EACH ROW
+	EXECUTE PROCEDURE check_book_integrity();
+
+CREATE OR REPLACE FUNCTION check_book_integrity() 
+	RETURNS trigger AS $livro_ISBN$
+	BEGIN
+		IF NEW.ISBN > 10000000000000 THEN
+			RAISE EXCEPTION 'ISBN (%) contem mais de 13 digitos.', NEW.titulo;
+		END IF;
+		
+		IF NEW.ISBN < 999999999999 THEN
+			RAISE EXCEPTION 'ISBN (%) contem menos de 13 digitos.', NEW.titulo;
+		END IF;
+
+		IF NEW.ISBN < 8999999999999 THEN
+			RAISE EXCEPTION 'ISBN (%) não começa pelo digito 9.', NEW.titulo;
+		END IF;
+
+		IF NEW.idioma != 'portugues' AND 
+			NEW.idioma != 'português' AND 
+			NEW.idioma != 'ingles' AND 
+			NEW.idioma != 'inglês' THEN
+			RAISE EXCEPTION '% é uma linguaguem inválida.', NEW.idioma;
+		END IF;
+
+		IF NEW.data_compra < NEW.data_lancamento THEN
+			RAISE EXCEPTION 'Data de compra não pode ser mais recente que a de lançamento.';
+		END IF;
+
+		RETURN NEW;
+	END;
+$livro_ISBN$ LANGUAGE plpgsql;
+
+-- TRIGER author_integrity
+
+CREATE TRIGGER author_integrity
+	BEFORE INSERT OR UPDATE ON autores
+	FOR EACH ROW
+	EXECUTE PROCEDURE check_author_integrity();
+
+CREATE OR REPLACE FUNCTION check_author_integrity() 
+	RETURNS trigger AS $BODY$
+	BEGIN
+		IF NEW.nome = NEW.apelido THEN
+			RAISE EXCEPTION 'Primeiro nome e apelido não podem ser iguais.';
+		END IF;
+		
+		IF NEW.data_nascimento > now() THEN
+			RAISE EXCEPTION 'Data de nascimento % não pode ser no futuro.', NEW.data_nascimento;
+		END IF;
+		
+		IF NEW.sexo != 'M' AND NEW.sexo != 'm' AND
+			NEW.sexo != 'F' AND NEW.sexo != 'f' THEN
+			RAISE EXCEPTION '% não é um sexo válido.', NEW.sexo;
+		END IF;
+		
+		RETURN NEW;
+	END;
+$BODY$ LANGUAGE plpgsql;
+
+-- TRIGER check_nationality
+
+CREATE TRIGGER check_nationality
+	BEFORE INSERT OR UPDATE ON nacionalidades
+	FOR EACH ROW
+	EXECUTE PROCEDURE check_author_nationality();
+
+CREATE OR REPLACE FUNCTION check_author_nationality()
+	RETURNS trigger AS $BODY$
+	BEGIN
+		IF NEW.nacionalidade LIKE '_a%' THEN
+			RAISE EXCEPTION '% must be only a word', NEW.nacionalidade;
+		END IF;
+	
+		RETURN NEW;
+	END;
+$BODY$ LANGUAGE plpgsql;
+
+-- Storage Procedures
+
+CREATE OR REPLACE FUNCTION addBook(
+	IN isbn NUMERIC,
+	IN titulo VARCHAR(50),
+	IN edicao INTEGER,
+	IN idioma VARCHAR(30),
+	IN lancamento DATE,
+	IN aquisicao DATE)
+RETURNS VOID
+AS $$
+BEGIN
+	INSERT INTO livros VALUES(isbn, titulo, edicao, idioma, lancamento, aquisicao);
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION addAuthor(
+	IN nome VARCHAR(50),
+	IN apelido VARCHAR(50),
+	IN sexo VARCHAR(1),
+	IN nascimento DATE)
+RETURNS VOID
+AS $$
+BEGIN
+	INSERT INTO autores VALUES(nome, apelido, sexo, nascimento);
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION addAuthorOfBook(
+	IN isbn NUMERIC,
+	IN nome VARCHAR(50),
+	IN apelido VARCHAR(50))
+RETURNS VOID
+AS $$
+BEGIN
+	INSERT INTO livros_autores VALUES(isbn, nome, apelido);
+END;
+$$
+LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION addBookTag(
+	IN isbn NUMERIC,
+	IN tag VARCHAR(50))
+RETURNS VOID
+AS $$
+DECLARE 
+	counter integer := 0;
+BEGIN
+	SELECT count(*) INTO counter 
+		FROM identificadores
+		WHERE etiqueta = tag;
+
+	IF counter = 0 THEN
+		INSERT INTO identificadores VALUES(tag);
+	END IF;
+
+	INSERT INTO livros_etiquetas VALUES(isbn, tag);
+END;
+$$
+LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION getTitles()
+RETURNS TABLE (book_title text)
+AS $$
+BEGIN
+	RETURN QUERY SELECT titulo
+					FROM livros;
+END;
+$$
+LANGUAGE plpgsql;

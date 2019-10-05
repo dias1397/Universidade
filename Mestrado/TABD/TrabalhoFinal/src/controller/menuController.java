@@ -35,7 +35,7 @@ public class menuController {
 
     @FXML
     public void insertTag(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("view/menu.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("view/tagInsert.fxml"));
 
         Parent root = (Parent)fxmlLoader.load();
         tagInsertController controller = fxmlLoader.<tagInsertController>getController();
@@ -49,6 +49,6 @@ public class menuController {
 
     @FXML
     public void insertFile(ActionEvent event) {
-        System.out.println("New Func");
+        System.out.println("Nova Funcionalidade");
     }
 }

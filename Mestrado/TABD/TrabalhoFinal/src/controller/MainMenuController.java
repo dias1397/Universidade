@@ -26,17 +26,17 @@ public class MainMenuController {
         MainMenuController obj = new MainMenuController();
         Connection con = obj.connect(username.getText(), password.getText());
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("view/menu.fxml"));
-        Parent root = (Parent)fxmlLoader.load();
-        //BookInsertController controller = fxmlLoader.<BookInsertController>getController();
-        //tagInsertController controller = fxmlLoader.<tagInsertController>getController();
-        menuController controller = fxmlLoader.getController();
-        controller.setConnection(con);
-        Scene newScene = new Scene(root);
+        if(con!=null){
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("view/menu.fxml"));
+            Parent root = (Parent)fxmlLoader.load();
+            menuController controller = fxmlLoader.getController();
+            controller.setConnection(con);
+            Scene newScene = new Scene(root);
 
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-        window.setScene(newScene);
-        window.show();
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setScene(newScene);
+            window.show();
+        }
     }
 
     @FXML

@@ -12,12 +12,12 @@
    <center>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <TextField fx:id="username" promptText="username" text="dias1397">
+            <TextField fx:id="username" promptText="username">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>
             </TextField>
-            <PasswordField fx:id="password" promptText="password" text="naosei97">
+            <PasswordField fx:id="password" promptText="password">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>
