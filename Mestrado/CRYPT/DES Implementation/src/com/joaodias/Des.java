@@ -110,6 +110,11 @@ public class Des {
             System.arraycopy(dn.get(iteration-1), 0, newD, dn.get(iteration-1).length - leftShif, leftShif);
             dn.put(iteration, newD);
 
+            System.out.println(String.format("C%02d: ", iteration));
+            Utils.print(cn.get(iteration), 4);
+            System.out.println(String.format("D%02d: ", iteration));
+            Utils.print(dn.get(iteration), 4);
+
             iteration++;
         }
     }
@@ -121,6 +126,9 @@ public class Des {
             System.arraycopy(cn.get(i), 0, cndn, 0, cn.get(i).length);
             System.arraycopy(dn.get(i), 0, cndn, cn.get(i).length, dn.get(i).length);
             kn.put(i, permutate(cndn, Constants.PC2, 48));
+
+            System.out.println(String.format("K%02d: ", i));
+            Utils.print(kn.get(i), 8);
         }
     }
 
@@ -133,6 +141,11 @@ public class Des {
         for (int i = 1; i <= 16; i++) {
             lh.put(i, rh.get(i-1));
             rh.put(i, Utils.xor(lh.get(i-1), roundFunction(rh.get(i-1), kn.get(i))));
+
+            System.out.println(String.format("L%02d: ", i));
+            Utils.print(lh.get(i), 4);
+            System.out.println(String.format("R%02d: ", i));
+            Utils.print(rh.get(i), 4);
         }
     }
 
@@ -142,6 +155,9 @@ public class Des {
 
         int[] expanded = permutate(rightHalf, Constants.E, 48);
         int[] boxInput = Utils.xor(expanded, key);
+
+        System.out.println("B");
+        Utils.print(boxInput, 6);
 
         for (int i = 0; i < 8; i++) {
             int row = Integer.parseInt("" + boxInput[i*6] + boxInput[i*6+5], 2);
