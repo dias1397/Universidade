@@ -53,9 +53,9 @@ public class RSA {
     }
 
     public static void main(String[] args) {
-        int n = /*Integer.parseInt(args[0])*/206;
-        //RSA key = new RSA(n);
-        RSA key = new RSA(new BigInteger("641"), new BigInteger("101"));
+        int n = /*Integer.parseInt(args[0])*/32;
+        RSA key = new RSA(n);
+        //RSA key = new RSA(new BigInteger("641"), new BigInteger("101"));
         System.out.println(key);
 
         // create random message, encrypt and decrypt
