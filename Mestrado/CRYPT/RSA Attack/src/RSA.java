@@ -37,7 +37,6 @@ public class RSA {
         d = e.modInverse(phi);
     }
 
-
     BigInteger encrypt(BigInteger message) {
         return message.modPow(e, m);
     }
