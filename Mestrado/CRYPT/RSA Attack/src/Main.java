@@ -82,39 +82,43 @@ public class Main {
                     break;
             }
 
-            WienerAttack.execute(n, e);
+            d = WienerAttack.execute(n, e);
 
-            System.out.println("\n========================================================");
-            System.out.println("Seleccione uma das opções");
-            System.out.println("= 1\tTestar chave RSA");
-            System.out.println("= 0\tSAIR");
-            System.out.println("========================================================");
-            System.out.print("Opção: ");
-            option = scan.nextInt();
-            System.out.println("========================================================");
-
-            if (option == 1) {
-                System.out.println("A testar encriptação RSA...");
-                BigInteger message = new BigInteger(n.bitCount()-1, random);
-                System.out.println("Mensagem: " + message);
-                System.out.println("Encriptada: " + message.modPow(e, n));
-                System.out.println("Desencriptado: " + message.modPow(e, n).modPow(d, n));
-
-                if (message.compareTo(message.modPow(e, n).modPow(d, n)) == 0) {
-                    System.out.println("=====================SUCESSO============================");
-                } else {
-                    System.out.println("===================SEM SUCESSO==========================");
-                }
-
+            if (d != null) {
                 System.out.println("\n========================================================");
-                System.out.println("Testar novamente?");
-                System.out.println("= 1\tSim");
-                System.out.println("= 0\tNao");
+                System.out.println("Seleccione uma das opções");
+                System.out.println("= 1\tTestar chave RSA");
+                System.out.println("= 0\tSAIR");
                 System.out.println("========================================================");
                 System.out.print("Opção: ");
                 option = scan.nextInt();
                 System.out.println("========================================================");
+
+                if (option == 1) {
+                    System.out.println("A testar encriptação RSA...");
+                    BigInteger message = new BigInteger(n.bitCount()-1, random);
+                    System.out.println("Mensagem: " + message);
+                    System.out.println("Encriptada: " + message.modPow(e, n));
+                    System.out.println("Desencriptado: " + (message.modPow(e, n)).modPow(d, n));
+
+                    if (message.compareTo(message.modPow(e, n).modPow(d, n)) == 0) {
+                        System.out.println("=====================SUCESSO============================");
+                    } else {
+                        System.out.println("===================SEM SUCESSO==========================");
+                    }
+                }
+            } else {
+                System.out.println("=============ATAQUE SEM SUCESSO==========================");
             }
+
+            System.out.println("\n========================================================");
+            System.out.println("Testar novamente?");
+            System.out.println("= 1\tSim");
+            System.out.println("= 0\tNao");
+            System.out.println("========================================================");
+            System.out.print("Opção: ");
+            option = scan.nextInt();
+            System.out.println("========================================================");
         }
     }
 }

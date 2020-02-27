@@ -52,7 +52,7 @@ public class WienerAttack {
         System.out.println("Possible d values: " + pd + "\n");
     }
 
-    public static void execute(BigInteger n, BigInteger e) {
+    public static BigInteger execute(BigInteger n, BigInteger e) {
         calculate_conv(calculate_cf(e, n));
 
         BigInteger pphy;
@@ -86,9 +86,11 @@ public class WienerAttack {
                 if ((roots[0].multiply(roots[1])).equals(n)) {
                     System.out.println("Public  Key: " + n + ", " + e);
                     System.out.println("Private Key: " + n + ", " + e.modInverse(pphy));
-                    return;
+                    return e.modInverse(pphy);
                 }
             }
         }
+
+        return null;
     }
 }
