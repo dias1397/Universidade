@@ -1,7 +1,0 @@
-Caracteristicas
-Para alem de algumas das caracteristicas de um jogo de Monopolio normal que se mantem presentes, novas serão implementadas de modo a melhorar a experiencia de jogo, tornando o mesmo mais rápido e menos aleatorio. Segue-se uma lista com algumas das novas caracteristicas
-- Possibilidade de comprar terrenos à partida. Consoante o numero de jogadores, será distribuida uma quantia igual para todos que pode ser usada antes da primeira jogada para comprar terrenos.
-- Possibilidade do jogador se deslocar entre as casas correspondentes as estações ferroviárias.
-- Alterações no tabuleiro. A principal alteração será a substituição do lugar de estacionamento livre por a casa de Ação. Esta casa dará ao jogador uma carta de ação.
-- Introdução de cartas de Ação. Estas cartas permitem ao jogador executar jogadas na sua vez ou na vez do adversário de modo a melhorar a sua estratégia de jogo. Alguns exemplos destas cartas consistem em mover-se algumas casas, não pagar renda, evitar doubles, cobrar renda ao adversário, etc.
-- Outra caracteristica desta sequela do monopolio é a presença de terrenos que pertencem ao banco desde o inicio do jogo. Nestes terrenos ambos os jogadores terão de pagar uma taxa quando lá calharem.
