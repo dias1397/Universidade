@@ -1,0 +1,62 @@
+body {
+	background-color: #f6f6ff;
+	font-family: Calibri, Myriad;
+}
+
+#main {
+	width: 780px;
+	padding: 20px;
+	margin: auto;
+}
+
+table.tabela-pcm {
+	margin: auto;
+	width: 600px;
+	border-collapse: collapse;
+	border-style: hidden;
+}
+
+table.tabela-pcm caption {
+	background-color: #f79646;
+	color: #fff;
+	font-size: x-large;
+	font-weight: bold;
+	letter-spacing: .3em;
+}
+
+table.tabela-pcm thead th {
+	padding: 8px;
+	background-color: #fde9d9;
+	font-size: large;
+}
+
+table.tabela-pcm thead th#thDay {
+	width: 40%;	
+}
+
+table.tabela-pcm th, table.tabela-pcm td {
+	padding: 3px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #f79646 #ccc;
+}
+
+table.tabela-pcm td {
+	text-align: right;
+}
+
+table.tabela-pcm tbody th {
+	text-align: left;
+	font-weight: normal;
+}
+
+table.tabela-pcm tfoot {
+	font-weight: bold;
+	font-size: large;
+	background-color: #687886;
+	color: #fff;
+}
+
+table.tabela-pcm tr.dia-par {
+	background-color: #fde9d9;
+}

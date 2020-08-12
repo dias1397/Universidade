@@ -1,0 +1,15 @@
+# FICHEIROS:
+
+|NOME|ESTADO|
+|----|------|
+|ENUNCIADO DO TRABALHO|✓|
+|FASE 1|✓|
+|FASE 2|✓|
+|RELATORIO|✓|
+|INSTRUÇÕES MIPS|✓|
+---
+# NOTAS:
+| | |
+|-|-|
+|TEORICA|16,8|
+|PRÁTICA|13,5|

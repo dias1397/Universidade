@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset = "utf-8" />
+	<title>Um Tween com Ease in/Ease out</title>
+	<script src="../lib/Three.js"></script>
+	<script src="../lib/tween.min.js"></script>
+	<script src="../lib/jquery.js"></script>
+    <script src="../lib/jquery.mousewheel.js"></script>
+	<script src="../lib/sim/sim.js"></script>
+	<script src="js/tween-easing.js"></script>
+	<script>
+//
+//	Variáveis globais... quem as usa, e o que lhes faz?
+//	
+var renderer = null;
+var scene = null;
+var camera = null;
+var mesh = null;
+//
+//	Esta função é um excelente exemplo de PÉSSIMA programação.
+//
+//	O que é "MovingBall"??? Neste ficheiro não é possível descobrir :-(
+//
+function onEaseInOut(useBounce) {
+	MovingBall.useBounceFunction = useBounce;
+}
+//
+$(document).ready(
+	function() {
+		var container = document.getElementById("container");
+		var app = new TweenApp();
+		app.init({ container: container });
+		app.run();
+	}
+);
+	</script>
+</head>
+<body>
+	<center><h1>Um Tween com Ease in/Ease out</h1></center>
+    <div id="container" style="width:95%; height:80%; position:absolute;"></div>
+	<div id="prompt" style="width:95%; height:6%; bottom:1em; text-align:center; position:absolute;">
+		Clique para animar
+		<p>Ease in/out:
+			<input type="radio" name="easeinout" checked onClick="onEaseInOut(false);"/>Quadrático
+			<input type="radio" name="easeinout" onClick="onEaseInOut(true);"/>Saltitar
+		</p>
+	</div>
+</body>
+</html>

@@ -1,0 +1,109 @@
+import java_cup.runtime.*;
+
+action code {:
+  // cria uma instancia da maquina
+  CIMS maquina = new CIMS();
+:} ;
+
+parser code {:
+  Yylex lexer;
+
+  public void report_error(String message, Object error_info) {
+    Symbol info = (Symbol) error_info;
+
+    System.err.print("** " + message);
+    System.err.println(" at `" + info.value + "' in position " + info.left
+		       + " **");
+  }
+
+  public void report_fatal_error(String message, Object _) {
+    System.err.println("** " + message);
+  }
+:} ;
+
+init with {: lexer = new Yylex(System.in); :} ;
+
+scan with {: return lexer.yylex(); :} ;
+
+terminal        CHAMA, LOCAIS, REGRESSA, COLOCA_ARG ;
+terminal        EMPILHA_VAR, EMPILHA_ARG, EMPILHA, ATRIBUI_VAR, ATRIBUI_ARG ;
+terminal        SOMA, SUB, MULT, DIV , MOD, EXP;
+terminal        SIGUAL, SMENOR, SALTA ;
+terminal        ESCREVE_INT, ESCREVE_STR, MUDA_LINHA ;
+terminal String IDENTIFICADOR ;
+terminal String	INTEIRO, STRING ;
+terminal        DOIS_PONTOS;
+terminal	ERRO ;
+
+non terminal CIMS programa ;
+non terminal      etiqueta, instrucao ;
+
+programa ::= programa etiqueta instrucao
+	       {: RESULT = maquina; :}
+         |
+	 ;
+etiqueta ::= IDENTIFICADOR:e DOIS_PONTOS
+				{: maquina.add_Label(new Label(e.toString(), maquina.getMemoria().size())); :}
+	 |
+	 ;
+instrucao ::= CHAMA INTEIRO:d IDENTIFICADOR:p
+				{: maquina.add_Inst(new I_Chamada_Funcoes("Chama", 
+											Integer.parseInt(d.toString()), 
+											p.toString())); :}
+	  |   LOCAIS INTEIRO:a INTEIRO:v
+	  			{: maquina.add_Inst(new I_Chamada_Funcoes("Locais", 
+	  										Integer.parseInt(a.toString()), 
+	  										Integer.parseInt(v.toString()))); :}
+	  |   REGRESSA
+	  			{: maquina.add_Inst(new I_Chamada_Funcoes("Regressa")); :}
+	  |   COLOCA_ARG INTEIRO:n
+	  			{: maquina.add_Inst(new I_Chamada_Funcoes("Coloca", 
+	  										Integer.parseInt(n.toString))); :}
+	  |   EMPILHA_VAR INTEIRO:d INTEIRO:n
+	  			{: maquina.add_Inst(new I_Acesso_Variaveis("Empilha_Var",
+	  										Integer.parseInt(d.toString()), 
+	  										Integer.parseInt(n.toString()))); :}
+	  |   EMPILHA_ARG INTEIRO:d INTEIRO:n
+				{: maquina.add_Inst(new I_Acesso_Argumentos("Empilha_Arg", 
+											Integer.parseInt(d.toString()), 
+											Integer.parseInt(n.toString()))); :}
+	  |   EMPILHA INTEIRO:i
+	  			{: maquina.add_Inst(new I_Manipulacao_Inteiros("Empilha", 
+	  										Integer.parseInt(i.toString()))); :}
+	  |   ATRIBUI_VAR INTEIRO:d INTEIRO:n
+	  			{: maquina.add_Inst(new I_Acesso_Variaveis("Atribui_Var", 
+	  										Integer.parseInt(d.toString()),
+	  										Integer.parseInt(n.toString()))); :}
+	  |   ATRIBUI_ARG INTEIRO:d INTEIRO:n
+	  			{: maquina.add_Inst(new I_Acesso_Argumentos("Atribui_Arg", 
+											Integer.parseInt(d.toString()), 
+											Integer.parseInt(n.toString()))); :}
+	  |   SOMA 
+	  			{: maquina.add_Inst(new I_Aritmetica("Soma")); :}
+	  |   SUB
+	  			{: maquina.add_Inst(new I_Aritmetica("Sub")); :}
+	  |   MULT
+	  			{: maquina.add_Inst(new I_Aritmetica("Mult")); :}
+	  |   DIV
+	  			{: maquina.add_Inst(new I_Aritmetica("Div")); :}
+	  |   MOD
+	  			{: maquina.add_Inst(new I_Aritmetica("Mode")); :}
+	  |   EXP
+	  			{: maquina.add_Inst(new I_Aritmetica("Exp")); :}
+	  |   SIGUAL IDENTIFICADOR:e
+	  			{: maquina.add_Inst(new I_Salto("Sigual", 
+	  										e.toString)); :}
+	  |   SMENOR IDENTIFICADOR:e
+	  			{: maquina.add_Inst(new I_Salto("Smenor", 
+	  										e.toString)); :}
+	  |   SALTA IDENTIFICADOR:e
+	  			{: maquina.add_Inst(new I_Salto("Salta", 
+	  										e.toString)); :}
+	  |   ESCREVE_INT
+	  			{: maquina.add_Inst(new I_Saida("EscreveInt")); :}
+	  |   ESCREVE_STR STRING:s
+	  			{: maquina.add_Inst(new I_Saida("Escreve", 
+	  										s.toString)); :}
+	  |   MUDA_LINHA
+	  			{: maquina.add_Inst(new I_Saida("MudaLinha")); :}
+	  ;

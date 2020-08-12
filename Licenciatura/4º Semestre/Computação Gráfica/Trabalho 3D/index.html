@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html>
+	<style>
+		header{background-color: #FF9933;	font-family: arial;}
+		th{background-color: #FF9933;}
+		body{padding: 0;	margin: 0;}
+		
+	</style>
+	<head>
+		<meta charset = "utf-8" />
+		<script src='lib/x3dom-full.js'></script>
+		<link rel='stylesheet' href='lib/x3dom.css'>
+		<script>
+			function rodar()
+			{
+				document.getElementById("sensor1").setAttribute("enabled",true);
+			}
+		</script>
+
+				<script>
+			function avancar()
+			{
+				document.getElementById("sensor2").setAttribute("enabled",true);
+			}
+		</script>
+
+		<script>
+			function stop()
+			{
+				document.getElementById("sensor1").setAttribute("enabled",false);
+
+				document.getElementById("sensor2").setAttribute("enabled",false);
+			}
+		</script>
+
+	</head>
+	<body>
+		<header>
+			<h1 align="center">João Dias 35476 - Computação Gráfica - Formula 1 - X3D </h1>
+		</header>
+		<table>
+			<tr>
+				<th>Original</th>
+				<th>Reprodução</th>
+			</tr>
+			<tr>
+				<td>
+					<img src="media/f1.jpg"
+						style="border: 1px solid black">
+				</td>
+				<td>
+					<x3d width="600px" height="450px">
+						<Scene>
+							<background skyColor="0.9 0.9 0.9">
+    						</background>
+
+    						<Viewpoint id="vista" position="5 2 20"></Viewpoint>
+
+    						<directionalLight id="luz" direction="-.3 -1 1" on ="TRUE" intensity='2.0' shadowIntensity='0.7'> 
+              				</directionalLight>
+
+				    		<switch whichCoice ="-1">
+
+						<!-- BASE DO CORPO. SOLIDO COM "BURACO" NO MEIO PARA O LUGAR DO PILOTO-->
+								<indexedfaceset id="base"
+									coordIndex="
+										0 8 9 1 0 -1
+										1 9 10 2 1 -1
+										2 10 11 3 2 -1
+										4 12 13 5 4 -1
+										5 13 14 6 5 -1
+										6 14 15 7 6 -1
+										7 15 8 0 7 -1
+										3 11 12 4 3 -1
+										0 1 2 3 4 5 6 7 8 0 -1
+										15 14 13 12 22 21 15 -1
+										20 8 15 21 20 -1
+										20 23 11 10 9 8 20 -1
+										16 17 23 20 16 -1
+										17 18 22 23 17 -1
+										18 19 21 22 18 -1
+										20 21 19 16 20 -1
+										19 18 17 16 19 -1">
+								<coordinate point="	
+										0.15 0.0 -0.6
+										0.5 0.0 -0.4	
+										0.5 0.0 0.6
+										0.25 0.0 0.8
+										-0.25 0.0 0.8
+										-0.5 0.0 0.6
+										-0.5 0.0 -0.4
+										-0.15 0.0 -0.6
+										0.15 0.35 -0.6
+										0.5 0.35 -0.4
+										0.5 0.35 0.6
+										0.25 0.35 0.8
+										-0.25 0.35 0.8
+										-0.5 0.35 0.6
+										-0.5 0.35 -0.4
+										-0.15 0.35 -0.6
+
+										0.15 0.1 0.15
+										0.15 0.1 0.8
+										-0.15 0.1 0.8
+										-0.15 0.1 0.15
+										0.15 0.35 0.15
+										-0.15 0.35 0.15
+										-0.15 0.35 0.8
+										0.15 0.35 0.8">
+								</coordinate>
+								</indexedfaceset>	
+
+						<!-- AIRBOX -->
+
+								<indexedfaceset id="aero"
+									coordIndex="
+										0 1 4 3 0 -1
+										1 2 5 4 1 -1
+										0 3 5 2 0 -1
+										3 4 5 3 -1">
+								<coordinate point="	
+										-0.15 0.0 0.0
+										0.15 0.0 0.0
+										0.0 0.0 -0.65
+										-0.0 0.25 0.0
+										0.0 0.25 0.0
+										0.0 0.2 -0.30">
+								</coordinate>
+								</indexedfaceset>
+
+						<!-- NARIZ FORMATO TRIANGULAR-->
+
+								<indexedfaceset id="nose"
+									coordIndex="
+										0 2 3 1 0 -1
+										0 4 6 2 0 -1
+										5 7 6 4 5 -1
+										1 3 7 5 1 -1
+										0 2 3 1 0 -1
+										2 6 7 3 2 -1">
+								<coordinate point="	
+										0.2 0.0 0.0
+										-0.2 0.0 0.0
+										0.04 0.0 1.3
+										-0.04 0.0 1.3
+										0.2 0.35 0.0
+										-0.2 0.35 0.0
+										0.04 0.05 1.3
+										-0.04 0.05 1.3">
+								</coordinate>
+								</indexedfaceset>
+
+						<!-- EXTRUSAO QUE É COLOCADA NA PARTE TRIANGULAR DO NARIZ PARA O ARREDONDAR-->
+
+								<extrusion id="keel"
+								    convex="false"
+								    crossSection="
+								        1 0
+										0.9510565162951535		0.3090169943749474
+										0.8090169943749475		0.5877852522924731
+										0.5877852522924731		0.8090169943749475
+										0.30901699437494745		0.9510565162951535
+										6.123233995736766e-17	1
+										-0.30901699437494734 	0.9510565162951536
+										-0.587785252292473 		0.8090169943749475
+										-0.8090169943749473 	0.5877852522924732
+										-0.9510565162951535 	0.3090169943749475
+										-1 		1.2246467991473532e-16
+										-0.9510565162951536 	-0.3090169943749473
+										-0.8090169943749476 	-0.587785252292473
+										-0.5877852522924732 	-0.8090169943749473
+										-0.30901699437494756 	-0.9510565162951535
+										-1.8369701987210297e-16 -1
+										0.30901699437494723 	-0.9510565162951536
+										0.5877852522924729 		-0.8090169943749476
+										0.8090169943749473 		-0.5877852522924734
+										0.9510565162951535 		-0.3090169943749476
+										1 0"
+								    spine="
+								        0 -0.1 -3.5
+								        0 0.5 -3.5
+								        0 0.8 -3.5
+								        0 1.1 -3.5
+								        0 1.35 -3.5"
+								    scale="
+								        2 0.1
+								        1.4 0.6
+								        1 0.7
+								        0.6 0.5
+								        0.3 0.1">
+								</extrusion>
+
+						<!-- PLACA USADA NA ASA DIANTEIRA DO F1-->
+
+								<extrusion id="frente1"
+								    convex="false"
+								    crossSection="
+								        0.9 -0.5
+								        1 -0.5
+								        1 0.0
+								        -1 0.0
+								        -1 -0.5
+								        -0.9 -0.5
+								        -0.8 -0.4
+								        -0.7 -0.35
+								        0.7 -0.35
+								        0.8 -0.4"
+								    spine="
+								        0 0 0
+								        0 0.01 0"
+								    scale="
+								        1 1
+								        1 1">
+								</extrusion>
+
+						<!-- SEGUNDA PLACA USADA NA ASA DIANTEIRA DO F1 E TRES VEZES USADA NO AILERON-->
+
+								<extrusion id="frente2"
+								    convex="false"
+								    crossSection="
+								        1 -0.5
+								        1 0.0
+								        -1 0.0
+								        -1 -0.5"
+								    spine="
+								        0 0 0
+								        0 0.01 0"
+								    scale="
+								        1 1
+								        1 1">
+								</extrusion>
+
+						<!-- PLACA LATERAL DA ASA DIANTEIRA DO F1-->
+
+								<indexedfaceset id="frente3"
+								    coordIndex="
+								    	0 1 2 4 0 -1
+								    	4 2 3 4 -1
+								    	5 9 7 6 5 -1
+								    	9 8 7 9 -1
+
+								    	0 5 6 1 0 -1
+								    	1 6 7 2 1 -1
+								    	2 7 8 3 2 -1
+								    	3 8 9 4 3 -1
+								    	4 9 5 1 4 -1">
+								<coordinate point="
+								        0 0 	0.1
+								        0 0 	0.7
+								        0 0.05  0.7
+								        0 0.3   0
+								        0 0.15  0.1
+
+								        .01 0 	 .1
+								        .01 0 	 .7
+								        .01 0.05 .7
+								        .01 0.3  0
+								        .01 0.15 .1">
+								</coordinate>
+								</indexedfaceset>
+
+						<!-- PLACA LATERAL DO AILERON DO F1-->
+
+								<indexedfaceset id="pala"
+									coordIndex="
+										0 1 2 3 4 0 -1
+										5 9 8 7 6 5 -1
+
+										0 5 6 1 0 -1
+								    	1 6 7 2 1 -1
+								    	2 7 8 3 2 -1
+								    	3 8 9 4 3 -1
+								    	4 9 5 0 4 -1">
+								<coordinate point="
+								        0 0 0
+								        0 -.8 0
+								        0 -.9 .4
+								        0 -.5 .5
+								        0 0 .5
+
+								        0.02 0 0
+								        0.02 -.8 0
+								        0.02 -.9 .4
+								        0.02 -.5 .5
+								        0.02 0 .5 ">
+								</coordinate>
+								</indexedfaceset>
+
+						<!-- EXTRUSAO DE FIGURA EM 2D QUE CONSISTE EM UM CIRCULO COM UM CIRCULO CONTIDO
+							 NELE MESMO DE MODO A FAZER UM PNEU -->
+						<!-- DE MODO A CALCULAR OS DIFERENTES PONTOS DOS DOIS CIRCULOS, 
+						FOI UTILIZADO O PROGRAMA EM ANEXO CIRCLE.HTML, QUE FOI UTILIZADO 
+						DURANTE AS AULAS DA CADEIRA E QUE DESENHA INFINITOS POLIGNOS EM 2D-->
+
+								<indexedfaceset id="roda"
+									coordIndex="
+										0  1  39 20 0  -1
+										1  2  38 39 1  -1
+										2  3  37 38 2  -1
+										3  4  36 37 3  -1
+										4  5  35 36 4  -1
+										5  6  34 35 5  -1
+										6  7  33 34 6  -1
+										7  8  32 33 7  -1
+										8  9  31 32 8  -1
+										9  10 30 31 9  -1
+										10 11 29 30 10 -1
+										11 12 28 29 11 -1
+										12 13 27 28 12 -1
+										13 14 26 27 13 -1
+										14 15 25 26 14 -1
+										15 16 24 25 15 -1
+										16 17 23 24 16 -1
+										17 18 22 23 17 -1
+										18 19 21 22 18 -1
+										19 0  20 21 19 -1
+
+										40 60 79  41 40 -1
+										41 79 78  42 41 -1
+										42 78 77  43 42 -1
+										43 77 76  44 43 -1
+										44 76 75  45 44 -1
+										45 75 74  46 45 -1
+										46 74 73  47 46 -1
+										47 73 72  48 47 -1
+										48 72 71  49 48 -1
+										49 71 70  50 49 -1
+										50 70 69  51 50 -1
+										51 69 68  52 51 -1
+										52 68 67  53 52 -1
+										53 67 66  54 53 -1
+										54 66 65  55 54 -1
+										55 65 64  56 55 -1
+										56 64 63  57 56 -1
+										57 63 62  58 57 -1
+										58 62 61  59 58 -1
+										59 61 60  40 59 -1
+
+										0  40 41  1  0  -1
+										1  41 42  2  1  -1
+										2  42 43  3  2  -1
+										3  43 44  4  3  -1
+										4  44 45  5  4  -1
+										5  45 46  6  5  -1
+										6  46 47  7  6  -1
+										7  47 48  8  7  -1
+										8  48 49  9  8  -1
+										9  49 50  10 9  -1
+										10 50 51  11 10 -1
+										11 51 52  12 11 -1
+										12 52 53  13 12 -1
+										13 53 54  14 13 -1
+										14 54 55  15 14 -1
+										15 55 56  16 15 -1
+										16 56 57  17 16 -1
+										17 57 58  18 17 -1
+										18 58 59  19 18 -1
+										19 59 40  0  19 -1 
+
+										20 60 61  21 20 -1
+										21 61 62  22 21 -1
+										22 62 63  23 22 -1
+										23 63 64  24 23 -1
+										24 64 65  25 24 -1
+										25 65 66  26 25 -1
+										26 66 67  27 26 -1
+										27 67 68  28 27 -1
+										28 68 69  29 28 -1
+										29 69 70  30 29 -1
+										30 70 71  31 30 -1
+										31 71 72  32 31 -1
+										32 72 73  33 32 -1
+										33 73 74  34 33 -1
+										34 74 75  35 34 -1
+										35 75 76  36 35 -1
+										36 76 77  37 36 -1
+										37 77 78  38 37 -1
+										38 78 79  39 38 -1
+										39 79 60  20 39 -1 
+										">
+								<coordinate point="	
+										0  1                       0                        
+										0  0.9510565162951535      -0.309016994374947       
+						 				0 	0.8090169943749473      -0.587785252292473         
+										0  0.5877852522924729      -0.809016994374947       
+										0  0.3090169943749472      -0.951056516295153      
+										0  -1.8369701987210297e-16 -1                      
+										0  -0.3090169943749475     -0.951056516295153         
+										0  -0.5877852522924732     -0.809016994374947         
+										0  -0.8090169943749476     -0.587785252292473         
+										0  -0.9510565162951536     -0.309016994374947         
+										0  -1                      1.2246467991473532e-16     
+										0  -0.9510565162951535     0.3090169943749475        
+										0  -0.8090169943749473     0.5877852522924732        
+										0  -0.587785252292473      0.8090169943749475       
+										0  -0.3090169943749473     0.9510565162951536       
+										0  6.123233995736766e-17   1                         
+										0  0.3090169943749474      0.951056516295153       
+										0  0.5877852522924731      0.8090169943749475      
+										0  0.8090169943749475      0.5877852522924731      
+										0  0.9510565162951535      0.3090169943749474        
+
+										0  0.7 0  
+										0  0.6657395614066074 0.21631189606246318  
+									    0  0.5663118960624631 0.4114496766047312  
+										0  0.4114496766047312 0.5663118960624631   
+										0  0.2163118960624632 0.6657395614066074   
+										0  4.286263797015736e-17 0.7   
+										0  -0.21631189606246312 0.6657395614066075  
+										0  -0.4114496766047311 0.5663118960624631   
+										0  -0.5663118960624631 0.41144967660473125   
+										0  -0.6657395614066074 0.21631189606246323   
+										0  -0.7 8.572527594031472e-17    
+										0  -0.6657395614066075 -0.2163118960624631     
+										0  -0.5663118960624632 -0.4114496766047311   
+										0  -0.41144967660473125 -0.5663118960624631   
+										0  -0.2163118960624633 -0.6657395614066074   
+										0  -1.2858791391047207e-16 -0.7   
+										0  0.21631189606246304 -0.6657395614066075  
+										0  0.41144967660473103 -0.5663118960624632  
+										0  0.5663118960624631 -0.4114496766047313  
+										0  0.6657395614066074 -0.21631189606246332  
+
+
+										1  1                       0                        
+										1  0.9510565162951535      -0.309016994374947       
+						 				1 	0.8090169943749473      -0.587785252292473         
+										1  0.5877852522924729      -0.809016994374947       
+										1  0.3090169943749472      -0.951056516295153      
+										1  -1.8369701987210297e-16 -1                      
+										1  -0.3090169943749475     -0.951056516295153         
+										1  -0.5877852522924732     -0.809016994374947         
+										1  -0.8090169943749476     -0.587785252292473         
+										1  -0.9510565162951536     -0.309016994374947         
+										1  -1                      1.2246467991473532e-16     
+										1  -0.9510565162951535     0.3090169943749475        
+										1  -0.8090169943749473     0.5877852522924732        
+										1  -0.587785252292473      0.8090169943749475       
+										1  -0.3090169943749473     0.9510565162951536       
+										1  6.123233995736766e-17   1                         
+										1  0.3090169943749474      0.951056516295153       
+										1  0.5877852522924731      0.8090169943749475      
+										1  0.8090169943749475      0.5877852522924731      
+										1  0.9510565162951535      0.3090169943749474        
+
+										1  0.7 0  
+										1  0.6657395614066074 0.21631189606246318  
+									    1  0.5663118960624631 0.4114496766047312  
+										1  0.4114496766047312 0.5663118960624631   
+										1  0.2163118960624632 0.6657395614066074   
+										1  4.286263797015736e-17 0.7 
+										1  -0.21631189606246312 0.6657395614066075  
+										1  -0.4114496766047311 0.5663118960624631   
+										1  -0.5663118960624631 0.41144967660473125   
+										1  -0.6657395614066074 0.21631189606246323   
+										1  -0.7 8.572527594031472e-17   
+										1  -0.6657395614066075 -0.2163118960624631     
+										1  -0.5663118960624632 -0.4114496766047311   
+										1  -0.41144967660473125 -0.5663118960624631   
+										1  -0.2163118960624633 -0.6657395614066074   
+										1  -1.2858791391047207e-16 -0.7   
+										1  0.21631189606246304 -0.6657395614066075  
+										1  0.41144967660473103 -0.5663118960624632  
+										1  0.5663118960624631 -0.4114496766047313  
+										1  0.6657395614066074 -0.21631189606246332  ">
+								</coordinate>
+								</indexedfaceset>
+							
+							</switch>
+
+				<!-- ++++++++++++++++++++++++++++++++++++++++++ CONSTRUÇAO HIERARQUICA DO FORMULA 1 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+				<!-- HIERARQUIA
+								-> BASE
+								-> TRASEIRA
+									-> AILERON
+								-> AIRBOX
+								-> NARIZ
+									-> ASA DIANTEIRA
+								-> RODAS
+								-> VEIOS
+				-->
+
+							<transform id="corpo" scale="2 2 2" translation="0 -1 0">
+						    	<Shape>
+						    		<appearance>
+				                    <imageTexture
+				                        containerField="diffuseTexture"
+				                        url="/media/white_texture.jpg">
+				                    </imageTexture>
+				                    <twosidedmaterial></twosidedmaterial>
+									</appearance>
+
+									<X3DGeometryNode use = "base">
+									</X3DGeometryNode>
+						    	</Shape>
+
+						    	<!-- TRASEIRA ===================================================-->
+
+						    	<transform id="cubo_traseiro" translation ="0 0.17 -0.77">		
+				                	<shape>
+				                		<appearance>
+						                    <imageTexture
+						                        containerField="diffuseTexture"
+						                        url="/media/white_texture.jpg">
+						                    </imageTexture>
+						                    <twosidedmaterial></twosidedmaterial>
+										</appearance>
+				                		<box id="traseira" size="0.3 0.35 0.35"/>
+				                	</shape>
+
+				                	<Group DEF="cilindro">
+										<transform id="tubo_aileron1" rotation="1 0 0 -0.5" scale="0.7 0.3 0.7" translation ="0.05 0.25 -0.15">
+				    						<Shape>
+					    						<appearance>
+				                    				<imageTexture
+								                        containerField="diffuseTexture"
+								                        url="/media/white_texture.jpg">
+								                    </imageTexture>
+				                   				 <twosidedmaterial></twosidedmaterial>
+												</appearance>
+										    	<cylinder
+										            radius = "0.02"
+										            height = "1.0">
+										        </cylinder>
+										    </Shape>
+										</transform>
+									</Group>
+
+									<transform id="tubo_aileron2" translation="-.10 0 0">
+										<shape USE="cilindro"/>
+									</transform>
+
+									<Group DEF="placa_traseira">
+										<transform def = "doze" scale="0.4 1 0.4" translation ="0 0.25 -0.15">
+											<shape>
+						                		<appearance>
+								                    <imageTexture
+								                        containerField="diffuseTexture"
+								                        url="/media/white_texture.jpg">
+								                    </imageTexture>
+								                    <twosidedmaterial></twosidedmaterial>
+												</appearance>
+						                		<X3DGeometryNode use ="frente2">
+						                		</X3DGeometryNode>
+						                	</shape>
+										</transform>
+									</Group>
+
+									<transform translation ="0 0.10 -0.02">
+										<shape USE="placa_traseira"/>
+									</transform>
+
+									<transform rotation="1 0 0 0.3" translation ="0 0.12 -0.15" >
+										<shape USE="placa_traseira"/>
+									</transform>
+
+									<Group DEF="placa_traseira2">
+										<transform scale="0.5 0.5 0.5" translation ="0.4 0.5 -0.4" >
+											<shape>
+						                		<appearance>
+								                    <imageTexture
+								                        containerField="diffuseTexture"
+								                        url="/media/white_texture.jpg">
+								                    </imageTexture>
+								                    <twosidedmaterial></twosidedmaterial>
+												</appearance>
+						                		<X3DGeometryNode use ="pala">
+						                		</X3DGeometryNode>
+						                	</shape>
+										</transform>
+									</Group>
+
+									<transform translation ="-0.8 0 0" >
+										<shape USE="placa_traseira2"/>
+									</transform>
+
+				                </transform>
+
+				                <!-- AIRBOX =====================================================-->
+
+				                <transform id="airbox" translation ="0 0.35 0.15">
+				                	<shape>
+				                		<appearance>
+				                			<commonSurfaceShader>
+						                    <imageTexture
+						                        containerField="diffuseTexture"
+						                        url="/media/white_texture.jpg">
+						                    </imageTexture>
+						                	</commonSurfaceShader>
+				                		</appearance> 
+				                		<X3DGeometryNode use ="aero">
+				                		</X3DGeometryNode>
+				                	</shape>
+				                </transform>
+
+				                <!-- NARIZ =====================================================-->
+
+				                <transform id="nariz_triangular" translation ="0 0.0 0.8">
+				                	<shape>
+				                		<appearance>
+				                			<material diffuseColor="black">
+				                			</material>
+				                		</appearance> 
+				                		<X3DGeometryNode use ="nose">
+				                		</X3DGeometryNode>
+				                	</shape>
+
+				                	<transform id="nariz_redondo" scale="0.1 1 0.1" rotation="1 0 0 1.8" >
+					                	<shape>
+					                		<appearance>
+							                    <imageTexture
+							                        containerField="diffuseTexture"
+							                        url="/media/white_texture.jpg">
+							                    </imageTexture>
+							                    <twosidedmaterial></twosidedmaterial>
+											</appearance>
+					                		<X3DGeometryNode use ="keel">
+					                		</X3DGeometryNode>
+					                	</shape>
+					                </transform>
+
+					                <transform id="placa_dianteira1" scale="0.6 1 0.5" translation="0 0.07 1.15" rotation="1 0 0 0.3">
+					                	<shape>
+					                		<appearance>
+							                    <imageTexture
+							                        containerField="diffuseTexture"
+							                        url="/media/white_texture.jpg">
+							                    </imageTexture>
+							                    <twosidedmaterial></twosidedmaterial>
+											</appearance>
+					                		<X3DGeometryNode use ="frente1">
+					                		</X3DGeometryNode>
+					                	</shape>
+					                </transform>
+
+					                <transform id="placa_dianteira2" scale="1.5 1 1.1" translation="0 -0.25 1.52" rotation="1 0 0 0.1">
+					                	<shape USE="placa_traseira"/>
+					                </transform>
+
+					                <Group DEF="placa_lateral">
+					                	<transform id="lateral_dianteira1"  translation="0.6 -.05 0.8">
+						                	<shape>
+						                		<appearance>
+								                    <imageTexture
+								                        containerField="diffuseTexture"
+								                        url="/media/white_texture.jpg">
+								                    </imageTexture>
+								                    <twosidedmaterial></twosidedmaterial>
+												</appearance>
+						                		<X3DGeometryNode use ="frente3">
+						                		</X3DGeometryNode>
+						                	</shape>
+						                </transform>
+					                </Group>
+
+					                <transform id="lateral_dianteira2"  translation="-1.2 0 0">
+					                	<shape USE="placa_lateral"/>
+					                </transform>
+
+				                </transform>
+
+				                <!-- RODAS =====================================================-->
+				                <transform id="rodas" DEF="isto">
+
+				                <Group DEF="wheel">
+				                	<transform id="pneu" scale="0.25 0.25 0.25" translation="0.6 0.1 1.2">
+				                		<shape>
+						                	<appearance>
+						                		<commonSurfaceShader>
+			                                    <imageTexture
+			                                        containerField="diffuseTexture"
+			                                        url="media/pneu.jpg">
+			                                    </imageTexture>
+			                                	</commonSurfaceShader>
+						                	</appearance> 
+						                	<X3DGeometryNode use ="roda">
+						                	</X3DGeometryNode>  	
+						                </shape>
+				                	</transform>
+
+				                	<transform id="jante" rotation="0 0 1 -1.5708" translation="0.7 0.1 1.2" scale="1 1 1">
+				                		<shape>
+				                			<appearance>
+						                		<commonSurfaceShader>
+							                    <imageTexture
+							                        containerField="diffuseTexture"
+							                        url="media/pneu.jpg">
+							                    </imageTexture>
+				               					</commonSurfaceShader>
+						                	</appearance>
+						               		<cylinder
+										        radius = "0.22"
+										        height = "0.1">
+										    </cylinder>
+						                </shape>
+						            </transform>
+				                </Group>
+
+				                <transform translation="-1.43 0 0">
+				                	<shape USE="wheel">
+				                </transform>
+
+				                </transform>
+
+				                <transform scale="1.2 1 1" translation="-0.2 0 -2.0">
+				                	<shape USE="wheel">
+				                </transform>
+
+				                <transform scale="1.2 1 1" translation="-1.5 0 -2.0">
+				                	<shape USE="wheel">
+				                </transform>
+
+				                <!-- VEIOS =====================================================-->
+				                <!-- CADA RODA CONTEM 4 VEIOS PARALELOS (MESMO GROUP) E 1 PERPENDICULAR -->
+				                <!-- O GRUPO DOS 4 TUBOS PARALELOS TEM COMO ID TUBE E É USADO QUATRO VEZES
+				                	UMA PARA CADA RODA
+				                -->
+
+				                <Group DEF="tube">
+				                	<transform rotation="0 0 1 1.5708" translation="0.3 0.2 1.15">
+				                		<shape DEF="tubo">
+				                			<appearance>
+						                		<twosidedmaterial diffuseColor="black">		
+						                		</twosidedmaterial>
+						                	</appearance>
+						               		<cylinder
+										        radius = "0.02"
+										        height = "0.7">
+										    </cylinder>
+						                </shape>
+				                	</transform>
+
+				                	<transform rotation="0 1 0 0.4" translation="0.3 0.2 1.32">
+				                	<transform rotation="0 0 1 1.5708" >
+				                		<shape USE="tubo"/>
+				                	</transform>
+				                	</transform>
+
+				                	<transform rotation="0 0 1 1.5708" translation="0.3 0.04 1.15">
+				                		<shape USE="tubo"/>
+				                	</transform>
+
+				                	<transform rotation="0 1 0 0.4" translation="0.3 0.04 1.32">
+				                	<transform rotation="0 0 1 1.5708" >
+				                		<shape USE="tubo"/>
+				                	</transform>
+				                	</transform>
+
+				                	
+				                </Group>
+
+				                <transform rotation="0 1 0 -0.3" translation="0.3 0.1 1.2">
+				                	<transform rotation="0 0 1 1.2" >
+				                		<shape USE="tubo"/>
+				                	</transform>
+				                </transform>
+
+				                <transform rotation="0 0 1 3.1416" translation="0 0.25 -0.0">
+				                	<shape USE="tube"/>
+				                </transform>
+
+				                <transform rotation="0 1 0 0.3" translation="-0.3 0.1 1.2">
+				                	<transform rotation="0 0 1 -1.2" >
+				                		<shape USE="tubo"/>
+				                	</transform>
+				                </transform>
+
+				                <transform rotation="0 0 1 3.1416" translation="-0.1 0.25 -1.75" scale="0.8 0.8 0.8">
+				                	<shape USE="tube"/>
+				                </transform>
+
+				                <transform translation="0.1 0.05 -1.75" scale="0.8 0.8 0.8">
+				                	<shape USE="tube"/>
+				                </transform>
+
+						    </transform>
+						    
+				<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+				<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++ ANIMAÇÕES ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+							<!-- RODAR EM 360 GRAUS -->
+							<timeSensor id="sensor1" DEF="clock1" cycleInterval='5' loop='true' enabled="false"> </timeSensor>
+							<orientationInterpolator DEF="spinThings" key="0 0.25 0.5 0.75 1" keyValue="0 1 0 0  0 1 0 1.57079  0 1 0 3.14159  0 1 0 4.71239  0 1 0 6.28318"> </orientationInterpolator>
+
+							<ROUTE fromNode="clock1" fromField="fraction_changed" toNode="spinThings" toField="set_fraction"> </ROUTE>
+							<ROUTE fromNode="spinThings" fromField="value_changed" toNode="corpo" toField="set_rotation"> </ROUTE>
+
+
+							<!-- AVANCAR EM CIRCULO -->
+							<timeSensor id="sensor2" DEF="clock2" cycleInterval='5' loop='true' enabled="false"> </timeSensor>
+							<PositionInterpolator DEF="move" key="0 0.25 0.5 0.75 1" keyValue="0 0 0  15 0 15  30 0 0  15 0 -15  0 0 0"> </PositionInterpolator>
+							<orientationInterpolator DEF="spinThings2" key="0 0.25 0.5 0.75 1" keyValue="0 1 0 0.3  0 1 0 0.3  0 1 0 0.3  0 1 0 0.3  0 1 0 0.3">
+								<transform USE="isto" translation="-.2 0 0"> </transform>
+							</orientationInterpolator>  
+							
+							<ROUTE fromNode="clock2" fromField="fraction_changed" toNode="move" toField="set_fraction"></ROUTE>
+							<ROUTE fromNode="move" fromField="value_changed" toNode="corpo" toField="translation"></ROUTE>
+
+							<ROUTE fromNode="clock2" fromField="fraction_changed" toNode="spinThings" toField="set_fraction"></ROUTE>
+							<ROUTE fromNode="spinThings" fromField="value_changed" toNode="corpo" toField="set_rotation"></ROUTE>
+
+							<ROUTE fromNode="clock2" fromField="fraction_changed" toNode="spinThings2" toField="set_fraction"></ROUTE>
+							<ROUTE fromNode="spinThings2" fromField="value_changed" toNode="rodas" toField="set_rotation"></ROUTE>
+
+				<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+
+    					</Scene>
+    				</x3d>
+    			</td>
+    		</tr>
+    		<tr>
+		        <td>
+		        </td>  
+		        <td align="left">
+		          <input type="button" value="Rodar" onclick="rodar()"/>
+		          <input type="button" value="Avançar" onclick="avancar()"/>
+		          <input type="button" value="STOP" onclick="stop()"/>
+		        </td>
+		    </tr>
+    	</table>
+    </body>
+</html>

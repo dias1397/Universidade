@@ -1,0 +1,169 @@
+ <!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src='pub/lib/x3dom-full.js'></script>
+		<link rel='stylesheet' href='pub/lib/x3dom.css'>
+	</head>
+
+	<body>
+		<x3d width="512px" height="512px">
+			<Scene>
+			<background skyColor="0.9375 0.8984 0.5469">
+    		</background>
+		            <switch whichCoice = "-1">
+		                <indexedfaceset id="base"
+		                  	 coordIndex="
+		                  	 	0 1 5 4 0 -1
+		                  	 	1 2 6 5 1 -1
+		                  	 	2 3 7 6 2 -1
+		                  	 	3 0 4 7 3 -1
+		                  	 	0 3 2 1 0 -1
+		                  	 	4 5 6 7 4 -1">
+		                 <coordinate point="
+		                  	 	 3.0  0.0  5.0 
+		                  	 	 3.0  0.0 -5.0
+		                  	 	-3.0  0.0 -5.0
+		                  	 	-3.0  0.0  5.0
+		                  	 	 3.0  3.0  5.0 
+		                  	 	 3.0  3.0 -5.0
+		                  	 	-3.0  3.0 -5.0
+		                  	 	-3.0  3.0  5.0">
+		                 </coordinate>
+		                </indexedfaceset>
+	                
+		            	<cylinder id="pilar"
+                        	radius = "1.5"
+                        	height = "15.0" >
+                        </cylinder>
+
+		            	<cylinder id="roda"
+		            		radius = "1.2"
+		            		height = "1.0">
+		            	</cylinder>
+
+		            	<extrusion id="gancho"
+		            		convex="false"
+		            	    crossSection="
+    					        0.01 0.01
+    					        0.01 2.0
+    					        -1.0 4.0
+    					        -1.0 5.0
+
+                                -0.3 5.5
+                                1.3 5.5
+
+    					        2.0 5.0
+    					        2.0 4.0
+    					        1.5 4.0
+    					        1.5 4.5
+    					        1.5 4.5
+
+                                1.0 4.9
+                                0.0 4.9
+
+    					        -0.5 4.5
+    					        -0.5 4.0
+    					        0.5 2.0
+    					        0.5 0.01
+    					        0.01 0.01"
+                            spine="
+                                0 0 0
+                                0 0.5 0"
+					        >
+		            	</extrusion>
+		            </switch>
+
+		            
+                    <transform def = "grua" translation="0 0 0" >
+                                        <shape>
+                                            <appearance>
+                                                <twosidedmaterial diffuseColor = "green"></twosidedmaterial>
+                                            </appearance>
+                                            <X3DGeometryNode use = "base">
+                                            </X3DGeometryNode>
+                                        </shape>
+                        <transform id ="pilar2" translation = "0 10.5 0" >
+                            <shape>
+                                <appearance>
+                                    <twosidedmaterial diffuseColor = "red"></twosidedmaterial>
+                                </appearance>
+                                <X3DGeometryNode use = "pilar">
+                                </X3DGeometryNode>
+                            </shape>
+
+                            <transform id = "braco" scale = "0.3 0.3 1" translation = "0 5 5">
+                            	<shape>
+                            		<appearance>
+                                    <twosidedmaterial diffuseColor = "green"></twosidedmaterial>
+                                	</appearance>
+                                	<X3DGeometryNode use = "base">
+                                	</X3DGeometryNode>
+                            	</shape>
+
+                            	<transform id="corda" scale = "0.1 0.7 0.025" translation = "0 -4 4" >
+                            		<shape>
+                                		<appearance>
+                                    		<twosidedmaterial diffuseColor = "red"></twosidedmaterial>
+                                		</appearance>
+                                		<X3DGeometryNode use = "pilar">
+                                		</X3DGeometryNode>
+                            		</shape>
+
+                                    <transform def = "hook" rotation="1 0 0 1.5" >
+                                        <shape>
+                                            <appearance>
+                                                <twosidedmaterial diffuseColor = "black"></twosidedmaterial>
+                                            </appearance>
+                                            <X3DGeometryNode use = "gancho">
+                                            </X3DGeometryNode>
+                                        </shape>
+                                    </transform>
+                     			</transform>
+                            </transform>
+                        </transform>
+
+                        <transform id = "roda2" rotation = "0 0 1 -1.57 " translation = "3 0 2.5" >
+                            <shape>
+                                <appearance>
+                                    <twosidedmaterial diffuseColor = "blue"></twosidedmaterial>
+                                </appearance>
+                                <X3DGeometryNode use = "roda">
+                                </X3DGeometryNode>
+                            </shape>
+                        </transform>
+
+                        <transform rotation = "0 0 1 -1.57 " translation = "3 0 -2.5" >
+                            <shape>
+                                <appearance>
+                                    <twosidedmaterial diffuseColor = "blue"></twosidedmaterial>
+                                </appearance>
+                                <X3DGeometryNode use = "roda">
+                                </X3DGeometryNode>
+                            </shape>
+                        </transform>
+
+                        <transform rotation = "0 0 1 -1.57 " translation = "-3 0 -2.5" >
+                            <shape>
+                                <appearance>
+                                    <twosidedmaterial diffuseColor = "blue"></twosidedmaterial>
+                                </appearance>
+                                <X3DGeometryNode use = "roda">
+                                </X3DGeometryNode>
+                            </shape>
+                        </transform>
+
+                        <transform rotation = "0 0 1 -1.57 " translation = "-3 0 2.5" >
+                            <shape>
+                                <appearance>
+                                    <twosidedmaterial diffuseColor = "blue"></twosidedmaterial>
+                                </appearance>
+                                <X3DGeometryNode use = "roda">
+                                </X3DGeometryNode>
+                            </shape>
+                        </transform>
+
+          	</Scene>
+		</x3d>
+	</body>
+</html>

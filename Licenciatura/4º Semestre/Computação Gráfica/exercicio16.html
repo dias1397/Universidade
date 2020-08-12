@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+
+        <script>
+function nagon(n){
+	var points = new Array(n);
+	var angle = 2 * Math.PI / n;
+	var alpha = 0.0;
+
+	for (var i = 0; i < n; i++)
+	{
+		var x = Math.cos(alpha);
+		var y = Math.sin(alpha);
+		points[i] = {
+			x: x,
+			y: y
+		};
+		alpha = alpha + angle;
+	}
+	return points
+}
+
+function draw_point(c /*contexto*/, a){
+	var n = a.length;
+	c.beginPath();
+		c.moveTo(a[0].x, a[0].y);
+		for (var i = 1; i<n; i++){
+			c.lineTo(a[i].x, a[i].y);
+		}
+		c.lineTo(a[0].x, a[0].y);
+	c.closePath();
+}
+
+function main() {
+    var c2d = document.getElementById("acanvas").getContext("2d"); 
+    var my_points = nagon(8);
+
+    for(var i = 0; i<8; i++){
+    	console.log(my_points[i].x, " ", my_points[i].y);
+    }
+    c2d.save();
+	c2d.translate(100,100);
+	c2d.scale(100,100);
+	c2d.rotate(2 * Math.PI / 20);
+
+	draw_point(c2d, my_points);
+	c2d.restore();   
+	c2d.stroke();
+
+}
+
+        </script>
+    </head>
+    <body onload="main();">
+        <canvas id="acanvas" width="256" height="256" />
+    </body>
+</html>

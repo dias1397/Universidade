@@ -1,0 +1,13 @@
+body {
+  background-color: #5A5A88;
+}
+
+#welcome {
+  background-color: #de3242;
+  
+  border-style: solid;
+  border-color: #ffd700;
+  border-radius: 25px;
+  
+  text-align: center;
+}

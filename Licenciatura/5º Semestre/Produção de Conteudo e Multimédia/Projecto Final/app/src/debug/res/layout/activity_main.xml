@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/capaxl"
+    tools:context="com.example.joao_dias.evoratour.MainActivity">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/relativeLayoutFragment"
+android:layout_width="match_parent"
+android:layout_height="fill_parent"
+    android:background="@drawable/capaxl">
+
+    <ImageView
+        android:id="@+id/capppppa"
+        android:scaleType="fitXY"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srcCompat="@drawable/capaxl"
+        android:layout_centerHorizontal="true"
+
+        />
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="fill_parent"
+        android:layout_height="136dp"
+        app:srcCompat="@drawable/logo2222"
+        tools:layout_editor_absoluteX="89dp"
+        tools:layout_editor_absoluteY="16dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        />
+
+
+</RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>
